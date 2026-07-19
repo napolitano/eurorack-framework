@@ -40,6 +40,9 @@ jobs:
       - name: Audit maintainability documentation
         run: python tools/check-maintainability-docs.py
 
+      - name: Audit Doxygen declaration contracts
+        run: python tools/check-doxygen-contracts.py
+
       - name: Build Markdown documentation artifact
         run: python tools/build-documentation.py --markdown-only
 

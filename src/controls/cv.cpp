@@ -22,17 +22,17 @@
 
 namespace eurorack::controls {
 
-/**
- * @brief Constructs a CV input model.
+/*
+ * Purpose: Constructs a CV input model.
  *
- * @param range Accepted operational voltage range.
+ * range: Accepted operational voltage range.
  */
 CvInput::CvInput(const eurorack::core::VoltageRange range) noexcept : range_(range) {}
 
-/**
- * @brief Processes one calibrated voltage sample.
+/*
+ * Purpose: Processes one calibrated voltage sample.
  *
- * @param volts Measured voltage after hardware calibration.
+ * volts: Measured voltage after hardware calibration.
  */
 void CvInput::update(const float volts) noexcept {
     snapshot_.rawVolts = volts;
@@ -44,26 +44,26 @@ void CvInput::update(const float volts) noexcept {
     snapshot_.normalized = span > 0.0F ? (snapshot_.volts - range_.minimumVolts) / span : 0.0F;
 }
 
-/**
- * @brief Returns the current immutable CV-input state.
+/*
+ * Purpose: Returns the current immutable CV-input state.
  *
- * @return Constant reference to the latest voltage-domain state.
+ * Returns: Constant reference to the latest voltage-domain state.
  */
 const CvInputSnapshot& CvInput::snapshot() const noexcept {
     return snapshot_;
 }
 
-/**
- * @brief Constructs a CV output model.
+/*
+ * Purpose: Constructs a CV output model.
  *
- * @param range Permitted output-voltage range.
+ * range: Permitted output-voltage range.
  */
 CvOutput::CvOutput(const eurorack::core::VoltageRange range) noexcept : range_(range) {}
 
-/**
- * @brief Requests an output voltage.
+/*
+ * Purpose: Requests an output voltage.
  *
- * @param volts Requested voltage.
+ * volts: Requested voltage.
  */
 void CvOutput::setVolts(const float volts) noexcept {
     snapshot_.requestedVolts = volts;
@@ -72,10 +72,10 @@ void CvOutput::setVolts(const float volts) noexcept {
     snapshot_.effectiveVolts = range_.clamp(volts);
 }
 
-/**
- * @brief Returns the current immutable CV-output state.
+/*
+ * Purpose: Returns the current immutable CV-output state.
  *
- * @return Constant reference to requested and effective output voltage.
+ * Returns: Constant reference to requested and effective output voltage.
  */
 const CvOutputSnapshot& CvOutput::snapshot() const noexcept {
     return snapshot_;

@@ -24,20 +24,20 @@
 
 namespace eurorack::controls {
 
-/**
- * @brief Constructs an uninitialized potentiometer model.
+/*
+ * Purpose: Constructs an uninitialized potentiometer model.
  *
- * @param config Calibration, inversion, deadband, and smoothing settings.
+ * config: Calibration, inversion, deadband, and smoothing settings.
  */
 Potentiometer::Potentiometer(const PotentiometerConfig config) noexcept : config_(config) {
     config_.deadbandNormalized = std::clamp(config_.deadbandNormalized, 0.0F, 1.0F);
     config_.smoothingFactor = std::clamp(config_.smoothingFactor, 0.0F, 1.0F);
 }
 
-/**
- * @brief Resets the model from one raw ADC sample.
+/*
+ * Purpose: Resets the model from one raw ADC sample.
  *
- * @param raw Raw ADC code.
+ * raw: Raw ADC code.
  */
 void Potentiometer::reset(const std::uint32_t raw) noexcept {
     snapshot_ = {};
@@ -49,10 +49,10 @@ void Potentiometer::reset(const std::uint32_t raw) noexcept {
     initialized_ = true;
 }
 
-/**
- * @brief Processes one raw ADC sample.
+/*
+ * Purpose: Processes one raw ADC sample.
  *
- * @param raw Raw ADC code.
+ * raw: Raw ADC code.
  */
 void Potentiometer::update(const std::uint32_t raw) noexcept {
     if (!initialized_) {
@@ -76,29 +76,29 @@ void Potentiometer::update(const std::uint32_t raw) noexcept {
     }
 }
 
-/**
- * @brief Returns the current immutable potentiometer state.
+/*
+ * Purpose: Returns the current immutable potentiometer state.
  *
- * @return Constant reference to the latest state.
+ * Returns: Constant reference to the latest state.
  */
 const PotentiometerSnapshot& Potentiometer::snapshot() const noexcept {
     return snapshot_;
 }
 
-/**
- * @brief Returns the immutable potentiometer configuration.
+/*
+ * Purpose: Returns the immutable potentiometer configuration.
  *
- * @return Constant reference to the configuration.
+ * Returns: Constant reference to the configuration.
  */
 const PotentiometerConfig& Potentiometer::config() const noexcept {
     return config_;
 }
 
-/**
- * @brief Converts one raw ADC code into normalized position.
+/*
+ * Purpose: Converts one raw ADC code into normalized position.
  *
- * @param raw Raw ADC code.
- * @return Clamped and direction-corrected value from 0 to 1.
+ * raw: Raw ADC code.
+ * Returns: Clamped and direction-corrected value from 0 to 1.
  */
 float Potentiometer::normalize(const std::uint32_t raw) const noexcept {
     const std::uint32_t minimum = config_.rawMinimum;

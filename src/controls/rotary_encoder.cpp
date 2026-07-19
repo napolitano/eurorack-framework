@@ -22,10 +22,10 @@ namespace eurorack::controls {
 namespace {
 constexpr std::int8_t T[16] = {0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0};
 }
-/** @brief Constructs an encoder decoder. @param config Resolution and direction. */
+/* Purpose: Constructs an encoder decoder. config: Resolution and direction. */
 RotaryEncoder::RotaryEncoder(const RotaryEncoderConfig config) noexcept : config_(config) {}
-/** @brief Resets decoder state. @param levelA Channel A level. @param levelB Channel B level.
- * @param position Initial position. */
+/* Purpose: Resets decoder state. levelA: Channel A level. levelB: Channel B level.
+ * position: Initial position. */
 void RotaryEncoder::reset(bool levelA, bool levelB, std::int32_t position) noexcept {
     previousState_ = static_cast<std::uint8_t>((levelA ? 2U : 0U) | (levelB ? 1U : 0U));
     accumulator_ = 0;
@@ -33,7 +33,7 @@ void RotaryEncoder::reset(bool levelA, bool levelB, std::int32_t position) noexc
     snapshot_ = {};
     snapshot_.position = position;
 }
-/** @brief Processes sampled A/B levels. @param levelA Channel A level. @param levelB Channel B
+/* Purpose: Processes sampled A/B levels. levelA: Channel A level. levelB: Channel B
  * level. */
 void RotaryEncoder::update(bool levelA, bool levelB) noexcept {
     snapshot_.delta = 0;
@@ -65,7 +65,7 @@ void RotaryEncoder::update(bool levelA, bool levelB) noexcept {
         accumulator_ = 0;
     }
 }
-/** @brief Returns current encoder state. @return Constant state reference. */
+/* Purpose: Returns current encoder state. Returns: Constant state reference. */
 const RotaryEncoderSnapshot& RotaryEncoder::snapshot() const noexcept {
     return snapshot_;
 }

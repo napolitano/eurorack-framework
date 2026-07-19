@@ -21,11 +21,11 @@
 
 namespace eurorack::controls {
 
-/**
- * @brief Constructs a bounded encoder value.
+/*
+ * Purpose: Constructs a bounded encoder value.
  *
- * @param config Bounds, step size, and boundary behavior.
- * @param initialValue Initial value before range normalization.
+ * config: Bounds, step size, and boundary behavior.
+ * initialValue: Initial value before range normalization.
  */
 EncoderValue::EncoderValue(const EncoderValueConfig config,
                            const std::int32_t initialValue) noexcept
@@ -41,10 +41,10 @@ EncoderValue::EncoderValue(const EncoderValueConfig config,
     reset(initialValue);
 }
 
-/**
- * @brief Resets the current value.
+/*
+ * Purpose: Resets the current value.
  *
- * @param value New value before range normalization.
+ * value: New value before range normalization.
  */
 void EncoderValue::reset(const std::int32_t value) noexcept {
     snapshot_ = {};
@@ -54,10 +54,10 @@ void EncoderValue::reset(const std::int32_t value) noexcept {
     snapshot_.clamped = false;
 }
 
-/**
- * @brief Applies relative encoder detents.
+/*
+ * Purpose: Applies relative encoder detents.
  *
- * @param detents Signed detent count.
+ * detents: Signed detent count.
  */
 void EncoderValue::applyDetents(const std::int32_t detents) noexcept {
     snapshot_.delta = 0;
@@ -79,20 +79,20 @@ void EncoderValue::applyDetents(const std::int32_t detents) noexcept {
     snapshot_.changed = snapshot_.value != previous;
 }
 
-/**
- * @brief Returns the current immutable value state.
+/*
+ * Purpose: Returns the current immutable value state.
  *
- * @return Constant reference to current value and event flags.
+ * Returns: Constant reference to current value and event flags.
  */
 const EncoderValueSnapshot& EncoderValue::snapshot() const noexcept {
     return snapshot_;
 }
 
-/**
- * @brief Normalizes one candidate value according to configured bounds.
+/*
+ * Purpose: Normalizes one candidate value according to configured bounds.
  *
- * @param candidate Unbounded candidate value.
- * @return Bounded value.
+ * candidate: Unbounded candidate value.
+ * Returns: Bounded value.
  */
 std::int32_t EncoderValue::normalize(const std::int64_t candidate) noexcept {
     const std::int64_t minimum = config_.minimum;

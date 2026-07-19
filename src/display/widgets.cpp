@@ -25,29 +25,29 @@ namespace eurorack::display {
 
 namespace {
 
-/**
- * @brief Clamps a floating-point value to the normalized range.
- * @param value Input value.
- * @return @p value limited to the inclusive range 0.0 through 1.0.
+/*
+ * Purpose: Clamps a floating-point value to the normalized range.
+ * value: Input value.
+ * Returns: `value` limited to the inclusive range 0.0 through 1.0.
  */
 float clampNormalized(const float value) noexcept {
     return std::clamp(value, 0.0F, 1.0F);
 }
 
-/**
- * @brief Narrows a coordinate after saturating it to signed 16-bit range.
- * @param value Coordinate or dimension to narrow.
- * @return Saturated signed 16-bit representation.
+/*
+ * Purpose: Narrows a coordinate after saturating it to signed 16-bit range.
+ * value: Coordinate or dimension to narrow.
+ * Returns: Saturated signed 16-bit representation.
  */
 std::int16_t toInt16(const std::int32_t value) noexcept {
     return static_cast<std::int16_t>(std::clamp<std::int32_t>(value, -32768, 32767));
 }
 
-/**
- * @brief Insets a rectangle without producing negative dimensions.
- * @param bounds Source rectangle.
- * @param amount Pixels removed from every edge.
- * @return Inset rectangle with width and height clamped to zero.
+/*
+ * Purpose: Insets a rectangle without producing negative dimensions.
+ * bounds: Source rectangle.
+ * amount: Pixels removed from every edge.
+ * Returns: Inset rectangle with width and height clamped to zero.
  */
 Rect inset(const Rect bounds, const std::int16_t amount) noexcept {
     return {
@@ -57,11 +57,11 @@ Rect inset(const Rect bounds, const std::int16_t amount) noexcept {
         toInt16(std::max<std::int32_t>(0, bounds.height - static_cast<std::int32_t>(amount) * 2))};
 }
 
-/**
- * @brief Draws a focus frame when a widget is selected.
- * @param canvas Destination canvas.
- * @param bounds Widget rectangle.
- * @param selected True to draw the frame.
+/*
+ * Purpose: Draws a focus frame when a widget is selected.
+ * canvas: Destination canvas.
+ * bounds: Widget rectangle.
+ * selected: True to draw the frame.
  */
 void drawSelectionFrame(MonochromeCanvas& canvas, const Rect bounds, const bool selected) noexcept {
     if (selected) {
@@ -69,13 +69,13 @@ void drawSelectionFrame(MonochromeCanvas& canvas, const Rect bounds, const bool 
     }
 }
 
-/**
- * @brief Draws left-aligned label text and right-aligned value text.
- * @param canvas Destination canvas.
- * @param bounds Shared row rectangle.
- * @param label Left-side label.
- * @param value Right-side value.
- * @param inverted True to render both fields in inverted mode.
+/*
+ * Purpose: Draws left-aligned label text and right-aligned value text.
+ * canvas: Destination canvas.
+ * bounds: Shared row rectangle.
+ * label: Left-side label.
+ * value: Right-side value.
+ * inverted: True to render both fields in inverted mode.
  */
 void drawLabelAndValue(MonochromeCanvas& canvas,
                        const Rect bounds,
@@ -97,12 +97,12 @@ void drawLabelAndValue(MonochromeCanvas& canvas,
         canvas, {bounds.x + half, bounds.y, bounds.width - half, bounds.height}, value, rightStyle);
 }
 
-/**
- * @brief Draws a centered text button with selected or framed styling.
- * @param canvas Destination canvas.
- * @param bounds Button rectangle.
- * @param label Button label.
- * @param selected True to render the selected style.
+/*
+ * Purpose: Draws a centered text button with selected or framed styling.
+ * canvas: Destination canvas.
+ * bounds: Button rectangle.
+ * label: Button label.
+ * selected: True to render the selected style.
  */
 void drawButton(MonochromeCanvas& canvas,
                 const Rect bounds,
@@ -120,11 +120,11 @@ void drawButton(MonochromeCanvas& canvas,
     drawText(canvas, bounds, label, style);
 }
 
-/**
- * @brief Draws a space-wrapped message using the built-in fixed-width font.
- * @param canvas Destination canvas.
- * @param bounds Text rectangle.
- * @param message Message to wrap and render.
+/*
+ * Purpose: Draws a space-wrapped message using the built-in fixed-width font.
+ * canvas: Destination canvas.
+ * bounds: Text rectangle.
+ * message: Message to wrap and render.
  */
 void drawWrappedMessage(MonochromeCanvas& canvas,
                         const Rect bounds,

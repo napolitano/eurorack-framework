@@ -30,8 +30,8 @@
 
 namespace eurorack::controls {
 
-/**
- * @brief Restores the configured initial LED state.
+/*
+ * Purpose: Restores the configured initial LED state.
  *
  * The method clears transition flags and history, then recalculates the raw
  * output level from the configured active polarity. It performs no GPIO access.
@@ -46,10 +46,10 @@ void DigitalLed::reset() noexcept {
     };
 }
 
-/**
- * @brief Applies a requested logical LED state.
+/*
+ * Purpose: Applies a requested logical LED state.
  *
- * @param on True to request the logical on state; false to request off.
+ * on: True to request the logical on state; false to request off.
  *
  * A changed state updates polarity-aware output level, transition flags, and
  * transition count. An idempotent request clears event flags without counting
@@ -71,8 +71,8 @@ void DigitalLed::setOn(const bool on) noexcept {
     snapshot_.justTurnedOff = !on;
 }
 
-/**
- * @brief Requests the logical LED on state.
+/*
+ * Purpose: Requests the logical LED on state.
  *
  * The method delegates to setOn(true) and performs no direct hardware access.
  */
@@ -80,8 +80,8 @@ void DigitalLed::turnOn() noexcept {
     setOn(true);
 }
 
-/**
- * @brief Requests the logical LED off state.
+/*
+ * Purpose: Requests the logical LED off state.
  *
  * The method delegates to setOn(false) and performs no direct hardware access.
  */
@@ -89,8 +89,8 @@ void DigitalLed::turnOff() noexcept {
     setOn(false);
 }
 
-/**
- * @brief Inverts the current logical LED state.
+/*
+ * Purpose: Inverts the current logical LED state.
  *
  * The method delegates to setOn() with the inverse current state, producing one
  * logical transition and recalculating the required electrical output level.

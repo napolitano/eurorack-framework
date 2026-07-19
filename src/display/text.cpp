@@ -69,12 +69,12 @@ constexpr std::array<std::uint8_t, 475> FONT_5X7_DATA{
 
 constexpr BitmapFont FONT_5X7{FONT_5X7_DATA.data(), 32U, 126U, 5U, 7U, 1U};
 
-/**
- * @brief Calculates the upper-left origin for aligned text.
- * @param bounds Rectangle in which text is aligned.
- * @param metrics Measured pixel dimensions of the text.
- * @param style Horizontal and vertical alignment policy.
- * @return Pixel origin that places the measured text according to @p style.
+/*
+ * Purpose: Calculates the upper-left origin for aligned text.
+ * bounds: Rectangle in which text is aligned.
+ * metrics: Measured pixel dimensions of the text.
+ * style: Horizontal and vertical alignment policy.
+ * Returns: Pixel origin that places the measured text according to `style`.
  */
 Point alignedOrigin(const Rect bounds, const TextMetrics metrics, const TextStyle& style) noexcept {
     std::int32_t x = bounds.x;

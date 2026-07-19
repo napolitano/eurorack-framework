@@ -19,7 +19,7 @@ PLACEHOLDERS = (
 
 
 def doc_word_count(text: str) -> int:
-    blocks = re.findall(r"/\*\*(.*?)\*/", text, flags=re.S)
+    blocks = re.findall(r"/\*+(.*?)\*/", text, flags=re.S)
     return sum(
         len(re.findall(r"\b[A-Za-z][A-Za-z0-9_-]*\b", block))
         for block in blocks

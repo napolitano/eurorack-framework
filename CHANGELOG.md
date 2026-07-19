@@ -2,8 +2,10 @@
 
 ### Fixed
 
-- Fixed malformed and duplicated Doxygen parameter documentation for `eurorack::storage::crc32`.
-- Restored the CRC-32 declaration to one documented function signature.
+- Removed duplicate implementation-side Doxygen parameter and return contracts from source definitions.
+- Preserved implementation rationale as ordinary comments while keeping public API contracts in headers.
+- Added a repository-wide Doxygen contract audit that rejects duplicate public tags and implementation-level documentation blocks.
+- Updated the maintainability audit to count ordinary implementation comments.
 - Exempted PlatformIO-generated Unity C conversion warnings from `-Werror` in the native test environment while retaining strict standalone framework builds.
 - Scoped strict compiler warnings to project source files with PlatformIO `build_src_flags`.
 - Prevented `-Werror` and `-Wsign-conversion` from being applied to PlatformIO Unity C sources.

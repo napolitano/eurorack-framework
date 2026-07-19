@@ -76,6 +76,7 @@ jobs:
         run: |
           python tools/check-public-docs.py
           python tools/check-maintainability-docs.py
+          python tools/check-doxygen-contracts.py
 
       - name: Build Markdown and PDF documentation
         run: python tools/build-documentation.py

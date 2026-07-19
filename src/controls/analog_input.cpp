@@ -23,17 +23,17 @@
 
 namespace eurorack::controls {
 
-/**
- * @brief Constructs an analog-input normalizer.
+/*
+ * Purpose: Constructs an analog-input normalizer.
  *
- * @param config ADC calibration and optional direction inversion.
+ * config: ADC calibration and optional direction inversion.
  */
 AnalogInput::AnalogInput(const AnalogInputConfig config) noexcept : config_(config) {}
 
-/**
- * @brief Processes one raw ADC code.
+/*
+ * Purpose: Processes one raw ADC code.
  *
- * @param raw Raw ADC sample.
+ * raw: Raw ADC sample.
  */
 void AnalogInput::update(const std::uint32_t raw) noexcept {
     snapshot_.raw = raw;
@@ -57,10 +57,10 @@ void AnalogInput::update(const std::uint32_t raw) noexcept {
     snapshot_.bipolar = normalized * 2.0F - 1.0F;
 }
 
-/**
- * @brief Returns the current immutable analog-input state.
+/*
+ * Purpose: Returns the current immutable analog-input state.
  *
- * @return Constant reference to the latest normalized sample.
+ * Returns: Constant reference to the latest normalized sample.
  */
 const AnalogInputSnapshot& AnalogInput::snapshot() const noexcept {
     return snapshot_;

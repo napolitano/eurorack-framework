@@ -29,11 +29,11 @@ namespace eurorack::display {
 
 namespace {
 
-/**
- * @brief Tests whether a patterned line contains a foreground pixel at a step.
- * @param pattern Repeating on and off pixel counts plus phase offset.
- * @param position Zero-based position along the rasterized line.
- * @return True when the current pattern phase is inside the on interval.
+/*
+ * Purpose: Tests whether a patterned line contains a foreground pixel at a step.
+ * pattern: Repeating on and off pixel counts plus phase offset.
+ * position: Zero-based position along the rasterized line.
+ * Returns: True when the current pattern phase is inside the on interval.
  */
 bool patternDraws(const LinePattern pattern, const std::uint32_t position) noexcept {
     const std::uint32_t on = pattern.onPixels;

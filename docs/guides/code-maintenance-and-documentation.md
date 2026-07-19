@@ -82,3 +82,26 @@ python tools/run-native-tests.py --compiler clang++
 The documentation audits are intentionally conservative. Passing them does not
 prove that prose is useful; reviewers must still reject comments that only
 repeat names or types.
+
+## Declarations own public Doxygen contracts
+
+Public parameter and return contracts belong in declarations under `include/`.
+
+Definitions under `src/` may contain ordinary implementation comments that
+explain algorithms, invariants, hardware behavior, or non-obvious decisions.
+They must not repeat `@param`, `@return`, or other API-contract sections already
+attached to a declaration.
+
+Doxygen merges documentation from declarations and definitions. Repeating the
+same contract in both places can produce errors such as:
+
+```text
+argument raw has multiple @param documentation sections
+```
+
+Run the dedicated audit before building the manual:
+
+```bash
+python tools/check-doxygen-contracts.py
+```
+

@@ -22,19 +22,19 @@
 
 namespace eurorack::controls {
 
-/**
- * @brief Constructs a gate-input model.
+/*
+ * Purpose: Constructs a gate-input model.
  *
- * @param lowMaximum Highest voltage guaranteed to be interpreted as low.
- * @param highMinimum Lowest voltage guaranteed to be interpreted as high.
+ * lowMaximum: Highest voltage guaranteed to be interpreted as low.
+ * highMinimum: Lowest voltage guaranteed to be interpreted as high.
  */
 GateInput::GateInput(const float lowMaximum, const float highMinimum) noexcept
     : lowMaximum_(lowMaximum), highMinimum_(highMinimum) {}
 
-/**
- * @brief Processes one measured gate voltage.
+/*
+ * Purpose: Processes one measured gate voltage.
  *
- * @param volts Measured gate voltage.
+ * volts: Measured gate voltage.
  */
 void GateInput::update(const float volts) noexcept {
     snapshot_.rising = false;
@@ -50,26 +50,26 @@ void GateInput::update(const float volts) noexcept {
     }
 }
 
-/**
- * @brief Returns the current immutable gate-input state.
+/*
+ * Purpose: Returns the current immutable gate-input state.
  *
- * @return Constant reference to gate state and edge flags.
+ * Returns: Constant reference to gate state and edge flags.
  */
 const GateInputSnapshot& GateInput::snapshot() const noexcept {
     return snapshot_;
 }
 
-/**
- * @brief Constructs a trigger-output model.
+/*
+ * Purpose: Constructs a trigger-output model.
  *
- * @param pulseMs Pulse duration in milliseconds.
+ * pulseMs: Pulse duration in milliseconds.
  */
 TriggerOutput::TriggerOutput(const std::uint32_t pulseMs) noexcept : pulseMs_(pulseMs) {}
 
-/**
- * @brief Starts or restarts a trigger pulse.
+/*
+ * Purpose: Starts or restarts a trigger pulse.
  *
- * @param nowMs Current monotonic time in milliseconds.
+ * nowMs: Current monotonic time in milliseconds.
  */
 void TriggerOutput::trigger(const std::uint32_t nowMs) noexcept {
     snapshot_.high = true;
@@ -78,10 +78,10 @@ void TriggerOutput::trigger(const std::uint32_t nowMs) noexcept {
     snapshot_.startedAtMs = nowMs;
 }
 
-/**
- * @brief Advances trigger timing.
+/*
+ * Purpose: Advances trigger timing.
  *
- * @param nowMs Current monotonic time in milliseconds.
+ * nowMs: Current monotonic time in milliseconds.
  */
 void TriggerOutput::update(const std::uint32_t nowMs) noexcept {
     snapshot_.started = false;
@@ -93,10 +93,10 @@ void TriggerOutput::update(const std::uint32_t nowMs) noexcept {
     }
 }
 
-/**
- * @brief Returns the current immutable trigger-output state.
+/*
+ * Purpose: Returns the current immutable trigger-output state.
  *
- * @return Constant reference to trigger timing and edge flags.
+ * Returns: Constant reference to trigger timing and edge flags.
  */
 const TriggerOutputSnapshot& TriggerOutput::snapshot() const noexcept {
     return snapshot_;

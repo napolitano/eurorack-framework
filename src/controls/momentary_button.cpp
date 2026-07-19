@@ -32,11 +32,11 @@
 
 namespace eurorack::controls {
 
-/**
- * @brief Resets the button state machine to a known sampled level.
+/*
+ * Purpose: Resets the button state machine to a known sampled level.
  *
- * @param rawLevelHigh True when the sampled electrical input is high.
- * @param nowMs Current monotonic timestamp in milliseconds.
+ * rawLevelHigh: True when the sampled electrical input is high.
+ * nowMs: Current monotonic timestamp in milliseconds.
  *
  * The method converts the electrical level using the configured polarity,
  * initializes all debounce candidates, clears event history, and produces no
@@ -54,11 +54,11 @@ void MomentaryButton::reset(const bool rawLevelHigh, const std::uint32_t nowMs) 
     snapshot_.pressed = logicalPressed;
 }
 
-/**
- * @brief Processes one raw button sample and advances debounce state.
+/*
+ * Purpose: Processes one raw button sample and advances debounce state.
  *
- * @param rawLevelHigh True when the sampled electrical input is high.
- * @param nowMs Current monotonic timestamp in milliseconds.
+ * rawLevelHigh: True when the sampled electrical input is high.
+ * nowMs: Current monotonic timestamp in milliseconds.
  *
  * The method clears one-update event flags, tracks candidate transitions,
  * accepts changes only after the configured stable interval, and updates hold

@@ -19,11 +19,11 @@
  */
 #include <eurorack/controls/bicolor_led.hpp>
 namespace eurorack::controls {
-/** @brief Constructs the LED model. @param config Wiring topology and initial color. */
+/* Purpose: Constructs the LED model. config: Wiring topology and initial color. */
 BiColorLed::BiColorLed(const BiColorLedConfig config) noexcept : config_(config) {
     reset();
 }
-/** @brief Restores initial color and clears history. */
+/* Purpose: Restores initial color and clears history. */
 void BiColorLed::reset() noexcept {
     snapshot_ = {};
     snapshot_.requestedColor = config_.initialColor;
@@ -31,7 +31,7 @@ void BiColorLed::reset() noexcept {
     snapshot_.changed = false;
     snapshot_.transitionCount = 0U;
 }
-/** @brief Requests a logical color. @param color Requested color. */
+/* Purpose: Requests a logical color. color: Requested color. */
 void BiColorLed::setColor(const BiColorLedColor color) noexcept {
     snapshot_.changed = false;
     if (snapshot_.requestedColor == color)
@@ -41,15 +41,15 @@ void BiColorLed::setColor(const BiColorLedColor color) noexcept {
     snapshot_.changed = true;
     recalculate();
 }
-/** @brief Returns current state. @return Constant state reference. */
+/* Purpose: Returns current state. Returns: Constant state reference. */
 const BiColorLedSnapshot& BiColorLed::snapshot() const noexcept {
     return snapshot_;
 }
-/** @brief Returns wiring topology. @return LED topology. */
+/* Purpose: Returns wiring topology. Returns: LED topology. */
 BiColorLedTopology BiColorLed::topology() const noexcept {
     return config_.topology;
 }
-/** @brief Recalculates effective color and required pin drives. */
+/* Purpose: Recalculates effective color and required pin drives. */
 void BiColorLed::recalculate() noexcept {
     snapshot_.effectiveColor = snapshot_.requestedColor;
     snapshot_.multiplexingRequired = false;
