@@ -1,0 +1,14 @@
+#pragma once
+
+#include <math.h>
+
+namespace std {
+inline float fabs(const float value) noexcept { return ::fabsf(value); }
+inline float copysign(const float magnitude, const float sign) noexcept {
+    return ::copysignf(magnitude, sign);
+}
+inline float pow(const float base, const float exponent) noexcept {
+    return ::powf(base, exponent);
+}
+inline long lround(const float value) noexcept { return ::lroundf(value); }
+} // namespace std

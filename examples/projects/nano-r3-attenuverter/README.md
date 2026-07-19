@@ -273,3 +273,20 @@ includes exist solely inside this example-specific PlatformIO build shim.
 This is an explicit demonstration of component selection, not a claim that the
 complete framework fits or compiles unchanged on ATmega328P.
 
+
+## AVR standard-library compatibility
+
+The classic PlatformIO AVR package includes the compiler but not a complete
+host-style C++ standard library. In particular, headers such as `<cstdint>`,
+`<cstddef>`, `<array>`, and `<cmath>` may be absent even when C++17 language mode
+is enabled.
+
+This example therefore adds a deliberately tiny compatibility layer under:
+
+```text
+compat/
+```
+
+It supplies only the facilities required by this example and its selected
+framework subset. It is not a general replacement for the C++ standard library.
+More capable targets should use their normal standard-library implementation.

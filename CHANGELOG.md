@@ -1,4 +1,4 @@
-## 0.1.0-alpha.10
+## 0.1.0-alpha.11
 
 ### Fixed
 
@@ -8,7 +8,7 @@
 
 # Changelog
 
-## 0.1.0-alpha.10 - Documentation expansion
+## 0.1.0-alpha.11 - Documentation expansion
 
 ### Added
 
@@ -57,6 +57,11 @@
 
 ### Changed
 
+- Added a minimal AVR compatibility layer for the standard-library facilities used by the Nano R3 example.
+- Documented the configurable framework-header macro so strict Doxygen no longer aborts on it.
+- Removed obsolete Doxygen graph settings and restored a supported PNG graph format.
+- Pinned clang-format 22.1.8 in CI so local formatting and GitHub formatting checks use the same formatter.
+- Replaced externally hosted License and Status badges with repository-local SVG badges.
 - Replaced nonstandard Doxygen `@contact` and `@license` commands with portable `@par` sections.
 - Escaped email-address at-signs so Doxygen does not parse them as commands.
 - Made Doxygen warning logs visible directly in failed GitHub Actions output.
@@ -73,12 +78,12 @@
 - Removed obsolete historical references to an uncommitted application prototype.
 - Generalized framework-boundary documentation to describe consuming firmware without naming discarded implementation experiments.
 - Reclassified project maturity from advanced prerelease to Unreleased Alpha.
-- Reset the development version to `0.1.0-alpha.10`.
+- Reset the development version to `0.1.0-alpha.11`.
 - Clarified that `1.0.0` remains a future milestone requiring substantially more validation.
-- Updated Doxygen configuration and project version to 0.1.0-alpha.10.
+- Updated Doxygen configuration and project version to 0.1.0-alpha.11.
 - Reorganized README build, test, documentation, artifact, and platform-responsibility guidance.
 
-## 0.1.0-alpha.10 - 2026-07-18
+## 0.1.0-alpha.11 - 2026-07-18
 
 ### Fixed
 

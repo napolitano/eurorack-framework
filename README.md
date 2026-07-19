@@ -4,8 +4,8 @@
 [![Tests](https://github.com/napolitano/eurorack-framework/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/napolitano/eurorack-framework/actions/workflows/tests.yml)
 [![Builds](https://github.com/napolitano/eurorack-framework/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/napolitano/eurorack-framework/actions/workflows/build.yml)
 [![Documentation](https://github.com/napolitano/eurorack-framework/actions/workflows/documentation.yml/badge.svg?branch=main)](https://github.com/napolitano/eurorack-framework/actions/workflows/documentation.yml)
-[![License](https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-2f6f9f)](LICENSE)
-[![Status](https://img.shields.io/badge/status-unreleased%20alpha-c97800)](docs/release/project-maturity.md)
+[![License](.github/badges/license.svg)](LICENSE)
+[![Status](.github/badges/status.svg)](docs/release/project-maturity.md)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg)](https://en.cppreference.com/w/cpp/17)
 
 Portable C++ infrastructure for reusable Eurorack module firmware.
@@ -15,11 +15,11 @@ Portable C++ infrastructure for reusable Eurorack module firmware.
 >
 > This project is still under active development. Its public API, data formats,
 > timing behavior, hardware assumptions, and driver implementations may change
-> without backward compatibility before the first stable release. The framework
+> without backward compatibility while the project remains Unreleased Alpha. The framework
 > has not yet completed validation on every advertised microcontroller core or
 > every supported peripheral.
 >
-> Do not use this release in safety-critical equipment, commercial products, or
+> Do not use this development snapshot in safety-critical equipment, commercial products, or
 > production firmware that requires a stable and fully qualified dependency.
 > Anyone who nevertheless uses the framework does so entirely at their own risk
 > and remains responsible for electrical protection, calibration, regulatory
@@ -42,7 +42,7 @@ configuration, persistence, display rendering, peripheral drivers, Arduino
 adapters, and deterministic native simulation. Concrete module behavior belongs
 in consuming projects and is deliberately excluded from this repository.
 
-Development artifact identifier: **0.1.0-alpha.10**
+Development artifact identifier: **0.1.0-alpha.11**
 
 ## Architectural boundary
 

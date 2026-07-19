@@ -51,16 +51,14 @@ GENERATE_RTF           = NO
 GENERATE_DOCBOOK       = NO
 
 HAVE_DOT               = YES
-CLASS_DIAGRAMS         = YES
 UML_LOOK               = YES
 TEMPLATE_RELATIONS     = YES
 INCLUDE_GRAPH          = YES
 INCLUDED_BY_GRAPH      = YES
 CALL_GRAPH             = NO
 CALLER_GRAPH           = NO
-DOT_IMAGE_FORMAT       = pdf
+DOT_IMAGE_FORMAT       = png
 INTERACTIVE_SVG        = NO
-DOT_TRANSPARENT        = YES
 
 SOURCE_BROWSER         = NO
 INLINE_SOURCES         = NO

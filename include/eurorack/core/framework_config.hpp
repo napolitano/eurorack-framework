@@ -33,6 +33,15 @@
 
 #include <cstdint>
 
+/**
+ * @def EURORACK_FRAMEWORK_CONFIG_FILE
+ * @brief Selects the project-specific compile-time configuration header.
+ *
+ * @details
+ * Consuming firmware may define this macro to an angle-bracket header token
+ * before including framework headers. When it is not defined, the framework
+ * loads the repository default `eurorack_config.hpp`.
+ */
 #ifndef EURORACK_FRAMEWORK_CONFIG_FILE
 #define EURORACK_FRAMEWORK_CONFIG_FILE <eurorack_config.hpp>
 #endif
