@@ -1,0 +1,11 @@
+# Licensing and publication-sensitive files
+/LICENSE                                  @napolitano
+/LICENSES/                                @napolitano
+/LICENSING.md                             @napolitano
+/ADDITIONAL_PERMISSION.md                 @napolitano
+/COMMERCIAL_LICENSE.md                    @napolitano
+/NOTICE                                   @napolitano
+/CONTRIBUTING.md                          @napolitano
+/library.json                             @napolitano
+/.github/workflows/                       @napolitano
+/.github/CODEOWNERS                       @napolitano

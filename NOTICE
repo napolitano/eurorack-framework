@@ -1,17 +1,13 @@
 Eurorack Framework
-
 Copyright (c) 2026 Axel Napolitano
-Contact: eurorack@skjt.de
-
-Canonical repository:
-https://github.com/napolitano/eurorack-framework
 
 Required Notice: Copyright (c) 2026 Axel Napolitano
 Required Notice: Original project: https://github.com/napolitano/eurorack-framework
 Required Notice: Licensed under the PolyForm Noncommercial License 1.0.0 with the Five-Unit Cost-Recovery Permission.
 Required Notice: Commercial use requires prior written permission from Axel Napolitano.
 
-License files:
-- LICENSE
-- ADDITIONAL_PERMISSION.md
-- COMMERCIAL_LICENSE.md
+License overview:
+https://github.com/napolitano/eurorack-framework/blob/main/LICENSING.md
+
+Commercial licensing contact:
+eurorack@skjt.de

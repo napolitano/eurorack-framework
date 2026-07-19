@@ -1,4 +1,4 @@
-## 0.1.0-alpha.7
+## 0.1.0-alpha.9
 
 ### Fixed
 
@@ -8,10 +8,16 @@
 
 # Changelog
 
-## 0.1.0-alpha.7 - Documentation expansion
+## 0.1.0-alpha.9 - Documentation expansion
 
 ### Added
 
+- Added GitHub workflow badges for quality, tests, builds, and documentation.
+- Added source-available license and Unreleased Alpha status badges.
+- Added a human-readable licensing overview, NOTICE, and contribution policy.
+- Added an SPDX/REUSE-compatible license copy and automated licensing audit.
+- Added CODEOWNERS protection for license, metadata, and workflow changes.
+- Split tests and embedded builds into dedicated badgeable workflows.
 - Expanded the Nano R3 project into an attenuverter with independent positive/negative balance.
 - Added center-dead-zone processing for attenuation and balance controls.
 - Added bipolar red/green output indication with magnitude-based PWM brightness.
@@ -51,18 +57,22 @@
 
 ### Changed
 
+- Reworked the PDF documentation build around `latexmk` with retained diagnostics.
+- Removed Doxygen settings that are not consistently supported by Ubuntu package versions.
+- Expanded the documentation runner dependencies to cover the generated LaTeX manual.
+- Added fully documented, commented PlatformIO templates for AVR, Renesas RA, ESP32, STM32, RP2040, and SAMD21 targets.
 - Removed obsolete documents and wording inherited from the abandoned 1.x and RC naming.
 - Standardized project maturity language on `Unreleased - Alpha`.
 - Clarified that package versions are development artifact identifiers rather than published releases.
 - Removed obsolete historical references to an uncommitted application prototype.
 - Generalized framework-boundary documentation to describe consuming firmware without naming discarded implementation experiments.
 - Reclassified project maturity from advanced prerelease to Unreleased Alpha.
-- Reset the development version to `0.1.0-alpha.7`.
+- Reset the development version to `0.1.0-alpha.9`.
 - Clarified that `1.0.0` remains a future milestone requiring substantially more validation.
-- Updated Doxygen configuration and project version to 0.1.0-alpha.7.
+- Updated Doxygen configuration and project version to 0.1.0-alpha.9.
 - Reorganized README build, test, documentation, artifact, and platform-responsibility guidance.
 
-## 0.1.0-alpha.7 - 2026-07-18
+## 0.1.0-alpha.9 - 2026-07-18
 
 ### Fixed
 

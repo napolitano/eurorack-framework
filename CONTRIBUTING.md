@@ -1,56 +1,43 @@
 # Contributing
 
-Contributions are welcome when they fit the scope, architecture, documentation standards, and licensing model of Eurorack Framework.
+## Current contribution policy
 
-## Before contributing
+The project is Unreleased Alpha. External code contributions and pull requests
+containing implementation changes are currently not accepted.
 
-Open an issue before starting a substantial feature, new platform backend, public API change, or new peripheral family. Small corrections and documentation improvements may be submitted directly.
+This policy avoids unclear copyright ownership while the API, architecture,
+licensing model, and commercial-licensing process are still being established.
 
-## Requirements
+## Welcome contributions
 
-Contributions must:
+The following remain welcome through GitHub Issues or Discussions:
 
-- be original work that you are permitted to license to the project;
-- be compatible with the repository licensing model;
-- avoid copying code from incompatible or undisclosed sources;
-- include documentation for public APIs;
-- include tests where the behavior can be tested without hardware;
-- include an embedded validation example where hardware interaction is central;
-- avoid dynamic allocation in core components unless explicitly justified;
-- preserve deterministic behavior and bounded resource use;
-- use US English in code comments and documentation.
+- reproducible bug reports
+- hardware-validation results
+- documentation corrections
+- API design feedback
+- compatibility findings
+- benchmark data
+- minimal test cases
+- security reports through the documented security channel
 
-## Style
+Do not attach third-party code or copyrighted material unless you have the
+necessary rights and its license is clearly identified.
 
-- C++17 is the baseline language version.
-- Public APIs use descriptive domain terminology.
-- Platform-specific types do not leak into portable component APIs.
-- Each source and header file must include the project file header.
-- Public functions document parameters, return values, ranges, units, timing, ownership, and interrupt-safety expectations.
-- Warnings enabled in `platformio.ini` should remain clean.
+## Documentation corrections
 
-## Licensing contributions
+Small factual or typographical documentation corrections may be proposed as a
+patch after prior coordination. Submitting a patch does not imply that it will be
+accepted.
 
-By submitting a contribution, you certify that you have the right to contribute it and agree that it may be distributed under the repository's license terms.
+## Future code contributions
 
-Commercial licensing remains controlled by the project maintainer. Contributions do not grant contributors rights to issue commercial licenses for the complete project unless separately agreed in writing.
+Before external code contributions are opened, the project will publish a
+separate contributor agreement or another explicit inbound-licensing policy.
+Until then, no assumption should be made that pull requests are licensed merely
+because they were submitted through GitHub.
 
-## Doxygen documentation standard
+## Conduct
 
-Every class, struct, enum, method, function, constructor, and non-obvious data
-member in framework code must be documented with Doxygen.
-
-Every method or function must include:
-
-- a precise `@brief`;
-- one `@param` entry for every named parameter;
-- an `@return` entry whenever the return type is not `void`;
-- relevant units, valid ranges, ownership, lifetime, state changes, side
-  effects, timing assumptions, and event lifetime;
-- explicit statements when a function performs no hardware access or has no
-  side effects, where that distinction matters.
-
-Private helpers are not exempt. Doxygen is configured with
-`EXTRACT_PRIVATE = YES`, `WARN_IF_UNDOCUMENTED = YES`,
-`WARN_NO_PARAMDOC = YES`, and `WARN_AS_ERROR = YES`. Documentation warnings are
-therefore build failures and must not be suppressed.
+Technical criticism is welcome. Personal attacks, harassment, spam, and
+license-evasion requests are not.

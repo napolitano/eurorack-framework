@@ -1,5 +1,13 @@
 # Eurorack Framework
 
+[![Quality](https://github.com/napolitano/eurorack-framework/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/napolitano/eurorack-framework/actions/workflows/ci.yml)
+[![Tests](https://github.com/napolitano/eurorack-framework/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/napolitano/eurorack-framework/actions/workflows/tests.yml)
+[![Builds](https://github.com/napolitano/eurorack-framework/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/napolitano/eurorack-framework/actions/workflows/build.yml)
+[![Documentation](https://github.com/napolitano/eurorack-framework/actions/workflows/documentation.yml/badge.svg?branch=main)](https://github.com/napolitano/eurorack-framework/actions/workflows/documentation.yml)
+[![License](https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-2f6f9f)](LICENSE)
+[![Status](https://img.shields.io/badge/status-unreleased%20alpha-c97800)](docs/release/project-maturity.md)
+[![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg)](https://en.cppreference.com/w/cpp/17)
+
 Portable C++ infrastructure for reusable Eurorack module firmware.
 
 > [!WARNING]
@@ -34,9 +42,7 @@ configuration, persistence, display rendering, peripheral drivers, Arduino
 adapters, and deterministic native simulation. Concrete module behavior belongs
 in consuming projects and is deliberately excluded from this repository.
 
-Status: **Unreleased - Alpha**
-
-Development artifact identifier: **0.1.0-alpha.7**
+Development artifact identifier: **0.1.0-alpha.9**
 
 ## Architectural boundary
 
