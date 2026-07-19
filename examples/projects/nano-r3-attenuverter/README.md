@@ -290,3 +290,24 @@ compat/
 It supplies only the facilities required by this example and its selected
 framework subset. It is not a general replacement for the C++ standard library.
 More capable targets should use their normal standard-library implementation.
+
+## C++17 on Arduino AVR
+
+PlatformIO's Arduino AVR platform adds `-std=gnu++11` by default. The framework
+uses C++17 features such as nested namespaces, inline variables, digit
+separators, and modern aggregate initialization.
+
+The example therefore uses:
+
+```ini
+build_unflags =
+    -std=gnu++11
+
+build_flags =
+    -std=gnu++17
+```
+
+Adding `-std=gnu++17` without removing the platform default is not sufficient.
+The final compiler command can otherwise select GNU++11 depending on argument
+order, producing misleading errors throughout otherwise valid C++17 code.
+
