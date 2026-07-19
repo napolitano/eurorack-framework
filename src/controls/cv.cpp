@@ -1,0 +1,80 @@
+/**
+ * @file src/controls/cv.cpp
+ * @brief Implements voltage-domain CV input and output models.
+ *
+ * @details
+ * Implements calibrated control-voltage conversion.
+ * 
+ * The model separates raw converter codes from volts and normalized values, applies explicit calibration, and reports clipping. It does not perform ADC acquisition or DAC output itself.
+
+ * @author Axel Napolitano
+ * @date 2026
+ * @contact eurorack@skjt.de
+ * @license PolyForm Noncommercial License 1.0.0
+ * @see LICENSE and ADDITIONAL_PERMISSION.md in the repository root.
+ */
+
+#include <eurorack/controls/cv.hpp>
+
+namespace eurorack::controls {
+
+/**
+ * @brief Constructs a CV input model.
+ *
+ * @param range Accepted operational voltage range.
+ */
+CvInput::CvInput(const eurorack::core::VoltageRange range) noexcept : range_(range) {}
+
+/**
+ * @brief Processes one calibrated voltage sample.
+ *
+ * @param volts Measured voltage after hardware calibration.
+ */
+void CvInput::update(const float volts) noexcept {
+    snapshot_.rawVolts = volts;
+    snapshot_.belowRange = volts < range_.minimumVolts;
+    snapshot_.aboveRange = volts > range_.maximumVolts;
+    snapshot_.volts = range_.clamp(volts);
+
+    const float span = range_.spanVolts();
+    snapshot_.normalized = span > 0.0F ? (snapshot_.volts - range_.minimumVolts) / span : 0.0F;
+}
+
+/**
+ * @brief Returns the current immutable CV-input state.
+ *
+ * @return Constant reference to the latest voltage-domain state.
+ */
+const CvInputSnapshot& CvInput::snapshot() const noexcept {
+    return snapshot_;
+}
+
+/**
+ * @brief Constructs a CV output model.
+ *
+ * @param range Permitted output-voltage range.
+ */
+CvOutput::CvOutput(const eurorack::core::VoltageRange range) noexcept : range_(range) {}
+
+/**
+ * @brief Requests an output voltage.
+ *
+ * @param volts Requested voltage.
+ */
+void CvOutput::setVolts(const float volts) noexcept {
+    snapshot_.requestedVolts = volts;
+    snapshot_.clampedLow = volts < range_.minimumVolts;
+    snapshot_.clampedHigh = volts > range_.maximumVolts;
+    snapshot_.effectiveVolts = range_.clamp(volts);
+}
+
+/**
+ * @brief Returns the current immutable CV-output state.
+ *
+ * @return Constant reference to requested and effective output voltage.
+ */
+const CvOutputSnapshot& CvOutput::snapshot() const noexcept {
+    return snapshot_;
+}
+
+} // namespace eurorack::controls
