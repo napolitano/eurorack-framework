@@ -48,20 +48,21 @@ enum class Ssd1306Height : std::uint8_t { Height32 = 32U, Height64 = 64U };
 struct Ssd1306Config final {
     eurorack::io::I2cAddress address{0x3CU}; ///< 7-bit I2C address of the controller.
     std::uint16_t width{128U}; ///< Visible panel width in pixels; `flush` rejects a canvas whose
-                                 ///< width differs, zero, or a value above 128.
-    Ssd1306Height height{Ssd1306Height::Height64}; ///< Visible panel height; selects the COM-pin
-        ///< configuration byte and multiplex ratio sent by `initialize`.
+                               ///< width differs, zero, or a value above 128.
+    Ssd1306Height height{
+        Ssd1306Height::Height64}; ///< Visible panel height; selects the COM-pin
+                                  ///< configuration byte and multiplex ratio sent by `initialize`.
     std::uint32_t i2cClockHz{400'000U}; ///< I2C bus clock applied by `initialize`.
     std::uint8_t contrast{0x7FU}; ///< Contrast value sent during `initialize`; kept in sync by
-                                    ///< `setContrast`.
-    bool segmentRemap{true}; ///< Selects the controller's column-address mapping (segment remap
-                               ///< command 0xA1 vs. 0xA0) to match the panel's physical wiring.
+                                  ///< `setContrast`.
+    bool segmentRemap{true};    ///< Selects the controller's column-address mapping (segment remap
+                                ///< command 0xA1 vs. 0xA0) to match the panel's physical wiring.
     bool comScanRemapped{true}; ///< Selects the controller's row-scan direction (COM scan command
-                                  ///< 0xC8 vs. 0xC0) to match the panel's physical wiring.
+                                ///< 0xC8 vs. 0xC0) to match the panel's physical wiring.
     bool chargePumpEnabled{true}; ///< Enables the controller's internal charge pump and switches
-                                    ///< the precharge period to the value recommended for it
-                                    ///< (0x14/0xF1 vs. 0x10/0x22), for panels with no external
-                                    ///< boost supply.
+                                  ///< the precharge period to the value recommended for it
+                                  ///< (0x14/0xF1 vs. 0x10/0x22), for panels with no external
+                                  ///< boost supply.
 };
 
 /**
@@ -233,11 +234,11 @@ class Ssd1306 final {
     [[nodiscard]] eurorack::io::IoResult configureAddressWindow() noexcept;
 
     eurorack::io::I2cBus& bus_; ///< I2C bus used for every command and data transfer; the driver
-                                  ///< does not own it.
-    Ssd1306Config config_{};     ///< Address, geometry, orientation, contrast, and charge-pump
-                                   ///< settings; `contrast` is kept in sync by `setContrast`.
-    bool initialized_{false}; ///< True once `initialize` has completed successfully; `flush`
-                               ///< returns `Busy` while false.
+                                ///< does not own it.
+    Ssd1306Config config_{};    ///< Address, geometry, orientation, contrast, and charge-pump
+                                ///< settings; `contrast` is kept in sync by `setContrast`.
+    bool initialized_{false};   ///< True once `initialize` has completed successfully; `flush`
+                                ///< returns `Busy` while false.
 };
 
 } // namespace eurorack::drivers::display

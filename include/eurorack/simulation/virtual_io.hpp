@@ -99,7 +99,7 @@ class VirtualDigitalOutput final : public eurorack::io::DigitalOutput {
     [[nodiscard]] std::uint32_t transitionCount() const noexcept;
 
   private:
-    bool high_{false}; ///< Level last passed to `writeHigh` or the constructor.
+    bool high_{false};                  ///< Level last passed to `writeHigh` or the constructor.
     std::uint32_t transitionCount_{0U}; ///< Number of accepted level changes since construction.
 };
 
@@ -169,7 +169,7 @@ class VirtualBidirectionalPin final : public eurorack::io::BidirectionalDigitalP
   private:
     eurorack::io::BidirectionalDigitalPin::Direction direction_{
         eurorack::io::BidirectionalDigitalPin::Direction::Input}; ///< Currently configured
-                                                                     ///< direction.
+                                                                  ///< direction.
     bool outputHigh_{false};   ///< Level last passed to `writeHigh`.
     bool externalHigh_{false}; ///< Level last passed to `setExternalHigh`.
 };
@@ -225,10 +225,11 @@ class VirtualAnalogInput final : public eurorack::io::AnalogInputChannel {
 
   private:
     std::uint32_t maximumCode_{4095U}; ///< Inclusive maximum code; `setCode` clamps to this
-                                         ///< value.
-    std::uint32_t code_{0U}; ///< Code returned by `readRaw`.
-    eurorack::io::IoResult result_{eurorack::io::IoResult::Success}; ///< Result returned by
-        ///< `readRaw`; persists until changed via `setResult`.
+                                       ///< value.
+    std::uint32_t code_{0U};           ///< Code returned by `readRaw`.
+    eurorack::io::IoResult result_{
+        eurorack::io::IoResult::Success}; ///< Result returned by
+                                          ///< `readRaw`; persists until changed via `setResult`.
 };
 
 /**
@@ -287,10 +288,12 @@ class VirtualAnalogOutput final : public eurorack::io::AnalogOutputChannel {
 
   private:
     std::uint32_t maximumCode_{4095U}; ///< Inclusive maximum code; `writeRaw` rejects anything
-                                         ///< above this with `InvalidArgument`.
-    std::uint32_t code_{0U}; ///< Last code accepted by `writeRaw`.
-    eurorack::io::IoResult result_{eurorack::io::IoResult::Success}; ///< Result returned by
-        ///< `writeRaw` for in-range codes; persists until changed via `setResult`.
+                                       ///< above this with `InvalidArgument`.
+    std::uint32_t code_{0U};           ///< Last code accepted by `writeRaw`.
+    eurorack::io::IoResult result_{
+        eurorack::io::IoResult::Success}; ///< Result returned by
+                                          ///< `writeRaw` for in-range codes; persists until changed
+                                          ///< via `setResult`.
 };
 
 } // namespace eurorack::simulation

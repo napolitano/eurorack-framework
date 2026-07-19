@@ -78,8 +78,8 @@ class IlluminatedButton final {
     void updateAutomaticLed() noexcept;
 
     IlluminatedButtonConfig config_{}; ///< Mode and colors used by @ref updateAutomaticLed.
-    MomentaryButton button_{};          ///< Debounced electrical button submodel.
-    MulticolorLed led_{};                ///< RGB illumination submodel.
+    MomentaryButton button_{};         ///< Debounced electrical button submodel.
+    MulticolorLed led_{};              ///< RGB illumination submodel.
 };
 
 } // namespace eurorack::controls

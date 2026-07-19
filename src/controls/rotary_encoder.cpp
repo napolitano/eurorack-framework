@@ -1,7 +1,7 @@
 /**
  * @file src/controls/rotary_encoder.cpp
  * @brief Quadrature rotary encoder implementation.
- * *
+ *
  * @details
  * Legal Gray-code transitions contribute signed substeps to an accumulator.
  * Once the configured transitions-per-detent threshold is reached, public

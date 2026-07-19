@@ -47,11 +47,11 @@ enum class ScenarioEventType : std::uint8_t { DigitalInput, AnalogInput };
 struct ScenarioEvent final {
     std::uint64_t atMicroseconds{0U}; ///< Virtual event timestamp in microseconds.
     ScenarioEventType type{ScenarioEventType::DigitalInput}; ///< Which channel kind `channel`
-                                                                ///< refers to and how `value`
-                                                                ///< should be interpreted.
+                                                             ///< refers to and how `value`
+                                                             ///< should be interpreted.
     std::size_t channel{0U}; ///< Zero-based index of the target digital or analog input channel.
     std::uint32_t value{0U}; ///< For `DigitalInput`, `1` for a high level or `0` for low. For
-                               ///< `AnalogInput`, the raw converter code to apply.
+                             ///< `AnalogInput`, the raw converter code to apply.
 };
 
 /**
@@ -107,7 +107,7 @@ class Scenario final {
 
   private:
     std::vector<ScenarioEvent> events_{}; ///< Scheduled events, in insertion order until `sort`
-                                            ///< is called.
+                                          ///< is called.
 };
 
 } // namespace eurorack::simulation

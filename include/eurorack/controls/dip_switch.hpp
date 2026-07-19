@@ -123,7 +123,7 @@ template <std::size_t Count> class DipSwitchBank final {
 
   private:
     std::array<DipSwitch, Count> switches_{}; ///< Poles indexed from zero, all sharing the
-                                                ///< configuration passed to the constructor.
+                                              ///< configuration passed to the constructor.
 };
 
 } // namespace eurorack::controls

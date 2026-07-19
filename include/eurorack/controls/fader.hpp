@@ -68,9 +68,9 @@ class Fader final {
     [[nodiscard]] const FaderConfig& config() const noexcept;
 
   private:
-    FaderConfig config_{};             ///< Calibration, direction, and filtering settings.
-    Potentiometer potentiometer_{};    ///< Underlying ADC normalizer that performs the actual
-                                         ///< clamping, deadbanding, and smoothing.
+    FaderConfig config_{};          ///< Calibration, direction, and filtering settings.
+    Potentiometer potentiometer_{}; ///< Underlying ADC normalizer that performs the actual
+                                    ///< clamping, deadbanding, and smoothing.
 };
 
 } // namespace eurorack::controls

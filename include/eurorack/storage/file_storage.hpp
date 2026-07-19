@@ -140,14 +140,14 @@ class FileStorage final : public PersistentStorage {
      */
     [[nodiscard]] bool loadExisting() noexcept;
 
-    std::string path_{}; ///< Target file path, as passed to the constructor.
+    std::string path_{};                ///< Target file path, as passed to the constructor.
     std::vector<std::uint8_t> bytes_{}; ///< In-memory staging buffer; sized to `capacityBytes`
-                                          ///< and written to `path_` atomically by `commit`.
-    std::uint8_t erasedValue_{0xFFU}; ///< Byte value used to fill newly staged and erased bytes.
+                                        ///< and written to `path_` atomically by `commit`.
+    std::uint8_t erasedValue_{0xFFU};   ///< Byte value used to fill newly staged and erased bytes.
     bool ready_{false}; ///< True once construction has produced a usable staged image; see
-                         ///< `ready()`.
+                        ///< `ready()`.
     bool dirty_{false}; ///< True when `bytes_` has been modified since the last successful
-                         ///< `commit`; see `dirty()`.
+                        ///< `commit`; see `dirty()`.
 };
 
 } // namespace eurorack::storage

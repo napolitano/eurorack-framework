@@ -1,7 +1,7 @@
 /**
  * @file src/controls/bicolor_led.cpp
  * @brief Two-color LED implementation.
- * *
+ *
  * @details
  * Common-anode and common-cathode devices can energize both dies at once. A
  * two-terminal bipolar device selects color by current direction and therefore

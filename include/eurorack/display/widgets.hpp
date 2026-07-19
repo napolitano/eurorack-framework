@@ -33,13 +33,13 @@ namespace eurorack::display {
 struct ParameterView final {
     std::string_view label{}; ///< Centered on the top ~8-pixel row of the widget.
     std::string_view value{}; ///< Centered on the row below the label; combined with `unit`
-                                ///< (separated by a space) into one string of up to 31
-                                ///< characters.
+                              ///< (separated by a space) into one string of up to 31
+                              ///< characters.
     std::string_view unit{};  ///< Appended after `value`; omitted entirely (including the
-                                ///< separating space) when empty.
-    bool selected{false}; ///< Draws a focus-frame rectangle around the widget, insets the
-                           ///< content by one pixel, and renders the value row in inverted
-                           ///< text mode.
+                              ///< separating space) when empty.
+    bool selected{false};     ///< Draws a focus-frame rectangle around the widget, insets the
+                              ///< content by one pixel, and renders the value row in inverted
+                              ///< text mode.
 };
 
 /**
@@ -47,29 +47,29 @@ struct ParameterView final {
  */
 struct PotentiometerView final {
     std::string_view label{}; ///< Shown below the knob only when `value` is empty.
-    float normalized{0.0F}; ///< Clamped to [0, 1]; drives the needle angle over a 270-degree
+    float normalized{0.0F};   ///< Clamped to [0, 1]; drives the needle angle over a 270-degree
                               ///< sweep starting at the lower-left (135 degrees) and ending at
                               ///< the lower-right (405 degrees).
     std::string_view value{}; ///< Shown below the knob; takes priority over `label` when
-                                ///< non-empty.
-    bool selected{false}; ///< Draws a focus-frame rectangle around the widget and insets the
-                           ///< knob by one pixel.
+                              ///< non-empty.
+    bool selected{false};     ///< Draws a focus-frame rectangle around the widget and insets the
+                              ///< knob by one pixel.
 };
 
 /**
  * @brief Encoder presentation model.
  */
 struct EncoderView final {
-    std::string_view label{}; ///< Rendered below the knob; the underlying knob widget is always
-                                ///< invoked without separate value text, so `label` is always
-                                ///< shown.
-    std::int32_t value{0};   ///< Current value; combined with `minimum`/`maximum` into a
+    std::string_view label{};  ///< Rendered below the knob; the underlying knob widget is always
+                               ///< invoked without separate value text, so `label` is always
+                               ///< shown.
+    std::int32_t value{0};     ///< Current value; combined with `minimum`/`maximum` into a
                                ///< normalized knob position (see @ref PotentiometerView).
-    std::int32_t minimum{0}; ///< Lower end of the value range used only for normalization.
+    std::int32_t minimum{0};   ///< Lower end of the value range used only for normalization.
     std::int32_t maximum{127}; ///< Upper end of the value range used only for normalization.
-                                 ///< Treated as at least `minimum + 1` to avoid division by zero.
-    bool wrap{false}; ///< Draws a small right-arrow glyph in the widget's upper-right corner to
-                        ///< indicate that the value wraps at its bounds.
+                               ///< Treated as at least `minimum + 1` to avoid division by zero.
+    bool wrap{false};     ///< Draws a small right-arrow glyph in the widget's upper-right corner to
+                          ///< indicate that the value wraps at its bounds.
     bool selected{false}; ///< Forwarded to the underlying knob widget's focus-frame rendering.
 };
 
@@ -78,14 +78,14 @@ struct EncoderView final {
  */
 struct ProgressBarView final {
     float normalized{0.0F}; ///< Clamped to [0, 1]; fraction of the inner width drawn as filled.
-    bool showFrame{true}; ///< Draws an outline rectangle around the full bounds and insets the
-                           ///< fillable area by one pixel; when false, the fill uses the full
-                           ///< bounds directly.
-    bool inverted{false}; ///< When false, only the filled portion is drawn solid; the remainder
-                           ///< of the inner area is left untouched. When true, the entire inner
-                           ///< area is first filled solid and then everything past the filled
-                           ///< portion is explicitly cleared, guaranteeing a blank remainder
-                           ///< instead of leaving prior canvas content in place.
+    bool showFrame{true};   ///< Draws an outline rectangle around the full bounds and insets the
+                            ///< fillable area by one pixel; when false, the fill uses the full
+                            ///< bounds directly.
+    bool inverted{false};   ///< When false, only the filled portion is drawn solid; the remainder
+                            ///< of the inner area is left untouched. When true, the entire inner
+                            ///< area is first filled solid and then everything past the filled
+                            ///< portion is explicitly cleared, guaranteeing a blank remainder
+                            ///< instead of leaving prior canvas content in place.
 };
 
 /**
@@ -95,8 +95,8 @@ struct TopBarView final {
     std::string_view title{};  ///< Rendered left-aligned in the left half of the bar.
     std::string_view status{}; ///< Rendered right-aligned in the right half of the bar.
     bool inverted{true}; ///< Renders both halves in inverted text mode, which fills each half's
-                          ///< own rectangle solid and draws the text over it; when false, text
-                          ///< is drawn normally over an untouched background.
+                         ///< own rectangle solid and draws the text over it; when false, text
+                         ///< is drawn normally over an untouched background.
 };
 
 /**
@@ -105,11 +105,11 @@ struct TopBarView final {
 struct FooterBarView final {
     std::string_view left{};   ///< Rendered left-aligned, overlapping the full bar width.
     std::string_view center{}; ///< Rendered horizontally centered, overlapping the full bar
-                                 ///< width.
+                               ///< width.
     std::string_view right{};  ///< Rendered right-aligned, overlapping the full bar width.
-    bool inverted{true}; ///< Explicitly fills the entire bar solid before drawing all three
-                          ///< texts in inverted mode; when false, the bar background is left
-                          ///< untouched and text is drawn normally.
+    bool inverted{true};       ///< Explicitly fills the entire bar solid before drawing all three
+                               ///< texts in inverted mode; when false, the bar background is left
+                               ///< untouched and text is drawn normally.
 };
 
 /**
@@ -118,10 +118,10 @@ struct FooterBarView final {
 struct MenuItemView final {
     std::string_view label{}; ///< Rendered left-aligned within the row, inset by one pixel.
     std::string_view value{}; ///< Rendered right-aligned within the same row rectangle as
-                                ///< `label`.
-    bool enabled{true}; ///< False renders both `label` and `value` with the `Invert` pixel
-                         ///< operation instead of `Set`, toggling existing canvas pixels rather
-                         ///< than forcing them on, to visually distinguish disabled items.
+                              ///< `label`.
+    bool enabled{true};       ///< False renders both `label` and `value` with the `Invert` pixel
+                        ///< operation instead of `Set`, toggling existing canvas pixels rather
+                        ///< than forcing them on, to visually distinguish disabled items.
 };
 
 /**
@@ -129,19 +129,20 @@ struct MenuItemView final {
  */
 struct MenuListView final {
     const MenuItemView* items{nullptr}; ///< Pointer to `itemCount` items; rendering is skipped
-                                          ///< entirely when null.
-    std::size_t itemCount{0U}; ///< Total number of items behind `items`; rendering is skipped
-                                 ///< when zero.
+                                        ///< entirely when null.
+    std::size_t itemCount{0U};     ///< Total number of items behind `items`; rendering is skipped
+                                   ///< when zero.
     std::size_t selectedIndex{0U}; ///< Highlighted item index; clamped to the last valid index
-                                     ///< internally. The highlighted row is filled solid and its
-                                     ///< text drawn in inverted mode.
+                                   ///< internally. The highlighted row is filled solid and its
+                                   ///< text drawn in inverted mode.
     std::size_t firstVisibleIndex{0U}; ///< Scroll-position hint; automatically adjusted by
-        ///< @ref ensureMenuSelectionVisible so `selectedIndex` is always within the visible rows.
-    std::uint8_t rowHeight{9U}; ///< Pixel height per row; rendering is skipped when zero.
+                                       ///< @ref ensureMenuSelectionVisible so `selectedIndex` is
+                                       ///< always within the visible rows.
+    std::uint8_t rowHeight{9U};        ///< Pixel height per row; rendering is skipped when zero.
     bool drawScrollbar{true}; ///< Reserves a 3-pixel-wide column on the right whenever there is
-                               ///< more than one item; the track and a proportionally sized
-                               ///< thumb are actually drawn into that column only when the item
-                               ///< count exceeds the number of visible rows.
+                              ///< more than one item; the track and a proportionally sized
+                              ///< thumb are actually drawn into that column only when the item
+                              ///< count exceeds the number of visible rows.
 };
 
 /**
@@ -155,20 +156,20 @@ enum class ConfirmationChoice : std::uint8_t { Yes, Cancel };
 struct ConfirmationOverlayView final {
     std::string_view title{};   ///< Rendered centered in an inverted ~9-pixel header row.
     std::string_view message{}; ///< Word-wrapped across the area between the header and the two
-                                  ///< buttons, using the built-in 5x7 font.
+                                ///< buttons, using the built-in 5x7 font.
     ConfirmationChoice selected{ConfirmationChoice::Cancel}; ///< Which button is drawn in the
-                                                               ///< filled/inverted (highlighted)
-                                                               ///< style; see
-                                                               ///< @ref drawConfirmationOverlay.
+                                                             ///< filled/inverted (highlighted)
+                                                             ///< style; see
+                                                             ///< @ref drawConfirmationOverlay.
 };
 
 /**
  * @brief Error overlay presentation model.
  */
 struct ErrorOverlayView final {
-    std::string_view title{"Error"}; ///< Rendered next to a warning glyph in an inverted header
-                                       ///< row; see @ref drawErrorOverlay.
-    std::string_view message{};       ///< Word-wrapped below the header.
+    std::string_view title{"Error"};    ///< Rendered next to a warning glyph in an inverted header
+                                        ///< row; see @ref drawErrorOverlay.
+    std::string_view message{};         ///< Word-wrapped below the header.
     std::string_view actionLabel{"OK"}; ///< Label of the single full-width action button.
 };
 

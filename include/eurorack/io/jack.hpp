@@ -52,16 +52,16 @@ enum class ConnectionState : std::uint8_t { Unknown, Disconnected, Connected };
  * can distinguish a valid endpoint from a failed acquisition.
  */
 struct AnalogJackSnapshot final {
-    JackSignalType signalType{JackSignalType::Cv}; ///< Descriptive signal family, fixed at
-                                                      ///< construction.
+    JackSignalType signalType{JackSignalType::Cv};        ///< Descriptive signal family, fixed at
+                                                          ///< construction.
     ConnectionState connection{ConnectionState::Unknown}; ///< Last value passed to
-                                                              ///< `setConnection`; independent of
-                                                              ///< signal level.
-    float rawVolts{0.0F}; ///< Unclamped voltage as supplied to `update`/`setVolts`.
+                                                          ///< `setConnection`; independent of
+                                                          ///< signal level.
+    float rawVolts{0.0F};       ///< Unclamped voltage as supplied to `update`/`setVolts`.
     float effectiveVolts{0.0F}; ///< `rawVolts` clamped to the jack's configured voltage range.
-    bool belowRange{false}; ///< True when `rawVolts` was below the configured minimum.
-    bool aboveRange{false}; ///< True when `rawVolts` was above the configured maximum.
-    bool changed{false}; ///< True when the most recent call changed `effectiveVolts`.
+    bool belowRange{false};     ///< True when `rawVolts` was below the configured minimum.
+    bool aboveRange{false};     ///< True when `rawVolts` was above the configured maximum.
+    bool changed{false};        ///< True when the most recent call changed `effectiveVolts`.
 };
 
 /**
@@ -120,10 +120,10 @@ class AnalogInputJack final {
 
   private:
     JackSignalType signalType_{JackSignalType::Cv}; ///< Descriptive signal family, copied into
-                                                       ///< the snapshot at construction.
+                                                    ///< the snapshot at construction.
     eurorack::core::VoltageRange range_{}; ///< Inclusive voltage range used for clamping and
-                                             ///< range diagnostics.
-    AnalogJackSnapshot snapshot_{}; ///< Most recently calculated state.
+                                           ///< range diagnostics.
+    AnalogJackSnapshot snapshot_{};        ///< Most recently calculated state.
 };
 
 /**
@@ -181,10 +181,10 @@ class AnalogOutputJack final {
 
   private:
     JackSignalType signalType_{JackSignalType::Cv}; ///< Descriptive signal family, copied into
-                                                       ///< the snapshot at construction.
+                                                    ///< the snapshot at construction.
     eurorack::core::VoltageRange range_{}; ///< Inclusive voltage range used for clamping and
-                                             ///< range diagnostics.
-    AnalogJackSnapshot snapshot_{}; ///< Most recently calculated state.
+                                           ///< range diagnostics.
+    AnalogJackSnapshot snapshot_{};        ///< Most recently calculated state.
 };
 
 /**
@@ -195,16 +195,16 @@ class AnalogOutputJack final {
  * state is tracked independently when a switched-contact detector is available.
  */
 struct DigitalJackSnapshot final {
-    JackSignalType signalType{JackSignalType::Gate}; ///< Descriptive signal family, fixed at
-                                                        ///< construction.
+    JackSignalType signalType{JackSignalType::Gate};      ///< Descriptive signal family, fixed at
+                                                          ///< construction.
     ConnectionState connection{ConnectionState::Unknown}; ///< Last value passed to
-                                                              ///< `setConnection`; independent of
-                                                              ///< signal level.
-    float volts{0.0F}; ///< For an input jack, the last sampled voltage as passed to `update`.
-                        ///< For an output jack, `lowVolts` or `highVolts` depending on the last
-                        ///< `setHigh` call.
-    bool high{false}; ///< Current logical state.
-    bool rising{false}; ///< True only for the call that transitioned `high` from false to true.
+                                                          ///< `setConnection`; independent of
+                                                          ///< signal level.
+    float volts{0.0F};   ///< For an input jack, the last sampled voltage as passed to `update`.
+                         ///< For an output jack, `lowVolts` or `highVolts` depending on the last
+                         ///< `setHigh` call.
+    bool high{false};    ///< Current logical state.
+    bool rising{false};  ///< True only for the call that transitioned `high` from false to true.
     bool falling{false}; ///< True only for the call that transitioned `high` from true to false.
 };
 
@@ -268,8 +268,8 @@ class DigitalInputJack final {
     [[nodiscard]] const DigitalJackSnapshot& snapshot() const noexcept;
 
   private:
-    float lowMaximum_{1.0F};  ///< Highest voltage accepted as low.
-    float highMinimum_{2.0F}; ///< Lowest voltage accepted as high.
+    float lowMaximum_{1.0F};         ///< Highest voltage accepted as low.
+    float highMinimum_{2.0F};        ///< Lowest voltage accepted as high.
     DigitalJackSnapshot snapshot_{}; ///< Most recently calculated state and edge flags.
 };
 
@@ -328,8 +328,8 @@ class DigitalOutputJack final {
     [[nodiscard]] const DigitalJackSnapshot& snapshot() const noexcept;
 
   private:
-    float lowVolts_{0.0F};  ///< Voltage reported for the logical-low state.
-    float highVolts_{5.0F}; ///< Voltage reported for the logical-high state.
+    float lowVolts_{0.0F};           ///< Voltage reported for the logical-low state.
+    float highVolts_{5.0F};          ///< Voltage reported for the logical-high state.
     DigitalJackSnapshot snapshot_{}; ///< Most recently requested state and edge flags.
 };
 

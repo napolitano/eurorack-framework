@@ -32,9 +32,9 @@ struct PotentiometerConfig final {
     std::uint32_t rawMaximum{4095U};  ///< Raw ADC code representing maximum position.
     bool inverted{false};             ///< True to reverse logical direction.
     float deadbandNormalized{0.002F}; ///< Minimum normalized change to report; clamped to [0, 1]
-                                        ///< by the constructor.
+                                      ///< by the constructor.
     float smoothingFactor{1.0F};      ///< Exponential smoothing factor from 0 to 1; clamped to
-                                        ///< [0, 1] by the constructor. `1.0` disables smoothing.
+                                      ///< [0, 1] by the constructor. `1.0` disables smoothing.
 };
 
 /**
@@ -101,8 +101,8 @@ class Potentiometer final {
     PotentiometerConfig config_{};     ///< Calibration and filtering settings, already clamped.
     PotentiometerSnapshot snapshot_{}; ///< Most recently calculated state.
     bool initialized_{false}; ///< True once @ref reset has run at least once; @ref update calls
-                               ///< @ref reset internally on the first sample so smoothing never
-                               ///< starts from an undefined position.
+                              ///< @ref reset internally on the first sample so smoothing never
+                              ///< starts from an undefined position.
 };
 
 } // namespace eurorack::controls

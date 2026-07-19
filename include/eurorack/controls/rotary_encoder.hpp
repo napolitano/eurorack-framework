@@ -42,9 +42,9 @@ enum class RotationDirection : std::int8_t { None = 0, CounterClockwise = -1, Cl
  */
 struct RotaryEncoderConfig final {
     std::uint8_t transitionsPerDetent{4U}; ///< Legal Gray-code substeps that accumulate into one
-                                             ///< reported detent. `0` is treated as `1`.
+                                           ///< reported detent. `0` is treated as `1`.
     bool inverted{false}; ///< True to negate the sign of `delta` and `direction` after a detent
-                           ///< completes.
+                          ///< completes.
 };
 /**
  * @brief Application-facing position and diagnostic state of a rotary encoder.
@@ -56,15 +56,15 @@ struct RotaryEncoderConfig final {
  */
 struct RotaryEncoderSnapshot final {
     std::int32_t position{0}; ///< Accumulated completed detents since construction or
-                                ///< @ref RotaryEncoder::reset.
-    std::int32_t delta{0}; ///< Signed detent change from the most recent
-                             ///< @ref RotaryEncoder::update call; `0` unless a detent completed
-                             ///< on that call.
+                              ///< @ref RotaryEncoder::reset.
+    std::int32_t delta{0};    ///< Signed detent change from the most recent
+                              ///< @ref RotaryEncoder::update call; `0` unless a detent completed
+                              ///< on that call.
     RotationDirection direction{RotationDirection::None}; ///< Direction of the detent completed
-                                                             ///< by the most recent update; `None`
-                                                             ///< when no detent completed.
+                                                          ///< by the most recent update; `None`
+                                                          ///< when no detent completed.
     std::uint32_t invalidTransitionCount{0U}; ///< Number of rejected impossible two-bit A/B jumps
-                                                ///< observed since construction or reset.
+                                              ///< observed since construction or reset.
 };
 /**
  * @brief Decodes sampled quadrature A/B levels into detents and direction.
@@ -90,15 +90,15 @@ class RotaryEncoder final {
     [[nodiscard]] const RotaryEncoderSnapshot& snapshot() const noexcept;
 
   private:
-    RotaryEncoderConfig config_{};       ///< Resolution and direction settings.
-    RotaryEncoderSnapshot snapshot_{};   ///< Most recently calculated position and diagnostics.
+    RotaryEncoderConfig config_{};     ///< Resolution and direction settings.
+    RotaryEncoderSnapshot snapshot_{}; ///< Most recently calculated position and diagnostics.
     bool initialized_{false}; ///< True once @ref reset has run; @ref update calls @ref reset on
-                               ///< the first sample so the Gray-code table is never indexed with
-                               ///< an undefined previous state.
+                              ///< the first sample so the Gray-code table is never indexed with
+                              ///< an undefined previous state.
     std::uint8_t previousState_{0U}; ///< Last sampled 2-bit A/B level, used as the row index into
-                                       ///< the Gray-code transition table.
-    std::int8_t accumulator_{0}; ///< Signed substep count toward the next detent; reset to zero
-                                   ///< whenever a detent completes or an invalid transition is
-                                   ///< rejected.
+                                     ///< the Gray-code transition table.
+    std::int8_t accumulator_{0};     ///< Signed substep count toward the next detent; reset to zero
+                                     ///< whenever a detent completes or an invalid transition is
+                                     ///< rejected.
 };
 } // namespace eurorack::controls

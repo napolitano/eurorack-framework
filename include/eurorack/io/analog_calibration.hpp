@@ -28,11 +28,11 @@ namespace eurorack::io {
  */
 struct CodeConversion final {
     std::uint32_t code{0U}; ///< Converter code nearest to the requested voltage, rounded and
-                              ///< clamped to `[0, maximumCode]`.
+                            ///< clamped to `[0, maximumCode]`.
     bool belowRange{false}; ///< True when the requested voltage was below the calibration's
-                              ///< minimum representable voltage, before clamping.
+                            ///< minimum representable voltage, before clamping.
     bool aboveRange{false}; ///< True when the requested voltage was above the calibration's
-                              ///< maximum representable voltage, before clamping.
+                            ///< maximum representable voltage, before clamping.
 };
 
 /**
@@ -99,13 +99,13 @@ class LinearCodeCalibration final {
     [[nodiscard]] float maximumVolts() const noexcept;
 
   private:
-    std::uint32_t maximumCode_{4095U}; ///< Inclusive maximum converter code; `codeToVolts` clamps
+    std::uint32_t maximumCode_{4095U};   ///< Inclusive maximum converter code; `codeToVolts` clamps
                                          ///< its input to this value.
     float voltsPerCode_{1.0F / 4095.0F}; ///< Voltage per code step (the affine slope); the
-                                           ///< constructor replaces `0.0F` with `1.0F` to avoid a
-                                           ///< division by zero in `voltsToCode`. May be negative
-                                           ///< for an electrically inverted signal path.
-    float offsetVolts_{0.0F}; ///< Voltage represented by code zero (the affine offset).
+                                         ///< constructor replaces `0.0F` with `1.0F` to avoid a
+                                         ///< division by zero in `voltsToCode`. May be negative
+                                         ///< for an electrically inverted signal path.
+    float offsetVolts_{0.0F};            ///< Voltage represented by code zero (the affine offset).
 };
 
 } // namespace eurorack::io

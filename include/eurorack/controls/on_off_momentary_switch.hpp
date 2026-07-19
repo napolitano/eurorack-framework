@@ -88,10 +88,10 @@ class OnOffMomentarySwitch final {
     /** @brief Derives logical position from debounced contacts. @return Derived position. */
     [[nodiscard]] OnOffMomentaryPosition derivePosition() const noexcept;
 
-    OnOffMomentarySwitchConfig config_{};      ///< Contact polarities and debounce time.
-    MomentaryButton maintained_{};              ///< Debounced maintained-contact submodel.
-    MomentaryButton momentary_{};                ///< Debounced momentary-contact submodel.
-    OnOffMomentarySwitchSnapshot snapshot_{};   ///< Most recently derived stable position.
+    OnOffMomentarySwitchConfig config_{};     ///< Contact polarities and debounce time.
+    MomentaryButton maintained_{};            ///< Debounced maintained-contact submodel.
+    MomentaryButton momentary_{};             ///< Debounced momentary-contact submodel.
+    OnOffMomentarySwitchSnapshot snapshot_{}; ///< Most recently derived stable position.
 };
 
 } // namespace eurorack::controls

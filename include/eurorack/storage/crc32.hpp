@@ -39,8 +39,7 @@ namespace eurorack::storage {
  * value.
  * @return CRC-32 value.
  */
-[[nodiscard]] std::uint32_t crc32(const std::uint8_t* data,
-                                  std::size_t size,
-                                  std::uint32_t initial = 0xFFFFFFFFU) noexcept;
+[[nodiscard]] std::uint32_t
+crc32(const std::uint8_t* data, std::size_t size, std::uint32_t initial = 0xFFFFFFFFU) noexcept;
 
 } // namespace eurorack::storage

@@ -43,20 +43,20 @@ enum class RecordStatus : std::uint8_t {
  * @brief Fixed record metadata written before each payload.
  */
 struct RecordHeader final {
-    std::uint32_t magic{0U}; ///< Must equal `RecordStoreConfig::magic` for the slot to be
-                               ///< considered valid.
+    std::uint32_t magic{0U};         ///< Must equal `RecordStoreConfig::magic` for the slot to be
+                                     ///< considered valid.
     std::uint16_t schemaVersion{0U}; ///< Payload schema version as stored; compared against
-                                       ///< `RecordStoreConfig::schemaVersion` by `load`, but not
-                                       ///< checked by `validateHeader`.
-    std::uint16_t payloadSize{0U}; ///< Payload size in bytes; must not exceed
+                                     ///< `RecordStoreConfig::schemaVersion` by `load`, but not
+                                     ///< checked by `validateHeader`.
+    std::uint16_t payloadSize{0U};   ///< Payload size in bytes; must not exceed
                                      ///< `RecordStore::maximumPayloadSize()` for the slot to be
                                      ///< considered valid.
-    std::uint32_t sequence{0U}; ///< Monotonically increasing save counter, compared with signed
-                                  ///< wraparound-safe arithmetic to select the newer of two valid
-                                  ///< slots.
+    std::uint32_t sequence{0U};     ///< Monotonically increasing save counter, compared with signed
+                                    ///< wraparound-safe arithmetic to select the newer of two valid
+                                    ///< slots.
     std::uint32_t payloadCrc32{0U}; ///< CRC-32 of the payload bytes alone.
-    std::uint32_t headerCrc32{0U}; ///< CRC-32 of this header with `headerCrc32` itself treated
-                                     ///< as zero during calculation.
+    std::uint32_t headerCrc32{0U};  ///< CRC-32 of this header with `headerCrc32` itself treated
+                                    ///< as zero during calculation.
 };
 
 /**
@@ -64,13 +64,13 @@ struct RecordHeader final {
  */
 struct RecordStoreConfig final {
     std::size_t baseAddress{0U}; ///< Storage address of the first slot; the second slot
-                                   ///< immediately follows at `baseAddress + slotSize`.
-    std::size_t slotSize{256U}; ///< Bytes reserved per slot, including the `RecordHeader`; the
-                                  ///< maximum payload is `slotSize - sizeof(RecordHeader)`.
+                                 ///< immediately follows at `baseAddress + slotSize`.
+    std::size_t slotSize{256U};  ///< Bytes reserved per slot, including the `RecordHeader`; the
+                                 ///< maximum payload is `slotSize - sizeof(RecordHeader)`.
     std::uint32_t magic{0x4555524FU}; ///< Value every valid `RecordHeader::magic` must match.
-    std::uint16_t schemaVersion{1U}; ///< Expected payload schema version; `load` reports
-                                       ///< `VersionMismatch` when a selected record's stored
-                                       ///< version differs.
+    std::uint16_t schemaVersion{1U};  ///< Expected payload schema version; `load` reports
+                                      ///< `VersionMismatch` when a selected record's stored
+                                      ///< version differs.
 };
 
 /**
@@ -78,16 +78,16 @@ struct RecordStoreConfig final {
  */
 struct RecordLoadResult final {
     RecordStatus status{RecordStatus::NoValidRecord}; ///< Outcome of the `load` call; only
-                                                          ///< `Success` guarantees `destination`
-                                                          ///< was written.
+                                                      ///< `Success` guarantees `destination`
+                                                      ///< was written.
     std::size_t payloadSize{0U}; ///< Payload size of the selected record, if any was found;
-                                   ///< valid even when `status` is `VersionMismatch` or
-                                   ///< `PayloadTooLarge`.
-    std::uint32_t sequence{0U}; ///< Sequence number of the selected record, if any was found.
+                                 ///< valid even when `status` is `VersionMismatch` or
+                                 ///< `PayloadTooLarge`.
+    std::uint32_t sequence{0U};  ///< Sequence number of the selected record, if any was found.
     std::uint16_t storedSchemaVersion{0U}; ///< Schema version stored in the selected record, if
-                                             ///< any was found; compare against the store's
-                                             ///< configured `schemaVersion` to explain a
-                                             ///< `VersionMismatch` status.
+                                           ///< any was found; compare against the store's
+                                           ///< configured `schemaVersion` to explain a
+                                           ///< `VersionMismatch` status.
 };
 
 /**
@@ -181,11 +181,11 @@ class RecordStore final {
      * the selected slot has passed every validation check.
      */
     struct SlotInfo final {
-        bool valid{false}; ///< True when the slot passed magic, size, header-CRC, and
-                            ///< payload-CRC validation in `inspectSlot`.
+        bool valid{false};       ///< True when the slot passed magic, size, header-CRC, and
+                                 ///< payload-CRC validation in `inspectSlot`.
         std::size_t address{0U}; ///< Storage address of this slot, as returned by
-                                   ///< `slotAddress`.
-        RecordHeader header{}; ///< Header as read from storage; only meaningful together with
+                                 ///< `slotAddress`.
+        RecordHeader header{};   ///< Header as read from storage; only meaningful together with
                                  ///< `valid`.
     };
 
@@ -245,7 +245,7 @@ class RecordStore final {
     [[nodiscard]] std::size_t slotAddress(std::size_t slotIndex) const noexcept;
 
     PersistentStorage& storage_; ///< Backend used for every slot read, write, erase, and commit;
-                                   ///< the store does not own it.
+                                 ///< the store does not own it.
     RecordStoreConfig config_{}; ///< Slot layout, magic, and expected schema version.
 };
 

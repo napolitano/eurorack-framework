@@ -51,39 +51,43 @@ enum class TextMode : std::uint8_t { Normal, Inverted };
  */
 struct BitmapFont final {
     const std::uint8_t* glyphData{nullptr}; ///< Flat glyph table, `glyphWidth` bytes per
-                                              ///< character in ascending character-code order;
-                                              ///< bit `row` (from the LSB) of each byte selects
-                                              ///< the pixel at that column and row.
-    std::uint8_t firstCharacter{32U}; ///< Lowest character code present in `glyphData`.
-    std::uint8_t lastCharacter{126U}; ///< Highest character code present in `glyphData`;
-                                        ///< characters outside `[firstCharacter, lastCharacter]`
-                                        ///< render as `?`, which must itself be in range.
-    std::uint8_t glyphWidth{5U};   ///< Glyph width in pixels and columns per character.
-    std::uint8_t glyphHeight{7U}; ///< Glyph height in pixels; must not exceed 8 because each
-                                    ///< column byte encodes one bit per row.
+                                            ///< character in ascending character-code order;
+                                            ///< bit `row` (from the LSB) of each byte selects
+                                            ///< the pixel at that column and row.
+    std::uint8_t firstCharacter{32U};       ///< Lowest character code present in `glyphData`.
+    std::uint8_t lastCharacter{126U};       ///< Highest character code present in `glyphData`;
+                                      ///< characters outside `[firstCharacter, lastCharacter]`
+                                      ///< render as `?`, which must itself be in range.
+    std::uint8_t glyphWidth{5U};        ///< Glyph width in pixels and columns per character.
+    std::uint8_t glyphHeight{7U};       ///< Glyph height in pixels; must not exceed 8 because each
+                                        ///< column byte encodes one bit per row.
     std::uint8_t horizontalSpacing{1U}; ///< Extra pixel gap added after each glyph when advancing
-                                          ///< the cursor; excluded from the last character in
-                                          ///< measured text width.
+                                        ///< the cursor; excluded from the last character in
+                                        ///< measured text width.
 };
 
 /**
  * @brief Text rendering options.
  */
 struct TextStyle final {
-    HorizontalAlignment horizontalAlignment{HorizontalAlignment::Left}; ///< Horizontal placement
-        ///< of the measured text within the target rectangle.
-    VerticalAlignment verticalAlignment{VerticalAlignment::Top}; ///< Vertical placement of the
-        ///< measured text within the target rectangle.
+    HorizontalAlignment horizontalAlignment{
+        HorizontalAlignment::Left}; ///< Horizontal placement
+                                    ///< of the measured text within the target rectangle.
+    VerticalAlignment verticalAlignment{
+        VerticalAlignment::Top};     ///< Vertical placement of the
+                                     ///< measured text within the target rectangle.
     TextMode mode{TextMode::Normal}; ///< `Normal` draws glyphs with `foreground` only. `Inverted`
-                                       ///< first fills the whole target rectangle with
-                                       ///< `foreground`, then draws glyphs with `background`,
-                                       ///< producing light-on-dark text.
-    PixelOperation foreground{PixelOperation::Set}; ///< Operation used for glyph pixels in
-        ///< `Normal` mode, or for the filled rectangle in `Inverted` mode.
+                                     ///< first fills the whole target rectangle with
+                                     ///< `foreground`, then draws glyphs with `background`,
+                                     ///< producing light-on-dark text.
+    PixelOperation foreground{
+        PixelOperation::Set}; ///< Operation used for glyph pixels in
+                              ///< `Normal` mode, or for the filled rectangle in `Inverted` mode.
     PixelOperation background{PixelOperation::Clear}; ///< Unused in `Normal` mode. In `Inverted`
-        ///< mode, the operation used to draw glyph pixels over the filled rectangle.
+                                                      ///< mode, the operation used to draw glyph
+                                                      ///< pixels over the filled rectangle.
     bool clipToBounds{true}; ///< True to temporarily clip drawing to the target rectangle and
-                               ///< restore the previous clip afterward.
+                             ///< restore the previous clip afterward.
 };
 
 /**
@@ -91,7 +95,7 @@ struct TextStyle final {
  */
 struct TextMetrics final {
     std::int32_t width{0};  ///< Measured pixel width, excluding trailing `horizontalSpacing`
-                              ///< after the last character; `0` for empty text.
+                            ///< after the last character; `0` for empty text.
     std::int32_t height{0}; ///< Measured pixel height, equal to the font's `glyphHeight`.
 };
 

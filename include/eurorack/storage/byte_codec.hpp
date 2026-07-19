@@ -125,11 +125,11 @@ class ByteWriter final {
 
   private:
     std::uint8_t* destination_{nullptr}; ///< Caller-owned destination buffer; never allocated or
-                                           ///< freed by this class.
-    std::size_t capacity_{0U}; ///< Bytes available at `destination_`.
-    std::size_t position_{0U}; ///< Bytes written so far; always at most `capacity_` while
-                                 ///< `good_` is true.
-    bool good_{true}; ///< Sticky success flag; see `good()`.
+                                         ///< freed by this class.
+    std::size_t capacity_{0U};           ///< Bytes available at `destination_`.
+    std::size_t position_{0U};           ///< Bytes written so far; always at most `capacity_` while
+                                         ///< `good_` is true.
+    bool good_{true};                    ///< Sticky success flag; see `good()`.
 };
 
 /**
@@ -235,11 +235,11 @@ class ByteReader final {
 
   private:
     const std::uint8_t* source_{nullptr}; ///< Caller-owned source buffer; never freed by this
-                                            ///< class.
-    std::size_t size_{0U}; ///< Total bytes available at `source_`.
+                                          ///< class.
+    std::size_t size_{0U};                ///< Total bytes available at `source_`.
     std::size_t position_{0U}; ///< Bytes read so far; always at most `size_` while `good_` is
-                                 ///< true.
-    bool good_{true}; ///< Sticky success flag; see `good()`.
+                               ///< true.
+    bool good_{true};          ///< Sticky success flag; see `good()`.
 };
 
 } // namespace eurorack::storage

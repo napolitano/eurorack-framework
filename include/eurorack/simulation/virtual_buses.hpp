@@ -38,13 +38,13 @@ namespace eurorack::simulation {
  * byte vectors, allowing exact protocol assertions after driver calls.
  */
 struct SpiTransferRecord final {
-    eurorack::io::SpiSettings settings{}; ///< Settings passed to the `beginTransaction` call
-                                            ///< active during this transfer.
+    eurorack::io::SpiSettings settings{};    ///< Settings passed to the `beginTransaction` call
+                                             ///< active during this transfer.
     std::vector<std::uint8_t> transmitted{}; ///< Bytes as supplied to `transfer`'s transmit
-                                               ///< buffer, or zero-filled if none was supplied.
-    std::vector<std::uint8_t> received{}; ///< Bytes delivered to `transfer`'s receive buffer,
-                                            ///< taken from the queued response (if any) or
-                                            ///< zero-filled otherwise.
+                                             ///< buffer, or zero-filled if none was supplied.
+    std::vector<std::uint8_t> received{};    ///< Bytes delivered to `transfer`'s receive buffer,
+                                             ///< taken from the queued response (if any) or
+                                             ///< zero-filled otherwise.
 };
 
 /**
@@ -138,15 +138,16 @@ class VirtualSpiBus final : public eurorack::io::SpiBus {
 
   private:
     eurorack::io::SpiSettings settings_{}; ///< Settings from the most recent `beginTransaction`
-                                             ///< call, recorded into subsequent transfers.
-    bool transactionActive_{false}; ///< True between a successful `beginTransaction` and the
-                                      ///< matching `endTransaction`.
-    eurorack::io::IoResult nextResult_{eurorack::io::IoResult::Success}; ///< One-shot result
-        ///< returned and reset by the next `transfer` call.
+                                           ///< call, recorded into subsequent transfers.
+    bool transactionActive_{false};        ///< True between a successful `beginTransaction` and the
+                                           ///< matching `endTransaction`.
+    eurorack::io::IoResult nextResult_{
+        eurorack::io::IoResult::Success}; ///< One-shot result
+                                          ///< returned and reset by the next `transfer` call.
     std::deque<std::vector<std::uint8_t>> responses_{}; ///< FIFO queue of byte sequences to
-                                                           ///< return from `transfer`.
+                                                        ///< return from `transfer`.
     std::vector<SpiTransferRecord> transfers_{}; ///< Every transfer recorded since construction
-                                                   ///< or the last `clear`.
+                                                 ///< or the last `clear`.
 };
 
 /**
@@ -158,12 +159,12 @@ class VirtualSpiBus final : public eurorack::io::SpiBus {
  */
 struct I2cTransferRecord final {
     eurorack::io::I2cAddress address{0U}; ///< Target address passed to `write`, `read`, or
-                                            ///< `writeRead`.
-    std::vector<std::uint8_t> written{}; ///< Bytes from the write phase, if any; empty for a
-                                           ///< plain `read`.
-    std::vector<std::uint8_t> read{}; ///< Bytes delivered for the read phase, taken from the
-                                        ///< queued response (if any) or zero-filled otherwise;
-                                        ///< empty for a plain `write`.
+                                          ///< `writeRead`.
+    std::vector<std::uint8_t> written{};  ///< Bytes from the write phase, if any; empty for a
+                                          ///< plain `read`.
+    std::vector<std::uint8_t> read{};     ///< Bytes delivered for the read phase, taken from the
+                                          ///< queued response (if any) or zero-filled otherwise;
+                                          ///< empty for a plain `write`.
 };
 
 /**
@@ -302,12 +303,13 @@ class VirtualI2cBus final : public eurorack::io::I2cBus {
     [[nodiscard]] eurorack::io::IoResult consumeResult() noexcept;
 
     std::uint32_t clockHz_{100'000U}; ///< Clock frequency last requested via `setClock`.
-    eurorack::io::IoResult nextResult_{eurorack::io::IoResult::Success}; ///< One-shot result
-        ///< returned and reset by the next bus operation.
+    eurorack::io::IoResult nextResult_{
+        eurorack::io::IoResult::Success}; ///< One-shot result
+                                          ///< returned and reset by the next bus operation.
     std::deque<std::vector<std::uint8_t>> responses_{}; ///< FIFO queue of byte sequences to
-                                                           ///< return from `read`/`writeRead`.
-    std::vector<I2cTransferRecord> transfers_{}; ///< Every transaction recorded since
-                                                   ///< construction or the last `clear`.
+                                                        ///< return from `read`/`writeRead`.
+    std::vector<I2cTransferRecord> transfers_{};        ///< Every transaction recorded since
+                                                        ///< construction or the last `clear`.
 };
 
 } // namespace eurorack::simulation
