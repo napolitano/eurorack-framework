@@ -1,69 +1,97 @@
 # Continuous Integration
 
-The repository uses three GitHub Actions workflows.
+The repository separates quality checks, tests, embedded builds, documentation,
+and manual development artifacts into distinct GitHub Actions workflows.
 
-## Continuous Integration
+This separation makes the README badges meaningful. A green test badge means
+the test workflow passed; it is not merely a different job hidden inside a
+larger workflow.
 
-`.github/workflows/ci.yml` runs for pushes, pull requests, and manual requests.
+## Quality
 
-Required jobs:
+`.github/workflows/ci.yml`
+
+Checks:
+
+- public API documentation
+- maintainability documentation
+- Markdown documentation packaging
+- licensing consistency and SPDX metadata
+- clang-format
+- cppcheck
+
+README badge label: `Quality`
+
+## Tests
+
+`.github/workflows/tests.yml`
+
+Checks:
 
 - strict GCC native tests
 - strict Clang native tests
 - AddressSanitizer and UndefinedBehaviorSanitizer
-- PlatformIO native integration tests
-- public API documentation audit
-- maintainability documentation audit
-- Markdown documentation packaging
-- clang-format verification
-- cppcheck
+- all native component examples
 
-The workflow uses read-only repository permissions and cancels obsolete runs for
-the same branch.
+README badge label: `Tests`
 
-## Documentation Build
+## Builds
 
-`.github/workflows/documentation.yml` runs when documentation, public headers,
-implementations, the Doxyfile, or the documentation build script changes.
+`.github/workflows/build.yml`
 
-It builds:
+Checks:
 
-- the maintained Markdown documentation archive
-- the combined Doxygen and LaTeX PDF manual
+- PlatformIO native integration
+- pure attenuverter model
+- Arduino Nano R3 attenuverter compilation
 
-Both outputs are uploaded as workflow artifacts. The workflow does not publish a
-website or GitHub Release.
+README badge label: `Builds`
 
-## Development Artifacts
+## Documentation
 
-`.github/workflows/artifacts.yml` is manual because the project is Unreleased
-Alpha. It packages source, Markdown documentation, checksums, and optionally the
-PDF manual. The workflow uploads ephemeral Actions artifacts only.
+`.github/workflows/documentation.yml`
 
-It deliberately does not:
+Builds:
 
-- create a Git tag
-- publish a GitHub Release
-- upload to a package registry
-- describe the output as stable or release-qualified
+- Markdown documentation archive
+- combined Doxygen and LaTeX PDF manual
+
+README badge label: `Documentation`
+
+## Development artifacts
+
+`.github/workflows/artifacts.yml` remains manual because the project is
+Unreleased Alpha. It uploads temporary Actions artifacts and does not create a
+Git tag, GitHub Release, or package-registry publication.
+
+## License-sensitive changes
+
+`.github/CODEOWNERS` assigns licensing files, package metadata, and workflow
+definitions to the repository owner. Branch protection should require owner
+review for CODEOWNERS changes.
+
+`tools/check-licensing.py` verifies:
+
+- required license documents exist
+- root and SPDX/REUSE license copies are identical
+- `library.json` carries the correct SPDX identifier
+- framework C and C++ files contain the expected SPDX identifier
+- NOTICE includes the required notice lines
 
 ## Recommended branch protection
 
-Protect `main` and require these status checks:
+Protect `main` and require:
 
-- Native tests - g++
-- Native tests - clang++
-- Address and undefined-behavior sanitizers
-- PlatformIO native integration
-- Documentation audits
-- Formatting and static analysis
-- Markdown and PDF manual
+- Quality
+- Tests
+- Builds
+- Documentation Build
 
-Require pull requests and dismiss stale approvals after new commits. Do not
-allow failed or skipped required checks to be bypassed for ordinary changes.
+Also require pull requests, dismiss stale approvals after new commits, and
+require CODEOWNER review. Do not allow ordinary merges to bypass failed checks.
 
-## Action maintenance
+## Badge behavior
 
-`.github/dependabot.yml` checks official GitHub Actions dependencies weekly.
-Review major-version updates before merging because runner requirements and
-artifact behavior can change.
+GitHub workflow badges show the state of the named workflow on `main`. During
+initial setup they may display an unknown state until the workflow has run at
+least once on the default branch.

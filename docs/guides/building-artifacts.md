@@ -16,7 +16,8 @@ Required tools:
 - GCC or Clang
 - Doxygen
 - Graphviz
-- `make`
+- `latexmk`
+- `makeindex`
 - TeX Live or MiKTeX with PDFLaTeX
 
 The command performs:
@@ -62,3 +63,17 @@ documentation and local build caches are excluded.
 
 ZIP entries are sorted and use normalized timestamps. Checksums verify transfer
 integrity but are not a cryptographic publisher signature.
+
+
+## Documentation diagnostics
+
+The documentation builder writes retained logs to:
+
+```text
+docs/generated/logs/doxygen.log
+docs/generated/logs/latexmk.log
+```
+
+GitHub Actions uploads these logs even when the build succeeds. A failed PDF
+build should therefore expose the exact Doxygen or LaTeX error rather than only
+a generic workflow annotation.

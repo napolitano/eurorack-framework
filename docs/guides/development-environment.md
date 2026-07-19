@@ -128,3 +128,25 @@ After changing `platformio.ini`, remove the old build cache:
 pio run --target clean
 pio test -e native
 ```
+
+## Optional PlatformIO board templates
+
+The root `platformio.ini` keeps only the native environment active. It also
+contains fully documented, commented templates for:
+
+- Arduino Nano R3 with classic bootloader
+- Arduino Nano R3 with new bootloader
+- Arduino Nano R4
+- Arduino Nano ESP32
+- STM32 Nucleo F411RE
+- common STM32F407VET6 Black development boards
+- Raspberry Pi Pico
+- Arduino Nano RP2040 Connect
+- Arduino Nano 33 IoT
+
+These blocks are examples, not a validation claim. Activate only one complete
+block at a time and verify the board ID, upload method, core, and actual hardware.
+
+A successful embedded compilation does not prove electrical compatibility,
+driver behavior, timing, or analog accuracy.
+
