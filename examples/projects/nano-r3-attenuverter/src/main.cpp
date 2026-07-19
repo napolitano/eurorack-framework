@@ -23,8 +23,16 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#if defined(__AVR__)
+#include <eurorack/compat/avr/cmath.hpp>
+#else
 #include <cmath>
+#endif
+#if defined(__AVR__)
+#include <eurorack/compat/avr/cstdint.hpp>
+#else
 #include <cstdint>
+#endif
 #include <eurorack/controls/analog_input.hpp>
 #include <eurorack/controls/cv.hpp>
 #include <eurorack/drivers/dac/mcp4922.hpp>

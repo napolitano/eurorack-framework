@@ -10,7 +10,11 @@
 
 #pragma once
 
+#if defined(__AVR__)
+#include <eurorack/compat/avr/cmath.hpp>
+#else
 #include <cmath>
+#endif
 
 namespace attenuverter_example {
 

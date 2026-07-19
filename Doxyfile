@@ -4,7 +4,7 @@ PROJECT_BRIEF          = "Portable C++ infrastructure for Eurorack module firmwa
 OUTPUT_DIRECTORY       = docs/generated
 CREATE_SUBDIRS         = NO
 
-INPUT                  = docs/manual docs/guides docs/architecture docs/release include src
+INPUT                  = docs/manual docs/guides docs/architecture docs/release libraries
 FILE_PATTERNS          = *.hpp *.h *.cpp *.md
 RECURSIVE              = YES
 USE_MDFILE_AS_MAINPAGE = docs/manual/index.md

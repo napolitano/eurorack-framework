@@ -25,7 +25,7 @@ def line_number(text: str, offset: int) -> int:
 def audit_implementation_comments(root: Path) -> list[str]:
     failures: list[str] = []
 
-    for path in sorted((root / "src").rglob("*.cpp")):
+    for path in sorted((root / "libraries").rglob("*.cpp")):
         text = path.read_text(encoding="utf-8")
         header_end = text.find("*/")
 
@@ -61,7 +61,7 @@ def audit_implementation_comments(root: Path) -> list[str]:
 def audit_public_blocks(root: Path) -> list[str]:
     failures: list[str] = []
 
-    for path in sorted((root / "include").rglob("*")):
+    for path in sorted((root / "libraries").rglob("*")):
         if not path.is_file() or path.suffix not in {".h", ".hpp"}:
             continue
 

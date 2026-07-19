@@ -88,7 +88,7 @@ jobs:
 
       - name: Check clang-format
         run: |
-          find include src tests examples \
+          find libraries tests examples \
             -type f \
             \( -name '*.hpp' -o -name '*.h' -o -name '*.cpp' \) \
             -print0 |
@@ -101,5 +101,5 @@ jobs:
             --error-exitcode=1 \
             --inline-suppr \
             --std=c++17 \
-            -I include \
-            src
+            $(find libraries -maxdepth 2 -type d -name include -printf '-I%p ') \
+            libraries

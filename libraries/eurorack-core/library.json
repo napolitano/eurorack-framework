@@ -1,0 +1,33 @@
+{
+  "name": "eurorack-core",
+  "version": "0.1.0-alpha.14",
+  "description": "Framework-wide electrical and timing default configuration (VoltageRange, gate/CV defaults) and the user-editable eurorack_config.hpp override point.",
+  "keywords": [
+    "eurorack",
+    "modular-synthesizer",
+    "embedded",
+    "firmware"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/napolitano/eurorack-framework.git"
+  },
+  "authors": [
+    {
+      "name": "Axel Napolitano",
+      "email": "eurorack@skjt.de",
+      "maintainer": true
+    }
+  ],
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "homepage": "https://github.com/napolitano/eurorack-framework",
+  "frameworks": "*",
+  "platforms": "*",
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src"
+  },
+  "dependencies": {
+    "eurorack-compat": "*"
+  }
+}

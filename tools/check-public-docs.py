@@ -189,6 +189,8 @@ def declarations(path: Path) -> list[Declaration]:
                     "writeHigh(",
                     "applyDirection(",
                     "analogWrite(",
+                    "va_start(",
+                    "va_end(",
                 )
             )
         ):
@@ -253,7 +255,7 @@ def main() -> int:
     root = Path(__file__).resolve().parents[1]
     failures: list[str] = []
 
-    for path in sorted((root / "include").rglob("*.hpp")):
+    for path in sorted((root / "libraries").rglob("*.hpp")):
         text = path.read_text(encoding="utf-8")
 
         if "@file" not in text or "@brief" not in text:

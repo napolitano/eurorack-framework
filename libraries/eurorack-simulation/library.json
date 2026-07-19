@@ -1,0 +1,35 @@
+{
+  "name": "eurorack-simulation",
+  "version": "0.1.0-alpha.14",
+  "description": "Native desktop-only virtual hardware backends (virtual time, virtual buses, virtual digital/analog I/O) and scenario-driven test scaffolding. Excluded from Arduino builds via #if !defined(ARDUINO) in the affected headers.",
+  "keywords": [
+    "eurorack",
+    "modular-synthesizer",
+    "embedded",
+    "firmware"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/napolitano/eurorack-framework.git"
+  },
+  "authors": [
+    {
+      "name": "Axel Napolitano",
+      "email": "eurorack@skjt.de",
+      "maintainer": true
+    }
+  ],
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "homepage": "https://github.com/napolitano/eurorack-framework",
+  "frameworks": "*",
+  "platforms": "*",
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src"
+  },
+  "dependencies": {
+    "eurorack-compat": "*",
+    "eurorack-io": "*",
+    "eurorack-display": "*"
+  }
+}

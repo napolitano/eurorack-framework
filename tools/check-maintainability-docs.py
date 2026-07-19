@@ -30,7 +30,7 @@ def main() -> int:
     root = Path(__file__).resolve().parents[1]
     failures: list[str] = []
 
-    for path in sorted((root / "include").rglob("*.hpp")):
+    for path in sorted((root / "libraries").rglob("*.hpp")):
         text = path.read_text(encoding="utf-8")
         for placeholder in PLACEHOLDERS:
             if placeholder in text:
@@ -38,7 +38,7 @@ def main() -> int:
                     f"{path}: placeholder documentation contains {placeholder!r}"
                 )
 
-    for path in sorted((root / "src").rglob("*.cpp")):
+    for path in sorted((root / "libraries").rglob("*.cpp")):
         text = path.read_text(encoding="utf-8")
         lines = max(1, len(text.splitlines()))
         words = doc_word_count(text)

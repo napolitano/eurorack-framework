@@ -1,0 +1,35 @@
+{
+  "name": "eurorack-controls",
+  "version": "0.1.0-alpha.14",
+  "description": "Platform-independent panel-control state models (buttons, encoders, faders, LEDs, switches) that consume raw samples and produce debounced, calibrated application state. No hardware access.",
+  "keywords": [
+    "eurorack",
+    "modular-synthesizer",
+    "embedded",
+    "firmware"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/napolitano/eurorack-framework.git"
+  },
+  "authors": [
+    {
+      "name": "Axel Napolitano",
+      "email": "eurorack@skjt.de",
+      "maintainer": true
+    }
+  ],
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "homepage": "https://github.com/napolitano/eurorack-framework",
+  "frameworks": "*",
+  "platforms": "*",
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src"
+  },
+  "dependencies": {
+    "eurorack-compat": "*",
+    "eurorack-core": "*",
+    "eurorack-drivers-led-interface": "*"
+  }
+}

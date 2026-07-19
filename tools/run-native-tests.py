@@ -28,6 +28,13 @@ def main() -> int:
         shutil.rmtree(build)
     build.mkdir()
 
+    library_dirs = sorted((root / "libraries").iterdir())
+    include_flags = []
+    for library_dir in library_dirs:
+        include_dir = library_dir / "include"
+        if include_dir.is_dir():
+            include_flags += ["-I", str(include_dir)]
+
     flags = [
         "-std=c++17",
         "-Wall",
@@ -41,8 +48,7 @@ def main() -> int:
         "-Wnull-dereference",
         "-Wdouble-promotion",
         "-Werror",
-        "-I",
-        str(root / "include"),
+        *include_flags,
         "-I",
         str(root / "tools/test_support"),
     ]
@@ -57,7 +63,12 @@ def main() -> int:
     else:
         flags += ["-O2"]
 
-    sources = sorted((root / "src").rglob("*.cpp"))
+    sources = sorted(
+        source
+        for library_dir in library_dirs
+        for source in (library_dir / "src").rglob("*.cpp")
+        if (library_dir / "src").is_dir()
+    )
     tests = sorted((root / "tests/native").glob("test_*/test_main.cpp"))
 
     objects = []
