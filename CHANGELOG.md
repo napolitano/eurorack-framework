@@ -1,14 +1,16 @@
-## 0.1.0-alpha.11
+## 0.1.0-alpha.14
 
 ### Fixed
 
+- Fixed malformed and duplicated Doxygen parameter documentation for `eurorack::storage::crc32`.
+- Restored the CRC-32 declaration to one documented function signature.
 - Exempted PlatformIO-generated Unity C conversion warnings from `-Werror` in the native test environment while retaining strict standalone framework builds.
 - Scoped strict compiler warnings to project source files with PlatformIO `build_src_flags`.
 - Prevented `-Werror` and `-Wsign-conversion` from being applied to PlatformIO Unity C sources.
 
 # Changelog
 
-## 0.1.0-alpha.11 - Documentation expansion
+## 0.1.0-alpha.14 - Documentation expansion
 
 ### Added
 
@@ -57,6 +59,14 @@
 
 ### Changed
 
+- Reworked the README in US English with practical project motivation, linked navigation, and internal resource links.
+- Expanded the license overview with concrete personal, educational, modification, and Five-Unit examples.
+- Forced the Nano R3 example to remove PlatformIO's GNU++11 default before enabling GNU++17.
+- Added the missing Doxygen return contract for `exportCanvasPbm`.
+- Verified the complete Arduino Nano R3 PlatformIO build locally.
+- Reworked the README opening into a project-oriented introduction covering motivation, use cases, abstraction goals, and practical scope.
+- Expanded the licensing overview with plain-language intent and a concrete Allowed/Not allowed comparison table.
+- Updated the Attenuverter example description and removed stale prerelease terminology from the versioning section.
 - Added a minimal AVR compatibility layer for the standard-library facilities used by the Nano R3 example.
 - Documented the configurable framework-header macro so strict Doxygen no longer aborts on it.
 - Removed obsolete Doxygen graph settings and restored a supported PNG graph format.
@@ -78,12 +88,12 @@
 - Removed obsolete historical references to an uncommitted application prototype.
 - Generalized framework-boundary documentation to describe consuming firmware without naming discarded implementation experiments.
 - Reclassified project maturity from advanced prerelease to Unreleased Alpha.
-- Reset the development version to `0.1.0-alpha.11`.
+- Reset the development version to `0.1.0-alpha.14`.
 - Clarified that `1.0.0` remains a future milestone requiring substantially more validation.
-- Updated Doxygen configuration and project version to 0.1.0-alpha.11.
+- Updated Doxygen configuration and project version to 0.1.0-alpha.14.
 - Reorganized README build, test, documentation, artifact, and platform-responsibility guidance.
 
-## 0.1.0-alpha.11 - 2026-07-18
+## 0.1.0-alpha.14 - 2026-07-18
 
 ### Fixed
 
