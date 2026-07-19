@@ -12,11 +12,13 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
  * @copyright Copyright (c) 2026 Axel Napolitano
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  *
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *

@@ -3,12 +3,15 @@
  * @brief Declares a linear fader with integrated RGB illumination.
  *
  * @details
- * Composes Fader and MulticolorLed and optionally scales LED brightness from the normalized fader position.
+ * Composes Fader and MulticolorLed and optionally scales LED brightness from the normalized fader
+ * position.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup controls
@@ -31,10 +34,10 @@ enum class IlluminatedFaderMode : std::uint8_t {
 
 /** @brief Configuration of an illuminated fader. */
 struct IlluminatedFaderConfig final {
-    FaderConfig fader{}; ///< Fader calibration and filtering.
+    FaderConfig fader{};                                     ///< Fader calibration and filtering.
     IlluminatedFaderMode mode{IlluminatedFaderMode::Manual}; ///< Automatic brightness behavior.
-    RgbColor color{0U, 0U, 65535U}; ///< Color used by automatic modes.
-    std::uint16_t minimumBrightness{0U}; ///< Brightness at the dark end of travel.
+    RgbColor color{0U, 0U, 65535U};                          ///< Color used by automatic modes.
+    std::uint16_t minimumBrightness{0U};     ///< Brightness at the dark end of travel.
     std::uint16_t maximumBrightness{65535U}; ///< Brightness at the bright end of travel.
 };
 
@@ -47,7 +50,7 @@ struct IlluminatedFaderConfig final {
  * model owns both subobjects and performs no dynamic allocation.
  */
 class IlluminatedFader final {
-public:
+  public:
     /** @brief Constructs the composite control. @param config Fader and illumination settings. */
     explicit IlluminatedFader(IlluminatedFaderConfig config = {}) noexcept;
 
@@ -69,7 +72,7 @@ public:
     /** @brief Returns LED submodel. @return Constant LED reference. */
     [[nodiscard]] const MulticolorLed& led() const noexcept;
 
-private:
+  private:
     /** @brief Maps current normalized position to configured LED brightness. */
     void updateAutomaticLed() noexcept;
 

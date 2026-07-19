@@ -7,9 +7,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup simulation
@@ -327,7 +329,8 @@ class VirtualAnalogOutput final : public eurorack::io::AnalogOutputChannel {
      *
      * @param code Raw converter code.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     eurorack::io::IoResult writeRaw(std::uint32_t code) noexcept override;
 

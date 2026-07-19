@@ -3,14 +3,19 @@
  * @brief Implements the DAC8568 eight-channel SPI DAC driver.
  *
  * @details
- * Builds exact 32-bit DAC8568 serial frames and maintains one buffered 16-bit code per output channel.
- * Normal data writes use the command, address, data, and feature fields. Device-control commands such as power mode, reset, clear-code selection, and internal-reference control use command-specific bit layouts and are therefore packed explicitly. Chip select is asserted only after beginTransaction succeeds and is released before ending the transaction.
+ * Builds exact 32-bit DAC8568 serial frames and maintains one buffered 16-bit code per output
+ * channel. Normal data writes use the command, address, data, and feature fields. Device-control
+ * commands such as power mode, reset, clear-code selection, and internal-reference control use
+ * command-specific bit layouts and are therefore packed explicitly. Chip select is asserted only
+ * after beginTransaction succeeds and is released before ending the transaction.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

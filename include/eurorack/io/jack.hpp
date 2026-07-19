@@ -7,9 +7,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup io
@@ -105,7 +107,8 @@ class AnalogInputJack final {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @param connection Connection-state observation supplied by the application or hardware adapter.
+     * @param connection Connection-state observation supplied by the application or hardware
+     * adapter.
      */
     void setConnection(ConnectionState connection) noexcept;
 
@@ -172,7 +175,8 @@ class AnalogOutputJack final {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @param connection Connection-state observation supplied by the application or hardware adapter.
+     * @param connection Connection-state observation supplied by the application or hardware
+     * adapter.
      */
     void setConnection(ConnectionState connection) noexcept;
 
@@ -258,7 +262,8 @@ class DigitalInputJack final {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @param connection Connection-state observation supplied by the application or hardware adapter.
+     * @param connection Connection-state observation supplied by the application or hardware
+     * adapter.
      */
     void setConnection(ConnectionState connection) noexcept;
 
@@ -328,7 +333,8 @@ class DigitalOutputJack final {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @param connection Connection-state observation supplied by the application or hardware adapter.
+     * @param connection Connection-state observation supplied by the application or hardware
+     * adapter.
      */
     void setConnection(ConnectionState connection) noexcept;
 

@@ -15,9 +15,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -47,9 +49,9 @@ eurorack::io::IoResult VirtualSpiBus::transfer(const std::uint8_t* const transmi
     }
 
     const auto result = nextResult_;
-    nextResult_ = eurorack::io::IoResult::Success;    // Record the attempted transaction even when the injected result is an
+    nextResult_ = eurorack::io::IoResult::Success; // Record the attempted transaction even when the
+                                                   // injected result is an
     // error. Tests can then verify both the requested bytes and error handling.
-
 
     SpiTransferRecord record{};
     record.settings = settings_;

@@ -27,6 +27,5 @@ int main() {
     output.setVolts(-2.5F);
     // 3. Inspect the immutable snapshot or focused accessor. Returning zero
     // makes the example usable in local scripts and CI.
-    return input.snapshot().normalized > 0.7F
-        && output.snapshot().effectiveVolts < 0.0F ? 0 : 1;
+    return input.snapshot().normalized > 0.7F && output.snapshot().effectiveVolts < 0.0F ? 0 : 1;
 }

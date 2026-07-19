@@ -3,12 +3,15 @@
  * @brief Declares a debounced two-position latching toggle switch.
  *
  * @details
- * Converts a sampled electrical level into stable Off and On positions with edge flags and transition counting. The model is allocation-free and contains no hardware dependency.
+ * Converts a sampled electrical level into stable Off and On positions with edge flags and
+ * transition counting. The model is allocation-free and contains no hardware dependency.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup controls
@@ -36,8 +39,8 @@ struct ToggleSwitchConfig final {
 /** @brief Immutable state produced by ToggleSwitch. */
 struct ToggleSwitchSnapshot final {
     ToggleSwitchPosition position{ToggleSwitchPosition::Off}; ///< Current stable position.
-    bool justTurnedOn{false};  ///< True only for the update accepting Off to On.
-    bool justTurnedOff{false}; ///< True only for the update accepting On to Off.
+    bool justTurnedOn{false};          ///< True only for the update accepting Off to On.
+    bool justTurnedOff{false};         ///< True only for the update accepting On to Off.
     std::uint32_t transitionCount{0U}; ///< Accepted position transitions since reset.
 };
 
@@ -51,7 +54,7 @@ struct ToggleSwitchSnapshot final {
  * memory and is not internally synchronized.
  */
 class ToggleSwitch final {
-public:
+  public:
     /** @brief Constructs a switch model. @param config Polarity and debounce settings. */
     explicit ToggleSwitch(ToggleSwitchConfig config = {}) noexcept;
 
@@ -78,7 +81,7 @@ public:
     /** @brief Returns immutable configuration. @return Constant configuration reference. */
     [[nodiscard]] const ToggleSwitchConfig& config() const noexcept;
 
-private:
+  private:
     ToggleSwitchConfig config_{};
     MomentaryButton debouncer_{};
     ToggleSwitchSnapshot snapshot_{};

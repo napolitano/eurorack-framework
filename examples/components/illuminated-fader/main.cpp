@@ -19,11 +19,12 @@
 int main() {
     // 1. Construct the model with explicit settings. Defaults are avoided
     // here so the example also documents the meaning of each configuration.
-    eurorack::controls::IlluminatedFader fader({
-        {0U, 1023U, eurorack::controls::FaderDirection::BottomToTop, 0.0F, 1.0F},
-        eurorack::controls::IlluminatedFaderMode::FollowPosition,
-        {0U, 0U, 65535U},
-        0U, 65535U});
+    eurorack::controls::IlluminatedFader fader(
+        {{0U, 1023U, eurorack::controls::FaderDirection::BottomToTop, 0.0F, 1.0F},
+         eurorack::controls::IlluminatedFaderMode::FollowPosition,
+         {0U, 0U, 65535U},
+         0U,
+         65535U});
     // 2. Supply one or more deterministic samples. State changes only
     // when the model receives an explicit method call.
     fader.reset(512U);

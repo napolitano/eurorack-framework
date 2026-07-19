@@ -8,9 +8,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup drivers
@@ -82,7 +84,8 @@ class Dac8568 final {
      */
     [[nodiscard]] std::uint16_t code(Dac8568Channel channel) const noexcept;
 
-    /** @brief Writes an input register. @param channel Output channel. @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error. */
+    /** @brief Writes an input register. @param channel Output channel. @return Success when the
+     * requested operation completes; otherwise a specific validation, bus, or storage error. */
     [[nodiscard]] eurorack::io::IoResult writeInput(Dac8568Channel channel) noexcept;
 
     /** @brief Writes and updates one channel. @param channel Output channel. @return Operation
@@ -93,14 +96,16 @@ class Dac8568 final {
      * Success when the SPI transaction completes; otherwise the first bus or state error. */
     [[nodiscard]] eurorack::io::IoResult writeAndUpdateAll(Dac8568Channel channel) noexcept;
 
-    /** @brief Writes all buffered channels and updates together. @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error. */
+    /** @brief Writes all buffered channels and updates together. @return Success when the requested
+     * operation completes; otherwise a specific validation, bus, or storage error. */
     [[nodiscard]] eurorack::io::IoResult flushAll() noexcept;
 
     /**
      * @brief Configures power mode for a channel mask.
      * @param channelMask Bit zero selects channel A.
      * @param mode Requested power mode.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     [[nodiscard]] eurorack::io::IoResult setPowerMode(std::uint8_t channelMask,
                                                       Dac8568PowerMode mode) noexcept;
@@ -109,14 +114,16 @@ class Dac8568 final {
      * Success when the SPI transaction completes; otherwise the first bus or state error. */
     [[nodiscard]] eurorack::io::IoResult setInternalReference(bool enabled) noexcept;
 
-    /** @brief Performs a software reset. @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error. */
+    /** @brief Performs a software reset. @return Success when the requested operation completes;
+     * otherwise a specific validation, bus, or storage error. */
     [[nodiscard]] eurorack::io::IoResult reset() noexcept;
 
     /**
      * @brief Configures the code applied by the external CLR pin.
      *
      * @param clearCode Requested clear-code behavior.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     [[nodiscard]] eurorack::io::IoResult setClearCode(Dac8568ClearCode clearCode) noexcept;
 
@@ -150,7 +157,8 @@ class Dac8568 final {
      * @param address Four-bit address.
      * @param data Sixteen-bit data field.
      * @param feature Four-bit feature field.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     [[nodiscard]] eurorack::io::IoResult transferFrame(Command command,
                                                        std::uint8_t address,
@@ -161,7 +169,8 @@ class Dac8568 final {
      * @brief Transfers one already packed 32-bit frame.
      *
      * @param frame Complete DAC8568 serial frame.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     [[nodiscard]] eurorack::io::IoResult transferRawFrame(std::uint32_t frame) noexcept;
 

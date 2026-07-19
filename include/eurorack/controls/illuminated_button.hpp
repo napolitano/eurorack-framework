@@ -3,12 +3,15 @@
  * @brief Declares a momentary pushbutton with an integrated RGB LED.
  *
  * @details
- * Composes the existing debounced button model with the multicolor LED model while keeping input and illumination state independently controllable.
+ * Composes the existing debounced button model with the multicolor LED model while keeping input
+ * and illumination state independently controllable.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup controls
@@ -31,10 +34,10 @@ enum class IlluminatedButtonMode : std::uint8_t {
 
 /** @brief Configuration for an illuminated momentary button. */
 struct IlluminatedButtonConfig final {
-    MomentaryButtonConfig button{}; ///< Electrical button settings.
+    MomentaryButtonConfig button{};                            ///< Electrical button settings.
     IlluminatedButtonMode mode{IlluminatedButtonMode::Manual}; ///< Automatic LED behavior.
     RgbColor activeColor{0U, 65535U, 0U}; ///< Color used by the active automatic state.
-    RgbColor inactiveColor{}; ///< Color used by the inactive automatic state.
+    RgbColor inactiveColor{};             ///< Color used by the inactive automatic state.
 };
 
 /**
@@ -46,14 +49,16 @@ struct IlluminatedButtonConfig final {
  * every button sample. The object owns both submodels and allocates no memory.
  */
 class IlluminatedButton final {
-public:
+  public:
     /** @brief Constructs the composite control. @param config Button and illumination settings. */
     explicit IlluminatedButton(IlluminatedButtonConfig config = {}) noexcept;
 
-    /** @brief Resets button and automatic illumination. @param rawLevelHigh Electrical button level. @param nowMs Monotonic milliseconds. */
+    /** @brief Resets button and automatic illumination. @param rawLevelHigh Electrical button
+     * level. @param nowMs Monotonic milliseconds. */
     void reset(bool rawLevelHigh, std::uint32_t nowMs) noexcept;
 
-    /** @brief Processes one button sample and updates automatic illumination. @param rawLevelHigh Electrical button level. @param nowMs Monotonic milliseconds. */
+    /** @brief Processes one button sample and updates automatic illumination. @param rawLevelHigh
+     * Electrical button level. @param nowMs Monotonic milliseconds. */
     void update(bool rawLevelHigh, std::uint32_t nowMs) noexcept;
 
     /** @brief Sets LED color, including in Manual mode. @param color Requested RGB color. */
@@ -68,7 +73,7 @@ public:
     /** @brief Returns LED submodel. @return Constant LED reference. */
     [[nodiscard]] const MulticolorLed& led() const noexcept;
 
-private:
+  private:
     /** @brief Applies configured automatic LED behavior. */
     void updateAutomaticLed() noexcept;
 

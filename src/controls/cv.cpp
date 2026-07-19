@@ -4,13 +4,16 @@
  *
  * @details
  * Implements calibrated control-voltage conversion.
- * 
- * The model separates raw converter codes from volts and normalized values, applies explicit calibration, and reports clipping. It does not perform ADC acquisition or DAC output itself.
+ *
+ * The model separates raw converter codes from volts and normalized values, applies explicit
+ calibration, and reports clipping. It does not perform ADC acquisition or DAC output itself.
 
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  * @see LICENSE and ADDITIONAL_PERMISSION.md in the repository root.
  */

@@ -12,9 +12,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -100,8 +102,9 @@ void drawLine(MonochromeCanvas& canvas,
     const std::int32_t deltaY = -std::abs(end.y - start.y);
     const std::int32_t stepY = start.y < end.y ? 1 : -1;
     // Bresenham keeps all arithmetic integral. deltaY is negative so that
-    // one accumulated error term can decide both x and y advances.    // deltaY is negative. One signed error term can therefore decide both
-    // horizontal and vertical movement without floating-point arithmetic.
+    // one accumulated error term can decide both x and y advances.    // deltaY is negative. One
+    // signed error term can therefore decide both horizontal and vertical movement without
+    // floating-point arithmetic.
 
     std::int32_t error = deltaX + deltaY;
     std::uint32_t position = patternOffset;
@@ -196,8 +199,9 @@ void drawCircle(MonochromeCanvas& canvas,
     std::int32_t error = 1 - radius;
 
     // Generate one octant and reflect it into the remaining seven. Stop
-    // when x and y cross, which marks completion of the first 45 degrees.    // Rasterize one octant and reflect it into the remaining seven. Stop at
-    // the diagonal where the first octant is complete.
+    // when x and y cross, which marks completion of the first 45 degrees.    // Rasterize one
+    // octant and reflect it into the remaining seven. Stop at the diagonal where the first octant
+    // is complete.
 
     while (x >= y) {
         const Point points[8] = {{center.x + x, center.y + y},

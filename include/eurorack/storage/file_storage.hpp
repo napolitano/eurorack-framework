@@ -8,9 +8,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup storage
@@ -64,7 +66,8 @@ class FileStorage final : public PersistentStorage {
      * @param address Starting address.
      * @param destination Destination buffer.
      * @param size Number of bytes.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     eurorack::io::IoResult
     read(std::size_t address, std::uint8_t* destination, std::size_t size) const noexcept override;
@@ -75,7 +78,8 @@ class FileStorage final : public PersistentStorage {
      * @param address Starting address.
      * @param source Source buffer.
      * @param size Number of bytes.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     eurorack::io::IoResult
     write(std::size_t address, const std::uint8_t* source, std::size_t size) noexcept override;
@@ -85,14 +89,16 @@ class FileStorage final : public PersistentStorage {
      *
      * @param address Starting address.
      * @param size Number of bytes.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     eurorack::io::IoResult erase(std::size_t address, std::size_t size) noexcept override;
 
     /**
      * @brief Atomically writes the staged image to disk.
      *
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     eurorack::io::IoResult commit() noexcept override;
 

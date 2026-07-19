@@ -6,13 +6,16 @@
  * @details
  * Control objects translate raw hardware observations into stable, application-facing state.
  * They do not own referenced hardware interfaces; dependencies must outlive the control object.
- * Unless stated otherwise, calls are synchronous, allocate no memory, and are intended for a cooperative firmware loop.
- * Objects are not internally synchronized and require external protection when shared between interrupt and foreground contexts.
+ * Unless stated otherwise, calls are synchronous, allocate no memory, and are intended for a
+ * cooperative firmware loop. Objects are not internally synchronized and require external
+ * protection when shared between interrupt and foreground contexts.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  * @see LICENSE and ADDITIONAL_PERMISSION.md in the repository root.
  *

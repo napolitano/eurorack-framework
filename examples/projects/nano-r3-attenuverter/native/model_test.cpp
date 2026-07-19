@@ -1,7 +1,7 @@
+#include "../src/attenuverter_model.hpp"
+
 #include <cmath>
 #include <cstdlib>
-
-#include "../src/attenuverter_model.hpp"
 
 namespace {
 
@@ -13,7 +13,13 @@ bool near(const float actual, const float expected) {
 
 int main() {
     using attenuverter_example::applyCenteredDeadZone;
+    using attenuverter_example::clampValue;
     using attenuverter_example::process;
+
+    if (!near(clampValue(-2.0F, -1.0F, 1.0F), -1.0F) ||
+        !near(clampValue(2.0F, -1.0F, 1.0F), 1.0F) || !near(clampValue(0.5F, -1.0F, 1.0F), 0.5F)) {
+        return EXIT_FAILURE;
+    }
 
     if (!near(applyCenteredDeadZone(0.02F, 0.035F), 0.0F)) {
         return EXIT_FAILURE;

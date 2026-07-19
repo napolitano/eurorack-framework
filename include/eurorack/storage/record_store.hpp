@@ -7,9 +7,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup storage
@@ -152,7 +154,8 @@ class RecordStore final {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @param address Storage address, register address, or I2C address as defined by the enclosing API.
+     * @param address Storage address, register address, or I2C address as defined by the enclosing
+     * API.
      *
      * @param header Record header read, validated, or checksummed.
      *

@@ -245,3 +245,31 @@ Read in this order:
 5. `calibration.md` - how nominal transfer constants would be measured
 6. `design-decisions.md` - why the example uses this structure
 7. `troubleshooting.md` - conceptual fault isolation
+
+## AVR build subset
+
+The ATmega328P build does not compile the complete repository. The full
+framework contains native simulation, file storage, displays, and other
+subsystems that are irrelevant to this example and unsuitable for a 2 KiB SRAM
+target.
+
+The internal build shim:
+
+```text
+src/framework_subset.cpp
+```
+
+selects only:
+
+```text
+src/controls/analog_input.cpp
+src/controls/cv.cpp
+src/drivers/dac/mcp4922.cpp
+```
+
+Application code still includes only public headers. The direct implementation
+includes exist solely inside this example-specific PlatformIO build shim.
+
+This is an explicit demonstration of component selection, not a claim that the
+complete framework fits or compiles unchanged on ATmega328P.
+

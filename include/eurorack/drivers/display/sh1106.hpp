@@ -7,9 +7,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup drivers
@@ -48,30 +50,35 @@ class Sh1106 final {
      */
     Sh1106(eurorack::io::I2cBus& bus, Sh1106Config config = {}) noexcept;
 
-    /** @brief Initializes the display controller. @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error. */
+    /** @brief Initializes the display controller. @return Success when the requested operation
+     * completes; otherwise a specific validation, bus, or storage error. */
     [[nodiscard]] eurorack::io::IoResult initialize() noexcept;
 
     /**
      * @brief Transfers a complete canvas.
      * @param canvas Source canvas.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     [[nodiscard]] eurorack::io::IoResult
     flush(const eurorack::display::MonochromeCanvas& canvas) noexcept;
 
-    /** @brief Sets display contrast. @param contrast Contrast. @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error. */
+    /** @brief Sets display contrast. @param contrast Contrast. @return Success when the requested
+     * operation completes; otherwise a specific validation, bus, or storage error. */
     [[nodiscard]] eurorack::io::IoResult setContrast(std::uint8_t contrast) noexcept;
 
     /** @brief Enables or disables inversion. @param inverted Desired state. @return Operation
      * result. */
     [[nodiscard]] eurorack::io::IoResult setInverted(bool inverted) noexcept;
 
-    /** @brief Turns the display on or off. @param enabled Desired state. @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+    /** @brief Turns the display on or off. @param enabled Desired state. @return Success when the
+     * requested operation completes; otherwise a specific validation, bus, or storage error.
      */
     [[nodiscard]] eurorack::io::IoResult setDisplayEnabled(bool enabled) noexcept;
 
   private:
-    /** @brief Writes one command. @param command Command byte. @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error. */
+    /** @brief Writes one command. @param command Command byte. @return Success when the requested
+     * operation completes; otherwise a specific validation, bus, or storage error. */
     [[nodiscard]] eurorack::io::IoResult writeCommand(std::uint8_t command) noexcept;
 
     /** @brief Writes command bytes. @param commands Source. @param size Count. @return Operation
@@ -79,7 +86,8 @@ class Sh1106 final {
     [[nodiscard]] eurorack::io::IoResult writeCommands(const std::uint8_t* commands,
                                                        std::size_t size) noexcept;
 
-    /** @brief Writes display data. @param data Source. @param size Count. @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+    /** @brief Writes display data. @param data Source. @param size Count. @return Success when the
+     * requested operation completes; otherwise a specific validation, bus, or storage error.
      */
     [[nodiscard]] eurorack::io::IoResult writeData(const std::uint8_t* data,
                                                    std::size_t size) noexcept;

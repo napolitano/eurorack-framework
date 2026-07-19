@@ -7,9 +7,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup drivers
@@ -75,7 +77,8 @@ class Ssd1306 final {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     [[nodiscard]] eurorack::io::IoResult initialize() noexcept;
 
@@ -102,7 +105,8 @@ class Ssd1306 final {
      *
      * @param contrast Value required by this operation.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     [[nodiscard]] eurorack::io::IoResult setContrast(std::uint8_t contrast) noexcept;
 
@@ -116,7 +120,8 @@ class Ssd1306 final {
      *
      * @param inverted Value required by this operation.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     [[nodiscard]] eurorack::io::IoResult setInverted(bool inverted) noexcept;
 
@@ -130,7 +135,8 @@ class Ssd1306 final {
      *
      * @param enabled Value required by this operation.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     [[nodiscard]] eurorack::io::IoResult setDisplayEnabled(bool enabled) noexcept;
 
@@ -169,7 +175,8 @@ class Ssd1306 final {
      *
      * @param command Value required by this operation.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     [[nodiscard]] eurorack::io::IoResult writeCommand(std::uint8_t command) noexcept;
 
@@ -185,7 +192,8 @@ class Ssd1306 final {
      *
      * @param size Number of bytes or elements involved.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     [[nodiscard]] eurorack::io::IoResult writeCommands(const std::uint8_t* commands,
                                                        std::size_t size) noexcept;
@@ -202,7 +210,8 @@ class Ssd1306 final {
      *
      * @param size Number of bytes or elements involved.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     [[nodiscard]] eurorack::io::IoResult writeData(const std::uint8_t* data,
                                                    std::size_t size) noexcept;
@@ -215,7 +224,8 @@ class Ssd1306 final {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     [[nodiscard]] eurorack::io::IoResult configureAddressWindow() noexcept;
 

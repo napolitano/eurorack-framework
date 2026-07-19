@@ -8,11 +8,13 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
  * @copyright Copyright (c) 2026 Axel Napolitano
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  *
  * This file is part of Eurorack Framework. Noncommercial use, modification,
  * and redistribution are permitted under the terms in the repository-root

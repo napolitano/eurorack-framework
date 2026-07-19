@@ -4,13 +4,17 @@
  *
  * @details
  * Stores and orders deterministic simulation events by virtual timestamp.
- * Events are stable-sorted so actions scheduled for the same time retain insertion order. The scenario owns callable actions and labels for native tests. It does not advance time or execute events itself; a runner or test loop decides when each event becomes due.
+ * Events are stable-sorted so actions scheduled for the same time retain insertion order. The
+ * scenario owns callable actions and labels for native tests. It does not advance time or execute
+ * events itself; a runner or test loop decides when each event becomes due.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

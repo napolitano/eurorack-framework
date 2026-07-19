@@ -4,13 +4,18 @@
  *
  * @details
  * Exports monochrome canvases into human-inspectable native artifacts.
- * ASCII output favors compact test diagnostics, while PBM output produces a standards-based image that can be opened by common tools. Export reads pixels through the public canvas API so clipping and storage layout remain encapsulated. File output is native-only and may throw internally; public functions translate failures into operation results where applicable.
+ * ASCII output favors compact test diagnostics, while PBM output produces a standards-based image
+ * that can be opened by common tools. Export reads pixels through the public canvas API so clipping
+ * and storage layout remain encapsulated. File output is native-only and may throw internally;
+ * public functions translate failures into operation results where applicable.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

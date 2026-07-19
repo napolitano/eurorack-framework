@@ -19,8 +19,8 @@
 int main() {
     // 1. Construct the model with explicit settings. Defaults are avoided
     // here so the example also documents the meaning of each configuration.
-    eurorack::controls::EncoderValue value({
-        0, 10, 1, eurorack::controls::EncoderBoundaryMode::Clamp}, 5);
+    eurorack::controls::EncoderValue value(
+        {0, 10, 1, eurorack::controls::EncoderBoundaryMode::Clamp}, 5);
     // 2. Supply one or more deterministic samples. State changes only
     // when the model receives an explicit method call.
     value.applyDetents(3);

@@ -4,13 +4,17 @@
  *
  * @details
  * Implements one normalized analog-control state model.
- * 
- * Raw samples and acquisition results are copied into a snapshot. Successful codes are clamped and normalized against configured endpoints; failed samples preserve diagnostics without inventing a new valid value.
+ *
+ * Raw samples and acquisition results are copied into a snapshot. Successful codes are clamped and
+ normalized against configured endpoints; failed samples preserve diagnostics without inventing a
+ new valid value.
 
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  * @see LICENSE and ADDITIONAL_PERMISSION.md in the repository root.
  */

@@ -7,9 +7,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup simulation
@@ -78,7 +80,8 @@ class VirtualSpiBus final : public eurorack::io::SpiBus {
      *
      * @param size Number of bytes or elements involved.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     eurorack::io::IoResult transfer(const std::uint8_t* transmit,
                                     std::uint8_t* receive,
@@ -181,7 +184,8 @@ class VirtualI2cBus final : public eurorack::io::I2cBus {
      *
      * @param frequencyHz Requested bus clock frequency in hertz.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     eurorack::io::IoResult setClock(std::uint32_t frequencyHz) noexcept override;
 
@@ -193,7 +197,8 @@ class VirtualI2cBus final : public eurorack::io::I2cBus {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @param address Storage address, register address, or I2C address as defined by the enclosing API.
+     * @param address Storage address, register address, or I2C address as defined by the enclosing
+     * API.
      *
      * @param data Byte buffer used by the operation.
      *
@@ -201,7 +206,8 @@ class VirtualI2cBus final : public eurorack::io::I2cBus {
      *
      * @param sendStop True to terminate the I2C write with a stop condition.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     eurorack::io::IoResult write(eurorack::io::I2cAddress address,
                                  const std::uint8_t* data,
@@ -217,7 +223,8 @@ class VirtualI2cBus final : public eurorack::io::I2cBus {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @param address Storage address, register address, or I2C address as defined by the enclosing API.
+     * @param address Storage address, register address, or I2C address as defined by the enclosing
+     * API.
      *
      * @param data Byte buffer used by the operation.
      *
@@ -233,7 +240,8 @@ class VirtualI2cBus final : public eurorack::io::I2cBus {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @param address Storage address, register address, or I2C address as defined by the enclosing API.
+     * @param address Storage address, register address, or I2C address as defined by the enclosing
+     * API.
      *
      * @param writeData Bytes transmitted before a repeated-start read.
      *
@@ -243,7 +251,8 @@ class VirtualI2cBus final : public eurorack::io::I2cBus {
      *
      * @param readSize Number of bytes requested in the read phase.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     eurorack::io::IoResult writeRead(eurorack::io::I2cAddress address,
                                      const std::uint8_t* writeData,
@@ -318,7 +327,8 @@ class VirtualI2cBus final : public eurorack::io::I2cBus {
      * call arguments. Ownership, allocation, clipping, and error semantics follow
      * the contract documented for the enclosing type.
      *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned by validation, storage, filesystem, or bus access.
+     * @return Success when the complete operation succeeds; otherwise the specific error returned
+     * by validation, storage, filesystem, or bus access.
      */
     [[nodiscard]] eurorack::io::IoResult consumeResult() noexcept;
 

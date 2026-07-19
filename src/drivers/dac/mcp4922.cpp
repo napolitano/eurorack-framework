@@ -9,12 +9,13 @@
 
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
-#include <algorithm>
 #include <eurorack/drivers/dac/mcp4922.hpp>
 namespace eurorack::drivers::dac {
 namespace {
@@ -31,7 +32,7 @@ Mcp4922::Mcp4922(eurorack::io::SpiBus& spi,
         ldac_->writeHigh(true);
 }
 void Mcp4922::setCode(const Mcp4922Channel c, const std::uint16_t v) noexcept {
-    codes_[ix(c)] = std::min<std::uint16_t>(v, 0x0FFFU);
+    codes_[ix(c)] = v > 0x0FFFU ? 0x0FFFU : v;
 }
 std::uint16_t Mcp4922::code(const Mcp4922Channel c) const noexcept {
     return codes_[ix(c)];

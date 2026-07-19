@@ -1,4 +1,4 @@
-## 0.1.0-alpha.9
+## 0.1.0-alpha.10
 
 ### Fixed
 
@@ -8,7 +8,7 @@
 
 # Changelog
 
-## 0.1.0-alpha.9 - Documentation expansion
+## 0.1.0-alpha.10 - Documentation expansion
 
 ### Added
 
@@ -57,6 +57,12 @@
 
 ### Changed
 
+- Replaced nonstandard Doxygen `@contact` and `@license` commands with portable `@par` sections.
+- Escaped email-address at-signs so Doxygen does not parse them as commands.
+- Made Doxygen warning logs visible directly in failed GitHub Actions output.
+- Removed the Arduino AVR dependency on `<algorithm>` and `std::clamp`.
+- Added an explicit AVR example source subset instead of compiling unrelated framework subsystems.
+- Applied repository-wide clang-format output so the Quality workflow is reproducible.
 - Reworked the PDF documentation build around `latexmk` with retained diagnostics.
 - Removed Doxygen settings that are not consistently supported by Ubuntu package versions.
 - Expanded the documentation runner dependencies to cover the generated LaTeX manual.
@@ -67,12 +73,12 @@
 - Removed obsolete historical references to an uncommitted application prototype.
 - Generalized framework-boundary documentation to describe consuming firmware without naming discarded implementation experiments.
 - Reclassified project maturity from advanced prerelease to Unreleased Alpha.
-- Reset the development version to `0.1.0-alpha.9`.
+- Reset the development version to `0.1.0-alpha.10`.
 - Clarified that `1.0.0` remains a future milestone requiring substantially more validation.
-- Updated Doxygen configuration and project version to 0.1.0-alpha.9.
+- Updated Doxygen configuration and project version to 0.1.0-alpha.10.
 - Reorganized README build, test, documentation, artifact, and platform-responsibility guidance.
 
-## 0.1.0-alpha.9 - 2026-07-18
+## 0.1.0-alpha.10 - 2026-07-18
 
 ### Fixed
 

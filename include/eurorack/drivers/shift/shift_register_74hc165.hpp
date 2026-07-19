@@ -14,8 +14,10 @@
  * @ingroup drivers
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -23,11 +25,10 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <vector>
-
 #include <eurorack/io/digital_io.hpp>
 #include <eurorack/io/io_result.hpp>
 #include <eurorack/io/spi_bus.hpp>
+#include <vector>
 
 namespace eurorack::drivers::shift {
 
@@ -74,9 +75,9 @@ class ShiftRegister74Hc165 final {
     [[nodiscard]] bool input(std::size_t input) const noexcept;
 
   private:
-    eurorack::io::SpiBus& spi_;              ///< Non-owning SPI bus reference.
-    eurorack::io::DigitalOutput& load_;      ///< Active-low parallel-load output.
-    std::vector<std::uint8_t> buffer_;       ///< Last sampled chain bytes.
+    eurorack::io::SpiBus& spi_;         ///< Non-owning SPI bus reference.
+    eurorack::io::DigitalOutput& load_; ///< Active-low parallel-load output.
+    std::vector<std::uint8_t> buffer_;  ///< Last sampled chain bytes.
 };
 
 } // namespace eurorack::drivers::shift

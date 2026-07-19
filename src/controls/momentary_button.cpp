@@ -4,15 +4,20 @@
  *
  * @details
  * Implements a timestamp-based debounce state machine for a momentary button.
- * The first observed sample initializes state without fabricating an edge. A changed electrical candidate must remain stable for the configured interval before it becomes the accepted logical state. Press duration uses unsigned subtraction, preserving correct behavior across a 32-bit millisecond timer wraparound.
+ * The first observed sample initializes state without fabricating an edge. A changed electrical
+ * candidate must remain stable for the configured interval before it becomes the accepted logical
+ * state. Press duration uses unsigned subtraction, preserving correct behavior across a 32-bit
+ * millisecond timer wraparound.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
  * @copyright Copyright (c) 2026 Axel Napolitano
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  *
  * This file is part of Eurorack Framework. Noncommercial use, modification,
  * and redistribution are permitted under the terms in the repository-root

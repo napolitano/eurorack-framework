@@ -4,13 +4,17 @@
  *
  * @details
  * Normalizes raw ADC samples into unipolar and bipolar application values.
- * Input codes are clamped to calibrated endpoints before optional inversion. Exponential smoothing moves toward the new target, while deadband suppresses insignificant public changes. Range flags always reflect the latest raw sample even when deadband prevents a normalized-value update.
+ * Input codes are clamped to calibrated endpoints before optional inversion. Exponential smoothing
+ * moves toward the new target, while deadband suppresses insignificant public changes. Range flags
+ * always reflect the latest raw sample even when deadband prevents a normalized-value update.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

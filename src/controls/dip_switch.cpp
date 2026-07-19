@@ -7,8 +7,10 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup controls
@@ -25,7 +27,11 @@ void DipSwitch::reset(const bool rawLevelHigh, const std::uint32_t nowMs) noexce
 void DipSwitch::update(const bool rawLevelHigh, const std::uint32_t nowMs) noexcept {
     switch_.update(rawLevelHigh, nowMs);
 }
-bool DipSwitch::isOn() const noexcept { return switch_.isOn(); }
-const ToggleSwitchSnapshot& DipSwitch::snapshot() const noexcept { return switch_.snapshot(); }
+bool DipSwitch::isOn() const noexcept {
+    return switch_.isOn();
+}
+const ToggleSwitchSnapshot& DipSwitch::snapshot() const noexcept {
+    return switch_.snapshot();
+}
 
 } // namespace eurorack::controls

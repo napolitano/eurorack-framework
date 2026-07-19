@@ -3,12 +3,15 @@
  * @brief Declares an allocation-free RGB multicolor LED model.
  *
  * @details
- * Stores independent 16-bit red, green, and blue intensities plus a master brightness, producing effective channel values suitable for generic LED drivers.
+ * Stores independent 16-bit red, green, and blue intensities plus a master brightness, producing
+ * effective channel values suitable for generic LED drivers.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup controls
@@ -32,7 +35,8 @@ struct RgbColor final {
 struct MulticolorLedSnapshot final {
     RgbColor requested{}; ///< Requested unscaled RGB color.
     RgbColor effective{}; ///< RGB color after master-brightness scaling.
-    std::uint16_t masterBrightness{eurorack::drivers::led::MAX_BRIGHTNESS}; ///< Global intensity scale.
+    std::uint16_t masterBrightness{
+        eurorack::drivers::led::MAX_BRIGHTNESS}; ///< Global intensity scale.
     bool changed{false}; ///< True when the most recent setter changed effective output.
     std::uint32_t transitionCount{0U}; ///< Number of accepted effective-output changes.
 };
@@ -46,8 +50,9 @@ struct MulticolorLedSnapshot final {
  * calibration belong to hardware adapters or LED-driver implementations.
  */
 class MulticolorLed final {
-public:
-    /** @brief Constructs an RGB LED. @param initialColor Initial logical color. @param masterBrightness Initial global intensity. */
+  public:
+    /** @brief Constructs an RGB LED. @param initialColor Initial logical color. @param
+     * masterBrightness Initial global intensity. */
     explicit MulticolorLed(
         RgbColor initialColor = {},
         std::uint16_t masterBrightness = eurorack::drivers::led::MAX_BRIGHTNESS) noexcept;
@@ -77,7 +82,7 @@ public:
     /** @brief Returns latest state. @return Constant snapshot reference. */
     [[nodiscard]] const MulticolorLedSnapshot& snapshot() const noexcept;
 
-private:
+  private:
     /** @brief Recalculates effective RGB output and transition metadata. */
     void recalculate() noexcept;
 

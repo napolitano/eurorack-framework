@@ -4,13 +4,17 @@
  *
  * @details
  * Implements switched-jack plug detection and normalization state.
- * The model consumes an already sampled detection contact. It does not read or route the jack signal itself. Transition flags are regenerated on every update, while the stable connected and normalled states remain available until the next sample.
+ * The model consumes an already sampled detection contact. It does not read or route the jack
+ * signal itself. Transition flags are regenerated on every update, while the stable connected and
+ * normalled states remain available until the next sample.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

@@ -4,13 +4,18 @@
  *
  * @details
  * Implements a deterministic EEPROM-like byte array for tests and embedded prototypes.
- * Writes are staged directly in the caller-independent in-memory buffer, erase restores the configured erased value, and commit is a successful no-op because no second persistence layer exists. Range checks are overflow-safe and zero-length operations are accepted when their start address is valid.
+ * Writes are staged directly in the caller-independent in-memory buffer, erase restores the
+ * configured erased value, and commit is a successful no-op because no second persistence layer
+ * exists. Range checks are overflow-safe and zero-length operations are accepted when their start
+ * address is valid.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

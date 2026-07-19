@@ -3,13 +3,16 @@
  * @brief Implements the 74HC165 driver.
  * @details
  * Implements buffered input capture from a chain of 74HC165 parallel-in shift registers.
- * 
- * A load pulse snapshots all parallel inputs before SPI shifting begins. Bytes are read in chain order into fixed software storage, preventing later pin changes from altering the captured sample.
+ *
+ * A load pulse snapshots all parallel inputs before SPI shifting begins. Bytes are read in chain
+ order into fixed software storage, preventing later pin changes from altering the captured sample.
 
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

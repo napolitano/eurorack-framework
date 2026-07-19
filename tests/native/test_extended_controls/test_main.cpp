@@ -1,7 +1,5 @@
 #include <array>
 #include <cstdint>
-#include <unity.h>
-
 #include <eurorack/controls/dip_switch.hpp>
 #include <eurorack/controls/fader.hpp>
 #include <eurorack/controls/illuminated_button.hpp>
@@ -10,13 +8,18 @@
 #include <eurorack/controls/on_off_momentary_switch.hpp>
 #include <eurorack/controls/toggle_switch.hpp>
 #include <eurorack/simulation/virtual_buses.hpp>
+#include <unity.h>
 
 namespace {
 
 class TestLedChannel final : public eurorack::drivers::led::LedChannel {
-public:
-    void setBrightness(const std::uint16_t brightness) noexcept override { value = brightness; }
-    [[nodiscard]] std::uint16_t brightness() const noexcept override { return value; }
+  public:
+    void setBrightness(const std::uint16_t brightness) noexcept override {
+        value = brightness;
+    }
+    [[nodiscard]] std::uint16_t brightness() const noexcept override {
+        return value;
+    }
     std::uint16_t value{0U};
 };
 
@@ -37,22 +40,17 @@ void test_dip_bank_builds_mask() {
 }
 
 void test_on_off_momentary_switch_reports_positions_and_invalid() {
-    eurorack::controls::OnOffMomentarySwitch sw({
-        eurorack::controls::ActiveLevel::High,
-        eurorack::controls::ActiveLevel::High,
-        0U});
+    eurorack::controls::OnOffMomentarySwitch sw(
+        {eurorack::controls::ActiveLevel::High, eurorack::controls::ActiveLevel::High, 0U});
     sw.reset(false, false, 0U);
-    TEST_ASSERT_EQUAL_INT(
-        static_cast<int>(eurorack::controls::OnOffMomentaryPosition::Off),
-        static_cast<int>(sw.position()));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(eurorack::controls::OnOffMomentaryPosition::Off),
+                          static_cast<int>(sw.position()));
     sw.update(true, false, 1U);
-    TEST_ASSERT_EQUAL_INT(
-        static_cast<int>(eurorack::controls::OnOffMomentaryPosition::On),
-        static_cast<int>(sw.position()));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(eurorack::controls::OnOffMomentaryPosition::On),
+                          static_cast<int>(sw.position()));
     sw.update(false, true, 2U);
-    TEST_ASSERT_EQUAL_INT(
-        static_cast<int>(eurorack::controls::OnOffMomentaryPosition::MomentaryOn),
-        static_cast<int>(sw.position()));
+    TEST_ASSERT_EQUAL_INT(static_cast<int>(eurorack::controls::OnOffMomentaryPosition::MomentaryOn),
+                          static_cast<int>(sw.position()));
     sw.update(true, true, 3U);
     TEST_ASSERT_TRUE(sw.snapshot().invalidCombination);
 }
@@ -72,11 +70,11 @@ void test_multicolor_led_scales_and_applies_channels() {
 }
 
 void test_illuminated_button_follows_pressed_state() {
-    eurorack::controls::IlluminatedButton button({
-        {eurorack::controls::ActiveLevel::High, 0U},
-        eurorack::controls::IlluminatedButtonMode::LitWhilePressed,
-        {65535U, 0U, 0U},
-        {0U, 0U, 0U}});
+    eurorack::controls::IlluminatedButton button(
+        {{eurorack::controls::ActiveLevel::High, 0U},
+         eurorack::controls::IlluminatedButtonMode::LitWhilePressed,
+         {65535U, 0U, 0U},
+         {0U, 0U, 0U}});
     button.reset(false, 0U);
     TEST_ASSERT_EQUAL_UINT16(0U, button.led().snapshot().effective.red);
     button.update(true, 1U);
@@ -84,10 +82,8 @@ void test_illuminated_button_follows_pressed_state() {
 }
 
 void test_fader_direction_and_normalization() {
-    eurorack::controls::Fader fader({
-        100U, 1100U,
-        eurorack::controls::FaderDirection::TopToBottom,
-        0.0F, 1.0F});
+    eurorack::controls::Fader fader(
+        {100U, 1100U, eurorack::controls::FaderDirection::TopToBottom, 0.0F, 1.0F});
     fader.reset(100U);
     TEST_ASSERT_FLOAT_WITHIN(0.0001F, 1.0F, fader.snapshot().normalized);
     fader.update(1100U);
@@ -95,12 +91,12 @@ void test_fader_direction_and_normalization() {
 }
 
 void test_illuminated_fader_brightness_follows_position() {
-    eurorack::controls::IlluminatedFader fader({
-        {0U, 1000U, eurorack::controls::FaderDirection::BottomToTop, 0.0F, 1.0F},
-        eurorack::controls::IlluminatedFaderMode::FollowPosition,
-        {0U, 0U, 65535U},
-        1000U,
-        5000U});
+    eurorack::controls::IlluminatedFader fader(
+        {{0U, 1000U, eurorack::controls::FaderDirection::BottomToTop, 0.0F, 1.0F},
+         eurorack::controls::IlluminatedFaderMode::FollowPosition,
+         {0U, 0U, 65535U},
+         1000U,
+         5000U});
     fader.reset(500U);
     TEST_ASSERT_UINT32_WITHIN(1U, 3000U, fader.led().snapshot().masterBrightness);
 }

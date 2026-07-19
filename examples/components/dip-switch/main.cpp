@@ -20,8 +20,7 @@
 int main() {
     // 1. Construct the model with explicit settings. Defaults are avoided
     // here so the example also documents the meaning of each configuration.
-    eurorack::controls::DipSwitchBank<4U> bank({
-        eurorack::controls::ActiveLevel::High, 0U});
+    eurorack::controls::DipSwitchBank<4U> bank({eurorack::controls::ActiveLevel::High, 0U});
     // 2. Supply one or more deterministic samples. State changes only
     // when the model receives an explicit method call.
     bank.reset({true, false, true, false}, 0U);

@@ -4,13 +4,17 @@
  *
  * @details
  * Provides glyph lookup and fallback behavior for the built-in bitmap font.
- * Character codes outside the supported printable range resolve to the configured replacement glyph rather than indexing beyond the font table. Glyph data remains immutable and is returned as lightweight views; no allocation or text shaping occurs.
+ * Character codes outside the supported printable range resolve to the configured replacement glyph
+ * rather than indexing beyond the font table. Glyph data remains immutable and is returned as
+ * lightweight views; no allocation or text shaping occurs.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

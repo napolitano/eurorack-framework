@@ -18,8 +18,7 @@
 int main() {
     // 1. Construct the model with explicit settings. Defaults are avoided
     // here so the example also documents the meaning of each configuration.
-    eurorack::controls::DigitalLed led({
-        eurorack::controls::LedActiveLevel::High, false});
+    eurorack::controls::DigitalLed led({eurorack::controls::LedActiveLevel::High, false});
     // 2. Supply one or more deterministic samples. State changes only
     // when the model receives an explicit method call.
     led.turnOn();

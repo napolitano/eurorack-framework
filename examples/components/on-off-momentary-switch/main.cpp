@@ -19,16 +19,13 @@
 int main() {
     // 1. Construct the model with explicit settings. Defaults are avoided
     // here so the example also documents the meaning of each configuration.
-    eurorack::controls::OnOffMomentarySwitch sw({
-        eurorack::controls::ActiveLevel::High,
-        eurorack::controls::ActiveLevel::High,
-        0U});
+    eurorack::controls::OnOffMomentarySwitch sw(
+        {eurorack::controls::ActiveLevel::High, eurorack::controls::ActiveLevel::High, 0U});
     // 2. Supply one or more deterministic samples. State changes only
     // when the model receives an explicit method call.
     sw.reset(false, false, 0U);
     sw.update(false, true, 1U);
     // 3. Inspect the immutable snapshot or focused accessor. Returning zero
     // makes the example usable in local scripts and CI.
-    return sw.position() ==
-        eurorack::controls::OnOffMomentaryPosition::MomentaryOn ? 0 : 1;
+    return sw.position() == eurorack::controls::OnOffMomentaryPosition::MomentaryOn ? 0 : 1;
 }

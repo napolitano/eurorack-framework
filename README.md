@@ -42,7 +42,7 @@ configuration, persistence, display rendering, peripheral drivers, Arduino
 adapters, and deterministic native simulation. Concrete module behavior belongs
 in consuming projects and is deliberately excluded from this repository.
 
-Development artifact identifier: **0.1.0-alpha.9**
+Development artifact identifier: **0.1.0-alpha.10**
 
 ## Architectural boundary
 

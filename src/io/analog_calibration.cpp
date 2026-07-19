@@ -4,13 +4,18 @@
  *
  * @details
  * Implements affine conversion between raw converter codes and engineering voltage.
- * Two-point calibration derives slope and offset from measured endpoints. Voltage-to-code conversion reports clipping separately from the returned bounded code, allowing application code to distinguish a valid endpoint request from an out-of-range command. Negative slopes are supported for electrically inverted signal paths.
+ * Two-point calibration derives slope and offset from measured endpoints. Voltage-to-code
+ * conversion reports clipping separately from the returned bounded code, allowing application code
+ * to distinguish a valid endpoint request from an out-of-range command. Negative slopes are
+ * supported for electrically inverted signal paths.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

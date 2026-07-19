@@ -16,8 +16,10 @@
  * @ingroup drivers
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -25,7 +27,6 @@
 
 #include <array>
 #include <cstdint>
-
 #include <eurorack/io/digital_io.hpp>
 #include <eurorack/io/io_result.hpp>
 #include <eurorack/io/spi_bus.hpp>
@@ -36,8 +37,8 @@ namespace eurorack::drivers::dac {
  * @brief Selects one physical MCP4922 output channel.
  */
 enum class Mcp4922Channel : std::uint8_t {
-    A,  ///< DAC channel A.
-    B   ///< DAC channel B.
+    A, ///< DAC channel A.
+    B  ///< DAC channel B.
 };
 
 /**
@@ -48,8 +49,8 @@ enum class Mcp4922Channel : std::uint8_t {
  * range also depends on the reference voltage and the external analog circuit.
  */
 enum class Mcp4922Gain : std::uint8_t {
-    OneX,  ///< Output gain of one.
-    TwoX   ///< Output gain of two.
+    OneX, ///< Output gain of one.
+    TwoX  ///< Output gain of two.
 };
 
 /**
@@ -169,14 +170,13 @@ class Mcp4922 final {
      */
     eurorack::io::IoResult writeFrame(std::uint16_t frame) noexcept;
 
-    eurorack::io::SpiBus& spi_;                 ///< Non-owning SPI bus reference.
-    eurorack::io::DigitalOutput& cs_;           ///< Active-low chip-select output.
-    eurorack::io::DigitalOutput* ldac_;         ///< Optional active-low LDAC output.
-    std::array<std::uint16_t, 2> codes_{};       ///< Buffered 12-bit channel codes.
-    std::array<Mcp4922Gain, 2> gains_{
-        Mcp4922Gain::OneX,
-        Mcp4922Gain::OneX};                     ///< Buffered channel gain settings.
-    std::array<bool, 2> enabled_{true, true};   ///< Buffered channel shutdown states.
+    eurorack::io::SpiBus& spi_;            ///< Non-owning SPI bus reference.
+    eurorack::io::DigitalOutput& cs_;      ///< Active-low chip-select output.
+    eurorack::io::DigitalOutput* ldac_;    ///< Optional active-low LDAC output.
+    std::array<std::uint16_t, 2> codes_{}; ///< Buffered 12-bit channel codes.
+    std::array<Mcp4922Gain, 2> gains_{Mcp4922Gain::OneX,
+                                      Mcp4922Gain::OneX}; ///< Buffered channel gain settings.
+    std::array<bool, 2> enabled_{true, true};             ///< Buffered channel shutdown states.
 };
 
 } // namespace eurorack::drivers::dac

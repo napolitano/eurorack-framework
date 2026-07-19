@@ -15,8 +15,10 @@
  * @ingroup drivers
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -24,11 +26,10 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <vector>
-
 #include <eurorack/drivers/led/led_driver.hpp>
 #include <eurorack/io/digital_io.hpp>
 #include <eurorack/io/spi_bus.hpp>
+#include <vector>
 
 namespace eurorack::drivers::led {
 
@@ -60,17 +61,15 @@ class Tlc5916 final : public LedBank {
      * @param brightness Zero selects off; every nonzero value selects on.
      * @return Success or InvalidArgument when the channel is out of range.
      */
-    eurorack::io::IoResult setBrightness(
-        std::size_t channel,
-        std::uint16_t brightness) noexcept override;
+    eurorack::io::IoResult setBrightness(std::size_t channel,
+                                         std::uint16_t brightness) noexcept override;
 
     /**
      * @brief Returns one buffered logical value.
      * @param channel Zero-based channel index.
      * @return Buffered value, or zero when the channel is out of range.
      */
-    [[nodiscard]] std::uint16_t brightness(
-        std::size_t channel) const noexcept override;
+    [[nodiscard]] std::uint16_t brightness(std::size_t channel) const noexcept override;
 
     /**
      * @brief Clears every buffered channel without transferring the frame.
@@ -91,11 +90,11 @@ class Tlc5916 final : public LedBank {
     void setEnabled(bool enabled) noexcept;
 
   private:
-    eurorack::io::SpiBus& spi_;             ///< Non-owning SPI bus reference.
-    eurorack::io::DigitalOutput& latch_;    ///< Latch output.
-    eurorack::io::DigitalOutput* oe_;       ///< Optional active-low OE output.
-    std::vector<std::uint16_t> values_;     ///< Logical channel values.
-    std::vector<std::uint8_t> frame_;       ///< Packed binary device frame.
+    eurorack::io::SpiBus& spi_;          ///< Non-owning SPI bus reference.
+    eurorack::io::DigitalOutput& latch_; ///< Latch output.
+    eurorack::io::DigitalOutput* oe_;    ///< Optional active-low OE output.
+    std::vector<std::uint16_t> values_;  ///< Logical channel values.
+    std::vector<std::uint8_t> frame_;    ///< Packed binary device frame.
 };
 
 } // namespace eurorack::drivers::led

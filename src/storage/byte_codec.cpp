@@ -3,14 +3,19 @@
  * @brief Implements explicit little-endian byte encoding helpers.
  *
  * @details
- * Serializes fixed-width integers in a defined byte order and reconstructs them without relying on host alignment or endianness.
- * The helpers advance caller-provided offsets only after validating the complete requested range. This makes them suitable for persistent record layouts that must remain stable across desktop tests and microcontroller targets. No reinterpret_cast-based type punning is used.
+ * Serializes fixed-width integers in a defined byte order and reconstructs them without relying on
+ * host alignment or endianness. The helpers advance caller-provided offsets only after validating
+ * the complete requested range. This makes them suitable for persistent record layouts that must
+ * remain stable across desktop tests and microcontroller targets. No reinterpret_cast-based type
+ * punning is used.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

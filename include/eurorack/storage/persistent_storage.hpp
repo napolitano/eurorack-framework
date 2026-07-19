@@ -8,9 +8,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup storage
@@ -47,7 +49,8 @@ class PersistentStorage {
      * @param address Starting byte address.
      * @param destination Destination buffer.
      * @param size Number of bytes to read.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     virtual eurorack::io::IoResult
     read(std::size_t address, std::uint8_t* destination, std::size_t size) const noexcept = 0;
@@ -58,7 +61,8 @@ class PersistentStorage {
      * @param address Starting byte address.
      * @param source Source buffer.
      * @param size Number of bytes to write.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     virtual eurorack::io::IoResult
     write(std::size_t address, const std::uint8_t* source, std::size_t size) noexcept = 0;
@@ -68,14 +72,16 @@ class PersistentStorage {
      *
      * @param address Starting byte address.
      * @param size Number of bytes to erase.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     virtual eurorack::io::IoResult erase(std::size_t address, std::size_t size) noexcept = 0;
 
     /**
      * @brief Commits pending writes when required by the backend.
      *
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     virtual eurorack::io::IoResult commit() noexcept = 0;
 

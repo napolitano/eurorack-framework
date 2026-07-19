@@ -15,8 +15,10 @@
  * @ingroup drivers
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -24,7 +26,6 @@
 
 #include <cstddef>
 #include <cstdint>
-
 #include <eurorack/io/i2c_bus.hpp>
 #include <eurorack/io/io_result.hpp>
 
@@ -40,8 +41,7 @@ class Mcp23017 final {
      * @param bus I2C bus that must outlive the driver.
      * @param address Valid seven-bit MCP23017 address.
      */
-    Mcp23017(eurorack::io::I2cBus& bus,
-             eurorack::io::I2cAddress address) noexcept;
+    Mcp23017(eurorack::io::I2cBus& bus, eurorack::io::I2cAddress address) noexcept;
 
     /**
      * @brief Writes all cached configuration and output state to the device.
@@ -122,9 +122,8 @@ class Mcp23017 final {
      * @param value Sixteen-bit value written least-significant byte first.
      * @return Result returned by the I2C bus.
      */
-    eurorack::io::IoResult writeRegister16(
-        std::uint8_t firstRegister,
-        std::uint16_t value) noexcept;
+    eurorack::io::IoResult writeRegister16(std::uint8_t firstRegister,
+                                           std::uint16_t value) noexcept;
 
     /**
      * @brief Reads a consecutive pair of eight-bit registers.
@@ -133,17 +132,16 @@ class Mcp23017 final {
      * a successful read. It is unchanged on failure.
      * @return Result returned by the I2C bus.
      */
-    eurorack::io::IoResult readRegister16(
-        std::uint8_t firstRegister,
-        std::uint16_t& value) noexcept;
+    eurorack::io::IoResult readRegister16(std::uint8_t firstRegister,
+                                          std::uint16_t& value) noexcept;
 
-    eurorack::io::I2cBus& bus_;              ///< Non-owning I2C bus reference.
-    eurorack::io::I2cAddress address_;       ///< Seven-bit device address.
-    std::uint16_t direction_{0xFFFFU};       ///< Cached direction mask.
-    std::uint16_t pullups_{0U};              ///< Cached pull-up mask.
-    std::uint16_t polarity_{0U};             ///< Cached polarity-inversion mask.
-    std::uint16_t outputs_{0U};              ///< Cached output-latch mask.
-    std::uint16_t inputs_{0U};               ///< Last sampled GPIO input mask.
+    eurorack::io::I2cBus& bus_;        ///< Non-owning I2C bus reference.
+    eurorack::io::I2cAddress address_; ///< Seven-bit device address.
+    std::uint16_t direction_{0xFFFFU}; ///< Cached direction mask.
+    std::uint16_t pullups_{0U};        ///< Cached pull-up mask.
+    std::uint16_t polarity_{0U};       ///< Cached polarity-inversion mask.
+    std::uint16_t outputs_{0U};        ///< Cached output-latch mask.
+    std::uint16_t inputs_{0U};         ///< Last sampled GPIO input mask.
 };
 
 } // namespace eurorack::drivers::gpio

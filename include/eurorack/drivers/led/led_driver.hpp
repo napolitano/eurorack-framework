@@ -15,8 +15,10 @@
  * @ingroup drivers
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -24,7 +26,6 @@
 
 #include <cstddef>
 #include <cstdint>
-
 #include <eurorack/io/io_result.hpp>
 
 namespace eurorack::drivers::led {
@@ -80,9 +81,8 @@ class LedBank {
      * @return Success when the channel exists, otherwise InvalidArgument or a
      * more specific implementation error.
      */
-    virtual eurorack::io::IoResult setBrightness(
-        std::size_t channel,
-        std::uint16_t brightness) noexcept = 0;
+    virtual eurorack::io::IoResult setBrightness(std::size_t channel,
+                                                 std::uint16_t brightness) noexcept = 0;
 
     /**
      * @brief Returns one buffered channel brightness.
@@ -90,8 +90,7 @@ class LedBank {
      * @return Buffered brightness, or zero when the implementation defines an
      * out-of-range read as off.
      */
-    [[nodiscard]] virtual std::uint16_t brightness(
-        std::size_t channel) const noexcept = 0;
+    [[nodiscard]] virtual std::uint16_t brightness(std::size_t channel) const noexcept = 0;
 
     /**
      * @brief Sets every buffered channel to zero.
@@ -138,8 +137,8 @@ class LedBankChannel final : public LedChannel {
     [[nodiscard]] std::uint16_t brightness() const noexcept override;
 
   private:
-    LedBank& bank_;         ///< Non-owning bank reference.
-    std::size_t channel_;   ///< Forwarded zero-based channel index.
+    LedBank& bank_;       ///< Non-owning bank reference.
+    std::size_t channel_; ///< Forwarded zero-based channel index.
 };
 
 } // namespace eurorack::drivers::led

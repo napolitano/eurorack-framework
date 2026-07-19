@@ -8,9 +8,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup platform_arduino
@@ -51,7 +53,8 @@ class ArduinoEepromStorage final : public eurorack::storage::PersistentStorage {
     /**
      * @brief Begins emulated EEPROM on cores that require it.
      *
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     [[nodiscard]] eurorack::io::IoResult begin() noexcept {
 #if defined(ESP8266) || defined(ESP32)
@@ -77,7 +80,8 @@ class ArduinoEepromStorage final : public eurorack::storage::PersistentStorage {
      * @param address Relative starting address.
      * @param destination Destination buffer.
      * @param size Number of bytes.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     eurorack::io::IoResult read(const std::size_t address,
                                 std::uint8_t* const destination,
@@ -99,7 +103,8 @@ class ArduinoEepromStorage final : public eurorack::storage::PersistentStorage {
      * @param address Relative starting address.
      * @param source Source buffer.
      * @param size Number of bytes.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     eurorack::io::IoResult write(const std::size_t address,
                                  const std::uint8_t* const source,
@@ -120,7 +125,8 @@ class ArduinoEepromStorage final : public eurorack::storage::PersistentStorage {
      *
      * @param address Relative starting address.
      * @param size Number of bytes.
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     eurorack::io::IoResult erase(const std::size_t address,
                                  const std::size_t size) noexcept override {
@@ -138,7 +144,8 @@ class ArduinoEepromStorage final : public eurorack::storage::PersistentStorage {
     /**
      * @brief Commits emulated EEPROM when required.
      *
-     * @return Success when the requested operation completes; otherwise a specific validation, bus, or storage error.
+     * @return Success when the requested operation completes; otherwise a specific validation, bus,
+     * or storage error.
      */
     eurorack::io::IoResult commit() noexcept override {
 #if defined(ESP8266) || defined(ESP32)

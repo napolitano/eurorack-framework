@@ -3,12 +3,15 @@
  * @brief Declares a calibrated linear fader model.
  *
  * @details
- * Wraps the potentiometer processor with fader-specific direction and endpoint terminology while preserving normalized and bipolar output.
+ * Wraps the potentiometer processor with fader-specific direction and endpoint terminology while
+ * preserving normalized and bipolar output.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup controls
@@ -29,11 +32,11 @@ enum class FaderDirection : std::uint8_t {
 
 /** @brief Calibration and filtering settings for a fader. */
 struct FaderConfig final {
-    std::uint32_t rawMinimum{0U}; ///< ADC code at physical minimum.
-    std::uint32_t rawMaximum{4095U}; ///< ADC code at physical maximum.
+    std::uint32_t rawMinimum{0U};                          ///< ADC code at physical minimum.
+    std::uint32_t rawMaximum{4095U};                       ///< ADC code at physical maximum.
     FaderDirection direction{FaderDirection::BottomToTop}; ///< Logical direction.
     float deadbandNormalized{0.002F}; ///< Minimum accepted normalized movement.
-    float smoothingFactor{1.0F}; ///< Exponential smoothing factor from zero to one.
+    float smoothingFactor{1.0F};      ///< Exponential smoothing factor from zero to one.
 };
 
 /** @brief Immutable fader state. */
@@ -48,7 +51,7 @@ using FaderSnapshot = PotentiometerSnapshot;
  * normalization logic. Call update() with raw ADC codes.
  */
 class Fader final {
-public:
+  public:
     /** @brief Constructs an uninitialized fader. @param config Calibration and filtering. */
     explicit Fader(FaderConfig config = {}) noexcept;
 
@@ -64,7 +67,7 @@ public:
     /** @brief Returns immutable fader settings. @return Constant configuration reference. */
     [[nodiscard]] const FaderConfig& config() const noexcept;
 
-private:
+  private:
     FaderConfig config_{};
     Potentiometer potentiometer_{};
 };

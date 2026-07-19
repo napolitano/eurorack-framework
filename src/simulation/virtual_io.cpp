@@ -4,13 +4,18 @@
  *
  * @details
  * Implements deterministic digital, analog, and bidirectional virtual I/O endpoints.
- * Virtual inputs expose test-controlled values. Virtual outputs record the most recently requested value and transition history. Analog endpoints enforce configured code ranges and can inject explicit operation results. These objects model framework contracts, not electrical timing, impedance, or noise.
+ * Virtual inputs expose test-controlled values. Virtual outputs record the most recently requested
+ * value and transition history. Analog endpoints enforce configured code ranges and can inject
+ * explicit operation results. These objects model framework contracts, not electrical timing,
+ * impedance, or noise.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

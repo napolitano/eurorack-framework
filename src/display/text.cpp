@@ -4,13 +4,18 @@
  *
  * @details
  * Measures and renders single-line bitmap text on a monochrome canvas.
- * Layout separates glyph advance from drawn width so trailing spacing is not mistaken for visible content. Horizontal and vertical alignment are calculated from the measured bounds before any pixel is emitted. Unsupported characters use the font fallback glyph, and clipping remains the canvas responsibility.
+ * Layout separates glyph advance from drawn width so trailing spacing is not mistaken for visible
+ * content. Horizontal and vertical alignment are calculated from the measured bounds before any
+ * pixel is emitted. Unsupported characters use the font fallback glyph, and clipping remains the
+ * canvas responsibility.
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

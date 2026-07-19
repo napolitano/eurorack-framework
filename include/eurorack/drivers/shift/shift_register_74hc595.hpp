@@ -14,8 +14,10 @@
  * @ingroup drivers
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -23,11 +25,10 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <vector>
-
 #include <eurorack/io/digital_io.hpp>
 #include <eurorack/io/io_result.hpp>
 #include <eurorack/io/spi_bus.hpp>
+#include <vector>
 
 namespace eurorack::drivers::shift {
 
@@ -91,10 +92,10 @@ class ShiftRegister74Hc595 final {
     void setEnabled(bool enabled) noexcept;
 
   private:
-    eurorack::io::SpiBus& spi_;                    ///< Non-owning SPI bus reference.
-    eurorack::io::DigitalOutput& latch_;           ///< Storage-register latch output.
-    eurorack::io::DigitalOutput* outputEnable_;    ///< Optional active-low OE output.
-    std::vector<std::uint8_t> buffer_;             ///< Buffered chain output bytes.
+    eurorack::io::SpiBus& spi_;                 ///< Non-owning SPI bus reference.
+    eurorack::io::DigitalOutput& latch_;        ///< Storage-register latch output.
+    eurorack::io::DigitalOutput* outputEnable_; ///< Optional active-low OE output.
+    std::vector<std::uint8_t> buffer_;          ///< Buffered chain output bytes.
 };
 
 } // namespace eurorack::drivers::shift

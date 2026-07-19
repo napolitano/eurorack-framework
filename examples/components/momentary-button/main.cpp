@@ -19,8 +19,7 @@
 int main() {
     // 1. Construct the model with explicit settings. Defaults are avoided
     // here so the example also documents the meaning of each configuration.
-    eurorack::controls::MomentaryButton button({
-        eurorack::controls::ActiveLevel::Low, 10U});
+    eurorack::controls::MomentaryButton button({eurorack::controls::ActiveLevel::Low, 10U});
     // 2. Supply one or more deterministic samples. State changes only
     // when the model receives an explicit method call.
     button.reset(true, 0U);

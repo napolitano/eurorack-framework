@@ -1,6 +1,6 @@
 {
   "name": "Eurorack Framework",
-  "version": "0.1.0-alpha.9",
+  "version": "0.1.0-alpha.10",
   "description": "Portable C++ framework for reusable Eurorack firmware infrastructure: controls, electrical I/O models, hardware drivers, displays, storage, platform adapters, and simulation support.",
   "keywords": [
     "eurorack",

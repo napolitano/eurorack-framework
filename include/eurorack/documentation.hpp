@@ -8,8 +8,10 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -21,17 +23,18 @@
  * @details
  * Control objects translate raw hardware observations into stable, application-facing state.
  * They do not own referenced hardware interfaces; dependencies must outlive the control object.
- * Unless stated otherwise, calls are synchronous, allocate no memory, and are intended for a cooperative firmware loop.
- * Objects are not internally synchronized and require external protection when shared between interrupt and foreground contexts.
+ * Unless stated otherwise, calls are synchronous, allocate no memory, and are intended for a
+ * cooperative firmware loop. Objects are not internally synchronized and require external
+ * protection when shared between interrupt and foreground contexts.
  */
 
 /**
  * @defgroup core Framework configuration and foundational types
  *
  * @details
- * Core declarations define shared policy, validation, and configuration used by multiple framework layers.
- * Values use explicit units and ranges wherever practical.
- * Changing configuration may alter electrical thresholds, timing, memory requirements, and persistent behavior.
+ * Core declarations define shared policy, validation, and configuration used by multiple framework
+ * layers. Values use explicit units and ranges wherever practical. Changing configuration may alter
+ * electrical thresholds, timing, memory requirements, and persistent behavior.
  */
 
 /**
@@ -39,8 +42,9 @@
  *
  * @details
  * Rendering operates on caller-owned canvas memory and uses integer pixel coordinates.
- * Drawing respects the active clip rectangle and performs no display transfer unless a concrete controller driver is called.
- * Canvas memory must not be modified concurrently during rendering or transfer.
+ * Drawing respects the active clip rectangle and performs no display transfer unless a concrete
+ * controller driver is called. Canvas memory must not be modified concurrently during rendering or
+ * transfer.
  */
 
 /**
@@ -49,7 +53,8 @@
  * @details
  * Drivers consume abstract bus and pin interfaces and remain independent of a particular MCU SDK.
  * Referenced dependencies are non-owning and must outlive the driver.
- * A successful bus transaction does not validate the external circuit, reference voltage, current limiting, protection, or calibration.
+ * A successful bus transaction does not validate the external circuit, reference voltage, current
+ * limiting, protection, or calibration.
  */
 
 /**
@@ -65,9 +70,10 @@
  * @defgroup platform_arduino Arduino Core platform adapters
  *
  * @details
- * Adapters bridge framework contracts to Arduino Core APIs and are available only when ARDUINO is defined.
- * They do not add electrical protection, atomicity, real-time guarantees, or thread safety beyond the selected core.
- * Raw microcontroller pins must not be connected directly to Eurorack jacks without suitable hardware.
+ * Adapters bridge framework contracts to Arduino Core APIs and are available only when ARDUINO is
+ * defined. They do not add electrical protection, atomicity, real-time guarantees, or thread safety
+ * beyond the selected core. Raw microcontroller pins must not be connected directly to Eurorack
+ * jacks without suitable hardware.
  */
 
 /**
@@ -75,8 +81,8 @@
  *
  * @details
  * Simulation types prioritize repeatability and observability over embedded memory constraints.
- * They may allocate standard-library containers and are intended for native tests and desktop tools.
- * They are excluded from Arduino builds and are not production real-time components.
+ * They may allocate standard-library containers and are intended for native tests and desktop
+ * tools. They are excluded from Arduino builds and are not production real-time components.
  */
 
 /**
@@ -93,6 +99,7 @@
  *
  * @details
  * Configuration values are compile-time operating assumptions expressed in explicit units.
- * They are not electrical absolute maximum ratings and do not replace protection, measurement, or calibration.
- * Changing them requires rebuilding consuming firmware and may require updated tests or stored-data migration.
+ * They are not electrical absolute maximum ratings and do not replace protection, measurement, or
+ * calibration. Changing them requires rebuilding consuming firmware and may require updated tests
+ * or stored-data migration.
  */

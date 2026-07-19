@@ -45,6 +45,16 @@ def run_logged(
     print(result.stdout, end="")
 
     if result.returncode != 0:
+        doxygen_warnings = cwd / "docs/generated/doxygen-warnings.log"
+        if doxygen_warnings.is_file():
+            warnings = doxygen_warnings.read_text(
+                encoding="utf-8",
+                errors="replace",
+            )
+            if warnings.strip():
+                print("\nDoxygen warnings:\n", file=sys.stderr)
+                print(warnings, file=sys.stderr)
+
         raise DocumentationBuildError(
             f"{' '.join(command)} failed with exit code "
             f"{result.returncode}. See {log_path}."

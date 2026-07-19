@@ -15,9 +15,11 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
+ * @par Contact
+ * eurorack\@skjt.de
  *
- * @license PolyForm Noncommercial License 1.0.0
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 
@@ -98,8 +100,8 @@ eurorack::io::IoResult Sh1106::flush(const eurorack::display::MonochromeCanvas& 
         }
 
         // SH1106 splits the start column across low- and high-nibble
-        // commands. The offset aligns 128 visible columns within 132 RAM columns.        // Split the visible start column into the controller's low- and
-        // high-nibble address commands.
+        // commands. The offset aligns 128 visible columns within 132 RAM columns.        // Split
+        // the visible start column into the controller's low- and high-nibble address commands.
 
         const std::uint8_t column = config_.columnOffset;
         const std::array<std::uint8_t, 3> commands{

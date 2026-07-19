@@ -7,8 +7,10 @@
  *
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  *
  * @ingroup controls
@@ -19,10 +21,7 @@
 namespace eurorack::controls {
 
 IlluminatedButton::IlluminatedButton(const IlluminatedButtonConfig config) noexcept
-    : config_(config),
-      button_(config.button),
-      led_(config.inactiveColor) {
-}
+    : config_(config), button_(config.button), led_(config.inactiveColor) {}
 
 void IlluminatedButton::reset(const bool rawLevelHigh, const std::uint32_t nowMs) noexcept {
     button_.reset(rawLevelHigh, nowMs);
@@ -35,20 +34,26 @@ void IlluminatedButton::update(const bool rawLevelHigh, const std::uint32_t nowM
     updateAutomaticLed();
 }
 
-void IlluminatedButton::setLedColor(const RgbColor color) noexcept { led_.setColor(color); }
+void IlluminatedButton::setLedColor(const RgbColor color) noexcept {
+    led_.setColor(color);
+}
 void IlluminatedButton::setLedBrightness(const std::uint16_t brightness) noexcept {
     led_.setMasterBrightness(brightness);
 }
-const MomentaryButton& IlluminatedButton::button() const noexcept { return button_; }
-const MulticolorLed& IlluminatedButton::led() const noexcept { return led_; }
+const MomentaryButton& IlluminatedButton::button() const noexcept {
+    return button_;
+}
+const MulticolorLed& IlluminatedButton::led() const noexcept {
+    return led_;
+}
 
 void IlluminatedButton::updateAutomaticLed() noexcept {
     if (config_.mode == IlluminatedButtonMode::Manual) {
         return;
     }
     const bool active = config_.mode == IlluminatedButtonMode::LitWhilePressed
-        ? button_.isPressed()
-        : !button_.isPressed();
+                            ? button_.isPressed()
+                            : !button_.isPressed();
     led_.setColor(active ? config_.activeColor : config_.inactiveColor);
 }
 

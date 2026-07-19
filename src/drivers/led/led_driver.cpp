@@ -3,13 +3,17 @@
  * @brief Implements LED bank channel views.
  * @details
  * Implements the generic single-channel view over a buffered LED bank.
- * 
- * The adapter retains a non-owning bank reference and channel index. Brightness writes are forwarded to the bank's software buffer; physical synchronization still requires the bank's explicit flush operation.
+ *
+ * The adapter retains a non-owning bank reference and channel index. Brightness writes are
+ forwarded to the bank's software buffer; physical synchronization still requires the bank's
+ explicit flush operation.
 
  * @author Axel Napolitano
  * @date 2026
- * @contact eurorack@skjt.de
- * @license PolyForm Noncommercial License 1.0.0
+ * @par Contact
+ * eurorack\@skjt.de
+ * @par License
+ * PolyForm Noncommercial License 1.0.0
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
 

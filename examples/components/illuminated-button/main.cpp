@@ -19,11 +19,11 @@
 int main() {
     // 1. Construct the model with explicit settings. Defaults are avoided
     // here so the example also documents the meaning of each configuration.
-    eurorack::controls::IlluminatedButton button({
-        {eurorack::controls::ActiveLevel::High, 0U},
-        eurorack::controls::IlluminatedButtonMode::LitWhilePressed,
-        {0U, 65535U, 0U},
-        {0U, 0U, 0U}});
+    eurorack::controls::IlluminatedButton button(
+        {{eurorack::controls::ActiveLevel::High, 0U},
+         eurorack::controls::IlluminatedButtonMode::LitWhilePressed,
+         {0U, 65535U, 0U},
+         {0U, 0U, 0U}});
     // 2. Supply one or more deterministic samples. State changes only
     // when the model receives an explicit method call.
     button.reset(false, 0U);
