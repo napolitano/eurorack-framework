@@ -9,6 +9,8 @@ on:
       - "include/**"
       - "src/**"
       - "docs/**"
+      - "LICENSING.md"
+      - "CONTRIBUTING.md"
       - "tools/build-documentation.py"
       - ".github/workflows/documentation.yml"
   push:
@@ -20,6 +22,8 @@ on:
       - "include/**"
       - "src/**"
       - "docs/**"
+      - "LICENSING.md"
+      - "CONTRIBUTING.md"
       - "tools/build-documentation.py"
       - ".github/workflows/documentation.yml"
 
@@ -33,8 +37,8 @@ concurrency:
 jobs:
   manual:
     name: Markdown and PDF manual
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
 
     steps:
       - name: Check out repository
@@ -48,19 +52,25 @@ jobs:
       - name: Install documentation toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install --yes \
+          sudo apt-get install --yes --no-install-recommends \
             doxygen \
             graphviz \
+            latexmk \
             make \
+            texlive-fonts-recommended \
             texlive-latex-base \
             texlive-latex-extra \
-            texlive-fonts-recommended
+            texlive-latex-recommended \
+            texlive-pictures \
+            texlive-plain-generic
 
       - name: Show tool versions
         run: |
           doxygen --version
           dot -V
+          latexmk -version | head -n 2
           pdflatex --version | head -n 1
+          makeindex --version | head -n 1
 
       - name: Run documentation audits
         run: |
@@ -80,11 +90,14 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Upload Doxygen warnings on failure
-        if: failure()
+      - name: Upload documentation diagnostics
+        if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: doxygen-diagnostics
-          path: docs/generated/doxygen-warnings.log
+          name: documentation-diagnostics
+          path: |
+            docs/generated/logs/*.log
+            docs/generated/doxygen-warnings.log
+            docs/generated/latex/*.log
           if-no-files-found: ignore
           retention-days: 7

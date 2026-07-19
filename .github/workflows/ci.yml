@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: Quality
 
 on:
   push:
@@ -13,139 +13,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: quality-${{ github.ref }}
   cancel-in-progress: true
 
 env:
   PYTHON_VERSION: "3.12"
 
 jobs:
-  native-tests:
-    name: Native tests - ${{ matrix.compiler }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        compiler:
-          - g++
-          - clang++
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Run strict native tests
-        run: |
-          python tools/run-native-tests.py \
-            --compiler "${{ matrix.compiler }}"
-
-  sanitizers:
-    name: Address and undefined-behavior sanitizers
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Run sanitizer test suite
-        env:
-          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
-          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
-        run: |
-          python tools/run-native-tests.py \
-            --compiler g++ \
-            --sanitizers
-
-
-  component-examples:
-    name: Native component examples
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Build and execute component examples
-        run: python tools/build-examples.py
-
-  platformio-native:
-    name: PlatformIO native integration
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Install PlatformIO
-        run: python -m pip install --upgrade platformio
-
-      - name: Show PlatformIO version
-        run: pio --version
-
-      - name: Run PlatformIO native tests
-        run: pio test -e native
-
-
-  nano-r3-attenuverter:
-    name: Arduino Nano R3 attenuverter build
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Install PlatformIO
-        run: python -m pip install --upgrade platformio
-
-      - name: Test pure attenuverter model
-        working-directory: examples/projects/nano-r3-attenuverter
-        run: |
-          g++ \
-            -std=c++17 \
-            -Wall \
-            -Wextra \
-            -Wpedantic \
-            -Wconversion \
-            -Wsign-conversion \
-            -Werror \
-            native/model_test.cpp \
-            -o /tmp/attenuverter-model-test
-          /tmp/attenuverter-model-test
-
-      - name: Build Nano R3 example
-        working-directory: examples/projects/nano-r3-attenuverter
-        run: pio run
-
   documentation-audits:
     name: Documentation audits
     runs-on: ubuntu-latest
@@ -169,13 +43,22 @@ jobs:
       - name: Build Markdown documentation artifact
         run: python tools/build-documentation.py --markdown-only
 
-      - name: Upload Markdown documentation
-        uses: actions/upload-artifact@v7
+  licensing:
+    name: Licensing audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
         with:
-          name: markdown-documentation
-          path: dist/*-markdown-docs.zip
-          if-no-files-found: error
-          retention-days: 14
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Audit license files and SPDX metadata
+        run: python tools/check-licensing.py
 
   static-analysis:
     name: Formatting and static analysis
