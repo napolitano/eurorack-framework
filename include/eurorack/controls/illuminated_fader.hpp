@@ -76,9 +76,10 @@ class IlluminatedFader final {
     /** @brief Maps current normalized position to configured LED brightness. */
     void updateAutomaticLed() noexcept;
 
-    IlluminatedFaderConfig config_{};
-    Fader fader_{};
-    MulticolorLed led_{};
+    IlluminatedFaderConfig config_{}; ///< Mode, color, and brightness range used by
+                                        ///< @ref updateAutomaticLed.
+    Fader fader_{};                    ///< Underlying calibrated linear-fader submodel.
+    MulticolorLed led_{};              ///< RGB illumination submodel.
 };
 
 } // namespace eurorack::controls

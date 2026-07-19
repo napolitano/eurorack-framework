@@ -82,9 +82,11 @@ class ToggleSwitch final {
     [[nodiscard]] const ToggleSwitchConfig& config() const noexcept;
 
   private:
-    ToggleSwitchConfig config_{};
-    MomentaryButton debouncer_{};
-    ToggleSwitchSnapshot snapshot_{};
+    ToggleSwitchConfig config_{};       ///< Polarity and debounce settings.
+    MomentaryButton debouncer_{}; ///< Underlying debounce state machine; On maps to the
+                                    ///< debouncer's pressed state and its edge/transition
+                                    ///< reporting is reused directly.
+    ToggleSwitchSnapshot snapshot_{}; ///< Most recently derived stable position and edge flags.
 };
 
 } // namespace eurorack::controls

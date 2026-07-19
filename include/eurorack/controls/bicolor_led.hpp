@@ -61,8 +61,11 @@ enum class PinDrive : std::uint8_t { Low, High, HighImpedance };
  * responsibilities of the hardware layer.
  */
 struct BiColorLedConfig final {
-    BiColorLedTopology topology{BiColorLedTopology::CommonAnode};
-    BiColorLedColor initialColor{BiColorLedColor::Off};
+    BiColorLedTopology topology{BiColorLedTopology::CommonAnode}; ///< Package wiring; determines
+                                                                   ///< the pin-drive polarity used
+                                                                   ///< by @ref BiColorLed::recalculate.
+    BiColorLedColor initialColor{BiColorLedColor::Off}; ///< Color applied by the constructor and by
+                                                          ///< @ref BiColorLed::reset.
 };
 /**
  * @brief Complete logical and electrical state calculated for a two-color LED.
@@ -73,13 +76,28 @@ struct BiColorLedConfig final {
  * Transition metadata describes accepted logical changes, not PWM edges.
  */
 struct BiColorLedSnapshot final {
-    BiColorLedColor requestedColor{BiColorLedColor::Off};
-    BiColorLedColor effectiveColor{BiColorLedColor::Off};
-    PinDrive pinA{PinDrive::HighImpedance};
-    PinDrive pinB{PinDrive::HighImpedance};
-    bool multiplexingRequired{false};
-    bool changed{false};
-    std::uint32_t transitionCount{0U};
+    BiColorLedColor requestedColor{BiColorLedColor::Off}; ///< Last color accepted by @ref
+                                                            ///< BiColorLed::setColor, unchanged by
+                                                            ///< topology.
+    BiColorLedColor effectiveColor{BiColorLedColor::Off}; ///< Color actually reproducible without
+                                                            ///< multiplexing. Equals
+                                                            ///< `requestedColor` except for a
+                                                            ///< bipolar LED requesting `Mixed`,
+                                                            ///< where it is forced to `Off` and
+                                                            ///< `multiplexingRequired` is set
+                                                            ///< instead.
+    PinDrive pinA{PinDrive::HighImpedance}; ///< Drive state for the first color terminal, already
+                                              ///< resolved for the configured topology.
+    PinDrive pinB{PinDrive::HighImpedance}; ///< Drive state for the second color terminal, already
+                                              ///< resolved for the configured topology.
+    bool multiplexingRequired{false}; ///< True when a bipolar LED was asked for `Mixed` and the
+                                        ///< caller must alternate `pinA`/`pinB` fast enough to
+                                        ///< avoid visible flicker.
+    bool changed{false}; ///< True for exactly one @ref BiColorLed::setColor call after the
+                          ///< requested color actually changed; cleared at the start of every
+                          ///< subsequent call.
+    std::uint32_t transitionCount{0U}; ///< Number of accepted color changes since construction or
+                                         ///< the last @ref BiColorLed::reset.
 };
 /**
  * @brief Converts a logical two-color request into topology-specific pin states.
@@ -107,7 +125,7 @@ class BiColorLed final {
   private:
     /** @brief Recalculates effective color and required pin drives. */
     void recalculate() noexcept;
-    BiColorLedConfig config_{};
-    BiColorLedSnapshot snapshot_{};
+    BiColorLedConfig config_{};     ///< Immutable wiring topology and initial color.
+    BiColorLedSnapshot snapshot_{}; ///< Most recently calculated logical and electrical state.
 };
 } // namespace eurorack::controls

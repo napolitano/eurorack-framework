@@ -111,8 +111,10 @@ class MemoryStorage final : public PersistentStorage {
      */
     [[nodiscard]] bool validRange(std::size_t address, std::size_t size) const noexcept;
 
-    std::vector<std::uint8_t> bytes_{};
-    std::uint8_t erasedValue_{0xFFU};
+    std::vector<std::uint8_t> bytes_{}; ///< Backing storage; sized to `capacityBytes` at
+                                          ///< construction.
+    std::uint8_t erasedValue_{0xFFU}; ///< Byte value written by `erase` and returned by
+                                        ///< `erasedValue`.
 };
 
 } // namespace eurorack::storage

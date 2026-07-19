@@ -86,7 +86,10 @@ class VirtualTime final : public eurorack::io::TimeSource, public eurorack::io::
     [[nodiscard]] std::uint64_t microseconds64() const noexcept;
 
   private:
-    std::uint64_t microseconds_{0U};
+    std::uint64_t microseconds_{0U}; ///< Full-precision elapsed virtual time. `microseconds()`
+                                       ///< returns this value truncated to 32 bits;
+                                       ///< `milliseconds()` returns it divided by 1000 and then
+                                       ///< truncated to 32 bits.
 };
 
 } // namespace eurorack::simulation

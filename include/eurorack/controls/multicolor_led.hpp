@@ -86,9 +86,12 @@ class MulticolorLed final {
     /** @brief Recalculates effective RGB output and transition metadata. */
     void recalculate() noexcept;
 
-    RgbColor initialColor_{};
-    std::uint16_t initialMasterBrightness_{eurorack::drivers::led::MAX_BRIGHTNESS};
-    MulticolorLedSnapshot snapshot_{};
+    RgbColor initialColor_{};             ///< Color restored by @ref reset; set once at
+                                            ///< construction.
+    std::uint16_t initialMasterBrightness_{eurorack::drivers::led::MAX_BRIGHTNESS}; ///< Master
+        ///< brightness restored by @ref reset; set once at construction.
+    MulticolorLedSnapshot snapshot_{}; ///< Most recently calculated requested/effective color and
+                                         ///< transition metadata.
 };
 
 } // namespace eurorack::controls

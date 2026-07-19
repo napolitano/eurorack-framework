@@ -38,9 +38,13 @@ namespace eurorack::simulation {
  * byte vectors, allowing exact protocol assertions after driver calls.
  */
 struct SpiTransferRecord final {
-    eurorack::io::SpiSettings settings{};
-    std::vector<std::uint8_t> transmitted{};
-    std::vector<std::uint8_t> received{};
+    eurorack::io::SpiSettings settings{}; ///< Settings passed to the `beginTransaction` call
+                                            ///< active during this transfer.
+    std::vector<std::uint8_t> transmitted{}; ///< Bytes as supplied to `transfer`'s transmit
+                                               ///< buffer, or zero-filled if none was supplied.
+    std::vector<std::uint8_t> received{}; ///< Bytes delivered to `transfer`'s receive buffer,
+                                            ///< taken from the queued response (if any) or
+                                            ///< zero-filled otherwise.
 };
 
 /**
@@ -53,102 +57,96 @@ struct SpiTransferRecord final {
  */
 class VirtualSpiBus final : public eurorack::io::SpiBus {
   public:
-    eurorack::io::IoResult
     /**
-     * @brief Provides the begin transaction operation.
+     * @brief Begins a transaction, enforcing that no other transaction is already open.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Stores `settings` for use by the next `transfer` calls and marks a transaction as open.
      *
-     * @param settings SPI transaction settings.
+     * @param settings SPI transaction settings recorded into each subsequent transfer.
+     * @return `Busy` if a transaction is already open; otherwise `Success`.
      */
+    eurorack::io::IoResult
     beginTransaction(const eurorack::io::SpiSettings& settings) noexcept override;
 
     /**
-     * @brief Provides the transfer operation.
+     * @brief Records one transfer and returns queued or injected data.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Returns `Busy` if no transaction is currently open. Otherwise records a `SpiTransferRecord`
+     * with the active `settings`, the bytes from `transmit` (or zeros if null), and up to `size`
+     * bytes popped from the front of the response queue (or zeros if the queue is empty); the
+     * received bytes are also copied into `receive` if non-null. A transfer is recorded even
+     * when a one-shot error was injected via `setNextResult`, so a test can assert both the
+     * bytes involved and the returned error.
      *
-     * @param transmit Optional transmit buffer valid for the duration of the transfer.
-     *
-     * @param receive Optional receive buffer valid for the duration of the transfer.
-     *
-     * @param size Number of bytes or elements involved.
-     *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned
-     * by validation, storage, filesystem, or bus access.
+     * @param transmit Optional transmit buffer valid for the duration of the call; null is
+     * treated as all zeros.
+     * @param receive Optional receive buffer valid for the duration of the call; may be null to
+     * discard the response.
+     * @param size Number of bytes transferred in both directions.
+     * @return `Busy` if no transaction is open; otherwise the result last set via
+     * `setNextResult` (defaulting to `Success`), which is then reset to `Success`.
      */
     eurorack::io::IoResult transfer(const std::uint8_t* transmit,
                                     std::uint8_t* receive,
                                     std::size_t size) noexcept override;
 
     /**
-     * @brief Provides the end transaction operation.
-     *
-     * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * @brief Ends the current transaction, allowing `beginTransaction` to succeed again.
      */
     void endTransaction() noexcept override;
 
     /**
-     * @brief Queues bytes for the next simulated read or transfer.
+     * @brief Queues bytes to be returned by the next `transfer` call.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Responses are consumed in FIFO order, one per `transfer` call; a `transfer` call that
+     * finds the queue empty returns all zeros instead.
      *
-     * @param response Response bytes consumed by the next simulated transfer.
+     * @param response Response bytes consumed by the next `transfer` call.
      */
     void queueResponse(std::vector<std::uint8_t> response);
 
     /**
-     * @brief Injects the result returned by the next simulated operation.
+     * @brief Injects the result returned by the next `transfer` call.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * The injected result is consumed and reset to `Success` by the next `transfer` call,
+     * regardless of whether a transaction is open; if no transaction is open, `transfer` returns
+     * `Busy` instead without consuming the injected result.
      *
-     * @param result Result injected into the next simulated operation.
+     * @param result Result returned by the next `transfer` call.
      */
     void setNextResult(eurorack::io::IoResult result) noexcept;
 
     /**
-     * @brief Returns recorded bus transfers.
+     * @brief Returns every transfer recorded since construction or the last `clear`.
      *
-     * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
-     *
-     * @return A non-owning reference valid until the owning object is modified or destroyed.
+     * @return Constant reference to the recorded transfers, in call order.
      */
     [[nodiscard]] const std::vector<SpiTransferRecord>& transfers() const noexcept;
 
     /**
-     * @brief Clears buffered or recorded state.
+     * @brief Resets all recorded and queued state.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Clears recorded transfers and queued responses, closes any open transaction, and resets
+     * the injected result to `Success`.
      */
     void clear() noexcept;
 
   private:
-    eurorack::io::SpiSettings settings_{};
-    bool transactionActive_{false};
-    eurorack::io::IoResult nextResult_{eurorack::io::IoResult::Success};
-    std::deque<std::vector<std::uint8_t>> responses_{};
-    std::vector<SpiTransferRecord> transfers_{};
+    eurorack::io::SpiSettings settings_{}; ///< Settings from the most recent `beginTransaction`
+                                             ///< call, recorded into subsequent transfers.
+    bool transactionActive_{false}; ///< True between a successful `beginTransaction` and the
+                                      ///< matching `endTransaction`.
+    eurorack::io::IoResult nextResult_{eurorack::io::IoResult::Success}; ///< One-shot result
+        ///< returned and reset by the next `transfer` call.
+    std::deque<std::vector<std::uint8_t>> responses_{}; ///< FIFO queue of byte sequences to
+                                                           ///< return from `transfer`.
+    std::vector<SpiTransferRecord> transfers_{}; ///< Every transfer recorded since construction
+                                                   ///< or the last `clear`.
 };
 
 /**
@@ -159,9 +157,13 @@ class VirtualSpiBus final : public eurorack::io::SpiBus {
  * register transactions and repeated starts can be asserted precisely.
  */
 struct I2cTransferRecord final {
-    eurorack::io::I2cAddress address{0U};
-    std::vector<std::uint8_t> written{};
-    std::vector<std::uint8_t> read{};
+    eurorack::io::I2cAddress address{0U}; ///< Target address passed to `write`, `read`, or
+                                            ///< `writeRead`.
+    std::vector<std::uint8_t> written{}; ///< Bytes from the write phase, if any; empty for a
+                                           ///< plain `read`.
+    std::vector<std::uint8_t> read{}; ///< Bytes delivered for the read phase, taken from the
+                                        ///< queued response (if any) or zero-filled otherwise;
+                                        ///< empty for a plain `write`.
 };
 
 /**
@@ -175,84 +177,69 @@ struct I2cTransferRecord final {
 class VirtualI2cBus final : public eurorack::io::I2cBus {
   public:
     /**
-     * @brief Sets clock.
+     * @brief Stores the requested clock frequency.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Purely bookkeeping; no simulated timing depends on the configured frequency.
      *
-     * @param frequencyHz Requested bus clock frequency in hertz.
-     *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned
-     * by validation, storage, filesystem, or bus access.
+     * @param frequencyHz Requested bus clock frequency in hertz, later returned by `clockHz`.
+     * @return The result last set via `setNextResult` (defaulting to `Success`), which is then
+     * reset to `Success`.
      */
     eurorack::io::IoResult setClock(std::uint32_t frequencyHz) noexcept override;
 
     /**
-     * @brief Writes .
+     * @brief Records a write-only transaction.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Appends an `I2cTransferRecord` with `address` and a copy of `data` (or an empty write
+     * buffer if `data` is null); `sendStop` is accepted for interface compatibility but does not
+     * affect the recorded trace.
      *
-     * @param address Storage address, register address, or I2C address as defined by the enclosing
-     * API.
-     *
-     * @param data Byte buffer used by the operation.
-     *
-     * @param size Number of bytes or elements involved.
-     *
-     * @param sendStop True to terminate the I2C write with a stop condition.
-     *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned
-     * by validation, storage, filesystem, or bus access.
+     * @param address Target I2C address.
+     * @param data Bytes to record as written; may be null only if `size` is zero.
+     * @param size Number of bytes to write.
+     * @param sendStop Accepted for interface compatibility; not reflected in the recorded trace.
+     * @return The result last set via `setNextResult` (defaulting to `Success`), which is then
+     * reset to `Success`.
      */
     eurorack::io::IoResult write(eurorack::io::I2cAddress address,
                                  const std::uint8_t* data,
                                  std::size_t size,
                                  bool sendStop = true) noexcept override;
 
-    eurorack::io::IoResult
     /**
-     * @brief Reads .
+     * @brief Records a read-only transaction and delivers queued response data.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Appends an `I2cTransferRecord` whose `read` field is filled from the front of the response
+     * queue (or zeros if the queue is empty), then copies that data into `data` if non-null.
      *
-     * @param address Storage address, register address, or I2C address as defined by the enclosing
-     * API.
-     *
-     * @param data Byte buffer used by the operation.
-     *
-     * @param size Number of bytes or elements involved.
+     * @param address Target I2C address.
+     * @param data Destination for the read bytes; may be null to discard the response.
+     * @param size Number of bytes to read.
+     * @return The result last set via `setNextResult` (defaulting to `Success`), which is then
+     * reset to `Success`.
      */
+    eurorack::io::IoResult
     read(eurorack::io::I2cAddress address, std::uint8_t* data, std::size_t size) noexcept override;
 
     /**
-     * @brief Writes read.
+     * @brief Records a combined write-then-repeated-start-read transaction.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Appends a single `I2cTransferRecord` carrying both the write bytes and the read bytes
+     * delivered from the front of the response queue (or zeros if the queue is empty); the read
+     * bytes are also copied into `readData` if non-null.
      *
-     * @param address Storage address, register address, or I2C address as defined by the enclosing
-     * API.
-     *
-     * @param writeData Bytes transmitted before a repeated-start read.
-     *
+     * @param address Target I2C address.
+     * @param writeData Bytes transmitted before the repeated-start read; may be null only if
+     * `writeSize` is zero.
      * @param writeSize Number of bytes in the write phase.
-     *
-     * @param readData Destination for the read phase.
-     *
+     * @param readData Destination for the read phase; may be null to discard the response.
      * @param readSize Number of bytes requested in the read phase.
-     *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned
-     * by validation, storage, filesystem, or bus access.
+     * @return The result last set via `setNextResult` (defaulting to `Success`), which is then
+     * reset to `Success`.
      */
     eurorack::io::IoResult writeRead(eurorack::io::I2cAddress address,
                                      const std::uint8_t* writeData,
@@ -261,81 +248,66 @@ class VirtualI2cBus final : public eurorack::io::I2cBus {
                                      std::size_t readSize) noexcept override;
 
     /**
-     * @brief Queues bytes for the next simulated read or transfer.
+     * @brief Queues bytes to be returned by the next `read` or `writeRead` call.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Responses are consumed in FIFO order, one per read; a read that finds the queue empty
+     * returns all zeros instead.
      *
-     * @param response Response bytes consumed by the next simulated transfer.
+     * @param response Response bytes consumed by the next `read` or `writeRead` call.
      */
     void queueResponse(std::vector<std::uint8_t> response);
 
     /**
-     * @brief Injects the result returned by the next simulated operation.
+     * @brief Injects the result returned by the next bus operation.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Consumed and reset to `Success` by the next call to `setClock`, `write`, `read`, or
+     * `writeRead`.
      *
-     * @param result Result injected into the next simulated operation.
+     * @param result Result returned by the next bus operation.
      */
     void setNextResult(eurorack::io::IoResult result) noexcept;
 
     /**
-     * @brief Returns the configured virtual I2C clock.
+     * @brief Returns the most recently requested clock frequency.
      *
-     * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
-     *
-     * @return The requested integer value in the units documented by the enclosing API.
+     * @return Clock frequency in hertz, as last passed to `setClock`.
      */
     [[nodiscard]] std::uint32_t clockHz() const noexcept;
 
     /**
-     * @brief Returns recorded bus transfers.
+     * @brief Returns every write, read, and write-read transaction recorded since construction
+     * or the last `clear`.
      *
-     * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
-     *
-     * @return A non-owning reference valid until the owning object is modified or destroyed.
+     * @return Constant reference to the recorded transfers, in call order.
      */
     [[nodiscard]] const std::vector<I2cTransferRecord>& transfers() const noexcept;
 
     /**
-     * @brief Clears buffered or recorded state.
+     * @brief Resets recorded and queued state.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Clears recorded transfers and queued responses and resets the injected result to
+     * `Success`. Does not reset the configured clock frequency.
      */
     void clear() noexcept;
 
   private:
     /**
-     * @brief Returns and clears the pending injected result.
+     * @brief Returns the pending injected result and resets it to `Success`.
      *
-     * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
-     *
-     * @return Success when the complete operation succeeds; otherwise the specific error returned
-     * by validation, storage, filesystem, or bus access.
+     * @return The result previously set via `setNextResult`, or `Success` if none was pending.
      */
     [[nodiscard]] eurorack::io::IoResult consumeResult() noexcept;
 
-    std::uint32_t clockHz_{100'000U};
-    eurorack::io::IoResult nextResult_{eurorack::io::IoResult::Success};
-    std::deque<std::vector<std::uint8_t>> responses_{};
-    std::vector<I2cTransferRecord> transfers_{};
+    std::uint32_t clockHz_{100'000U}; ///< Clock frequency last requested via `setClock`.
+    eurorack::io::IoResult nextResult_{eurorack::io::IoResult::Success}; ///< One-shot result
+        ///< returned and reset by the next bus operation.
+    std::deque<std::vector<std::uint8_t>> responses_{}; ///< FIFO queue of byte sequences to
+                                                           ///< return from `read`/`writeRead`.
+    std::vector<I2cTransferRecord> transfers_{}; ///< Every transaction recorded since
+                                                   ///< construction or the last `clear`.
 };
 
 } // namespace eurorack::simulation

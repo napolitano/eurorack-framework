@@ -174,9 +174,14 @@ class Dac8568 final {
      */
     [[nodiscard]] eurorack::io::IoResult transferRawFrame(std::uint32_t frame) noexcept;
 
-    eurorack::io::SpiBus& spi_;
-    eurorack::io::DigitalOutput& chipSelect_;
-    std::array<std::uint16_t, 8> codes_{};
+    eurorack::io::SpiBus& spi_;             ///< SPI bus used for every serial frame transfer;
+                                               ///< the driver does not own it.
+    eurorack::io::DigitalOutput& chipSelect_; ///< Active-low SYNC pin, driven high at
+                                                ///< construction and asserted only for the
+                                                ///< duration of each transaction.
+    std::array<std::uint16_t, 8> codes_{}; ///< Buffered 16-bit code per channel A through H,
+                                             ///< indexed via `channelIndex`; the `All` pseudo-
+                                             ///< channel has no storage of its own.
 };
 
 } // namespace eurorack::drivers::dac

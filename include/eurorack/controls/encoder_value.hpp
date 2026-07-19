@@ -32,21 +32,31 @@ enum class EncoderBoundaryMode : std::uint8_t { Clamp, Wrap };
  * @brief Configuration for an encoder-driven integer value.
  */
 struct EncoderValueConfig final {
-    std::int32_t minimum{0};
-    std::int32_t maximum{127};
-    std::int32_t step{1};
-    EncoderBoundaryMode boundaryMode{EncoderBoundaryMode::Clamp};
+    std::int32_t minimum{0}; ///< Lower bound, inclusive. Swapped with `maximum` by the
+                              ///< constructor if it is greater than `maximum`.
+    std::int32_t maximum{127}; ///< Upper bound, inclusive. Swapped with `minimum` by the
+                                ///< constructor if it is smaller than `minimum`.
+    std::int32_t step{1}; ///< Value change per detent. The constructor replaces `0` with `1`;
+                            ///< negative values reverse the encoder's effective direction.
+    EncoderBoundaryMode boundaryMode{EncoderBoundaryMode::Clamp}; ///< Behavior applied when a
+                                                                    ///< candidate value leaves the
+                                                                    ///< configured range; see
+                                                                    ///< @ref EncoderValue::normalize.
 };
 
 /**
  * @brief Immutable encoder-driven value state.
  */
 struct EncoderValueSnapshot final {
-    std::int32_t value{0};
-    std::int32_t delta{0};
-    bool changed{false};
-    bool wrapped{false};
-    bool clamped{false};
+    std::int32_t value{0}; ///< Current bounded value.
+    std::int32_t delta{0}; ///< Signed change applied by the most recent call to
+                             ///< @ref EncoderValue::applyDetents, after clamping or wrapping.
+    bool changed{false}; ///< True when the most recent @ref EncoderValue::applyDetents call
+                          ///< produced a different `value`; false after @ref EncoderValue::reset.
+    bool wrapped{false}; ///< True when the most recent candidate value crossed a bound while
+                          ///< `boundaryMode` is `Wrap`.
+    bool clamped{false}; ///< True when the most recent candidate value crossed a bound while
+                          ///< `boundaryMode` is `Clamp`.
 };
 
 /**
@@ -92,8 +102,9 @@ class EncoderValue final {
      */
     [[nodiscard]] std::int32_t normalize(std::int64_t candidate) noexcept;
 
-    EncoderValueConfig config_{};
-    EncoderValueSnapshot snapshot_{};
+    EncoderValueConfig config_{};     ///< Bounds, step size, and boundary mode; `minimum` and
+                                        ///< `maximum` are already ordered and `step` is non-zero.
+    EncoderValueSnapshot snapshot_{}; ///< Most recently calculated value and event flags.
 };
 
 } // namespace eurorack::controls

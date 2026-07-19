@@ -25,29 +25,22 @@
 namespace eurorack::storage {
 
 /**
- * @brief Calculates CRC-32 over a byte sequence.
+ * @brief Calculates a CRC-32 checksum using the reflected polynomial 0xEDB88320.
  *
- * @param data Source byte sequence.
- * @param size Number of bytes.
- * @param initial Initial CRC value before final inversion.
+ * @details
+ * Processes each byte bit-by-bit without a lookup table. `initial` seeds the running
+ * accumulator before processing; the returned value is the one's complement of the accumulator
+ * after all bytes are processed, matching the standard CRC-32 algorithm when `initial` is left
+ * at its default. Returns `0` if `data` is null while `size` is non-zero.
+ *
+ * @param data Source byte sequence; may be null only if `size` is zero.
+ * @param size Number of bytes to process.
+ * @param initial Accumulator seed before processing; defaults to the standard CRC-32 initial
+ * value.
  * @return CRC-32 value.
  */
-[[nodiscard]] std::
-    uint32_t
-    /**
-     * @brief Calculates a CRC-32 checksum.
-     *
-     * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
-     *
-     * @param data Byte buffer used by the operation.
-     *
-     * @param size Number of bytes or elements involved.
-     *
-     * @param initial Initial CRC accumulator value.
-     */
-    crc32(const std::uint8_t* data, std::size_t size, std::uint32_t initial = 0xFFFFFFFFU) noexcept;
+[[nodiscard]] std::uint32_t crc32(const std::uint8_t* data,
+                                  std::size_t size,
+                                  std::uint32_t initial = 0xFFFFFFFFU) noexcept;
 
 } // namespace eurorack::storage

@@ -186,13 +186,19 @@ class MonochromeCanvas final {
      */
     void locate(Point point, std::size_t& byteIndex, std::uint8_t& mask) const noexcept;
 
-    std::uint8_t* buffer_{nullptr};
-    std::size_t bufferSize_{0U};
-    std::int32_t width_{0};
-    std::int32_t height_{0};
-    std::size_t rowStride_{0U};
-    Rect clip_{};
-    bool valid_{false};
+    std::uint8_t* buffer_{nullptr}; ///< Caller-owned packed pixel storage; never allocated or
+                                      ///< freed by this class.
+    std::size_t bufferSize_{0U};    ///< Bytes available at `buffer_`, as supplied to the
+                                      ///< constructor.
+    std::int32_t width_{0};  ///< Canvas width in pixels; forced to `0` when the constructor
+                               ///< rejects the buffer as too small or null.
+    std::int32_t height_{0}; ///< Canvas height in pixels; forced to `0` under the same condition
+                               ///< as `width_`.
+    std::size_t rowStride_{0U}; ///< Bytes per packed row, `(width_ + 7) / 8`; `0` when invalid.
+    Rect clip_{};                ///< Active clipping rectangle, always contained within canvas
+                                   ///< bounds.
+    bool valid_{false}; ///< True when `buffer_` is non-null and `bufferSize_` is at least
+                         ///< `requiredBufferSize(width, height)` as evaluated by the constructor.
 };
 
 } // namespace eurorack::display

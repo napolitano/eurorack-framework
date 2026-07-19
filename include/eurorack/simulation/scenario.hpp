@@ -37,17 +37,21 @@ namespace eurorack::simulation {
 enum class ScenarioEventType : std::uint8_t { DigitalInput, AnalogInput };
 
 /**
- * @brief One timestamped action in a deterministic native simulation.
+ * @brief One timestamped digital or analog input change in a deterministic native simulation.
  *
  * @details
- * The event owns its callable and label. Events scheduled for equal timestamps
- * retain insertion order after stable sorting.
+ * The event is a plain value type; it carries no callable action. A test or simulator frontend
+ * interprets `type`/`channel`/`value` and applies the change itself when the event becomes due.
+ * Events scheduled for equal timestamps retain insertion order after `Scenario::sort`.
  */
 struct ScenarioEvent final {
-    std::uint64_t atMicroseconds{0U};
-    ScenarioEventType type{ScenarioEventType::DigitalInput};
-    std::size_t channel{0U};
-    std::uint32_t value{0U};
+    std::uint64_t atMicroseconds{0U}; ///< Virtual event timestamp in microseconds.
+    ScenarioEventType type{ScenarioEventType::DigitalInput}; ///< Which channel kind `channel`
+                                                                ///< refers to and how `value`
+                                                                ///< should be interpreted.
+    std::size_t channel{0U}; ///< Zero-based index of the target digital or analog input channel.
+    std::uint32_t value{0U}; ///< For `DigitalInput`, `1` for a high level or `0` for low. For
+                               ///< `AnalogInput`, the raw converter code to apply.
 };
 
 /**
@@ -61,61 +65,49 @@ struct ScenarioEvent final {
 class Scenario final {
   public:
     /**
-     * @brief Adds digital event.
+     * @brief Schedules a digital input change.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Appends a `DigitalInput` event; `high` is stored as `1` or `0` in `ScenarioEvent::value`.
+     * Events are not sorted automatically; call `sort` before relying on timestamp order.
      *
      * @param atMicroseconds Virtual event timestamp in microseconds.
-     *
-     * @param channel Zero-based channel index or channel identifier.
-     *
-     * @param high Logical state to apply.
+     * @param channel Zero-based digital input channel index.
+     * @param high Logical level to apply when the event becomes due.
      */
     void addDigitalEvent(std::uint64_t atMicroseconds, std::size_t channel, bool high);
 
     /**
-     * @brief Adds analog event.
+     * @brief Schedules an analog input change.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Appends an `AnalogInput` event carrying `code` in `ScenarioEvent::value`. Events are not
+     * sorted automatically; call `sort` before relying on timestamp order.
      *
      * @param atMicroseconds Virtual event timestamp in microseconds.
-     *
-     * @param channel Zero-based channel index or channel identifier.
-     *
-     * @param code Raw converter code.
+     * @param channel Zero-based analog input channel index.
+     * @param code Raw converter code to apply when the event becomes due.
      */
     void addAnalogEvent(std::uint64_t atMicroseconds, std::size_t channel, std::uint32_t code);
 
     /**
-     * @brief Orders scenario events by virtual timestamp.
+     * @brief Stable-sorts scheduled events by `atMicroseconds`.
      *
      * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
+     * Events with equal timestamps retain their relative insertion order.
      */
     void sort() noexcept;
 
     /**
-     * @brief Returns the stored simulation events.
+     * @brief Returns the scheduled events in their current order.
      *
-     * @details
-     * The operation is synchronous and does not retain pointers supplied only as
-     * call arguments. Ownership, allocation, clipping, and error semantics follow
-     * the contract documented for the enclosing type.
-     *
-     * @return A non-owning reference valid until the owning object is modified or destroyed.
+     * @return Constant reference to the event list, in insertion order until `sort` is called.
      */
     [[nodiscard]] const std::vector<ScenarioEvent>& events() const noexcept;
 
   private:
-    std::vector<ScenarioEvent> events_{};
+    std::vector<ScenarioEvent> events_{}; ///< Scheduled events, in insertion order until `sort`
+                                            ///< is called.
 };
 
 } // namespace eurorack::simulation

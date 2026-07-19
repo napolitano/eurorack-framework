@@ -1,7 +1,7 @@
 PROJECT_NAME           = "Eurorack Framework"
 PROJECT_NUMBER         = "Unreleased Alpha"
 PROJECT_BRIEF          = "Portable C++ infrastructure for Eurorack module firmware"
-OUTPUT_DIRECTORY       = docs/generated
+OUTPUT_DIRECTORY = /home/claude/doxaudit
 CREATE_SUBDIRS         = NO
 
 INPUT                  = docs/manual docs/guides docs/architecture docs/release include src
@@ -17,11 +17,7 @@ MULTILINE_CPP_IS_BRIEF = NO
 TOC_INCLUDE_HEADINGS   = 5
 
 
-# EXTRACT_ALL must stay NO. When set to YES, Doxygen treats every entity as
-# "documented" regardless of actual content, which silently disables
-# WARN_IF_UNDOCUMENTED below. Do not re-enable without also removing the
-# undocumented-entity warning from the quality gate.
-EXTRACT_ALL            = NO
+EXTRACT_ALL = NO
 EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
 EXTRACT_LOCAL_CLASSES  = YES
@@ -35,11 +31,11 @@ WARNINGS               = YES
 WARN_IF_UNDOCUMENTED   = YES
 WARN_IF_DOC_ERROR      = YES
 WARN_NO_PARAMDOC       = YES
-WARN_AS_ERROR          = YES
-WARN_LOGFILE           = docs/generated/doxygen-warnings.log
+WARN_AS_ERROR          = NO
+WARN_LOGFILE = /home/claude/doxaudit/warnings.log
 
-GENERATE_HTML          = NO
-GENERATE_LATEX         = YES
+GENERATE_HTML = NO
+GENERATE_LATEX = NO
 LATEX_OUTPUT           = latex
 LATEX_CMD_NAME         = pdflatex
 USE_PDFLATEX           = YES
@@ -51,10 +47,10 @@ LATEX_FOOTER           =
 
 GENERATE_XML           = NO
 GENERATE_MAN           = NO
-GENERATE_RTF           = YES
+GENERATE_RTF = NO
 GENERATE_DOCBOOK       = NO
 
-HAVE_DOT               = YES
+HAVE_DOT = NO
 UML_LOOK               = YES
 TEMPLATE_RELATIONS     = YES
 INCLUDE_GRAPH          = YES

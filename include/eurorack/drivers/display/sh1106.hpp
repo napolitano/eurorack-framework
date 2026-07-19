@@ -29,15 +29,25 @@ namespace eurorack::drivers::display {
 
 /** @brief SH1106 I2C panel configuration. */
 struct Sh1106Config final {
-    eurorack::io::I2cAddress address{0x3CU};
-    std::uint16_t width{128U};
-    std::uint16_t height{64U};
-    std::uint8_t columnOffset{2U};
-    std::uint32_t i2cClockHz{400'000U};
-    std::uint8_t contrast{0x7FU};
-    bool segmentRemap{true};
-    bool comScanRemapped{true};
-    bool chargePumpEnabled{true};
+    eurorack::io::I2cAddress address{0x3CU}; ///< 7-bit I2C address of the controller.
+    std::uint16_t width{128U};  ///< Visible panel width in pixels; `flush` rejects a canvas whose
+                                  ///< width differs, and rejects widths above 128.
+    std::uint16_t height{64U}; ///< Visible panel height in pixels; must be a non-zero multiple of
+                                 ///< 8, and `flush` rejects a canvas whose height differs.
+    std::uint8_t columnOffset{2U}; ///< Column RAM offset applied before the visible image; SH1106
+                                     ///< controllers expose 132 columns of RAM even for
+                                     ///< 128-pixel-wide panels, so the visible area typically
+                                     ///< starts at column 2.
+    std::uint32_t i2cClockHz{400'000U}; ///< I2C bus clock applied by `initialize`.
+    std::uint8_t contrast{0x7FU}; ///< Contrast value sent during `initialize`; see also
+                                    ///< `setContrast`.
+    bool segmentRemap{true}; ///< Selects the controller's column-address mapping (segment remap
+                               ///< command 0xA1 vs. 0xA0) to match the panel's physical wiring.
+    bool comScanRemapped{true}; ///< Selects the controller's row-scan direction (COM scan command
+                                  ///< 0xC8 vs. 0xC0) to match the panel's physical wiring.
+    bool chargePumpEnabled{true}; ///< Enables the controller's internal charge pump (command 0x8B
+                                    ///< vs. 0x8A), required by most panels that have no external
+                                    ///< boost supply.
 };
 
 /** @brief I2C driver for SH1106 monochrome OLED controllers. */
@@ -92,9 +102,12 @@ class Sh1106 final {
     [[nodiscard]] eurorack::io::IoResult writeData(const std::uint8_t* data,
                                                    std::size_t size) noexcept;
 
-    eurorack::io::I2cBus& bus_;
-    Sh1106Config config_{};
-    bool initialized_{false};
+    eurorack::io::I2cBus& bus_; ///< I2C bus used for every command and data transfer; the driver
+                                  ///< does not own it.
+    Sh1106Config config_{};      ///< Panel configuration applied by `initialize` and validated by
+                                  ///< `flush`.
+    bool initialized_{false}; ///< True once `initialize` has completed successfully; `flush`
+                               ///< returns `Busy` while false.
 };
 
 } // namespace eurorack::drivers::display

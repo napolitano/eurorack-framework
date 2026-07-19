@@ -57,7 +57,7 @@ class DipSwitch final {
     [[nodiscard]] const ToggleSwitchSnapshot& snapshot() const noexcept;
 
   private:
-    ToggleSwitch switch_{};
+    ToggleSwitch switch_{}; ///< Underlying maintained-switch model providing debounce and state.
 };
 
 /**
@@ -122,7 +122,8 @@ template <std::size_t Count> class DipSwitchBank final {
     }
 
   private:
-    std::array<DipSwitch, Count> switches_{};
+    std::array<DipSwitch, Count> switches_{}; ///< Poles indexed from zero, all sharing the
+                                                ///< configuration passed to the constructor.
 };
 
 } // namespace eurorack::controls
