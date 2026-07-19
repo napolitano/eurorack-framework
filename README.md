@@ -1,3 +1,4 @@
+![Header image](assets/social-preview-image.jpg)
 # Eurorack Framework
 
 [![Quality](https://github.com/napolitano/eurorack-framework/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/napolitano/eurorack-framework/actions/workflows/ci.yml)
@@ -8,7 +9,72 @@
 [![Status](.github/badges/status.svg)](docs/release/project-maturity.md)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg)](https://en.cppreference.com/w/cpp/17)
 
-Portable C++ infrastructure for reusable Eurorack module firmware.
+
+## What this project is
+
+Eurorack Framework is a reusable C++ foundation for module firmware. It grew
+out of a very practical problem: when you build several modules or experiment
+with alternative firmware, you keep solving the same supporting problems long
+before you reach the interesting musical behavior.
+
+Buttons need debouncing. Encoders need reliable state tracking. ADC readings
+need calibration. CV and gate values need clear units and limits. DACs,
+displays, storage, and GPIO expanders need drivers. The same code then needs to
+run on real hardware and, ideally, in fast native tests without a board attached.
+
+This project collects those recurring pieces behind small, explicit
+abstractions. The intention is not to hide electronics behind a magical
+"hardware-independent" curtain. Eurorack hardware is too analog and too fond of
+edge cases for that. The intention is to keep responsibilities clear:
+
+```text
+Module behavior
+      |
+      v
+Reusable framework models and drivers
+      |
+      v
+Platform adapters
+      |
+      v
+Protected, calibrated physical hardware
+```
+
+In practice, the framework can help you:
+
+- build your own Eurorack modules without copying utility code from project to project
+- create alternative firmware for hardware you own or are authorized to modify
+- prototype control behavior before the final PCB exists
+- reuse tested button, encoder, CV, gate, display, storage, and peripheral code
+- move an application between AVR, STM32, ESP32, RP2040, and other targets with less rewriting
+- run deterministic host-side tests instead of flashing hardware after every small change
+
+The project deliberately stops short of defining complete musical applications.
+Your module's actual purpose - its signal processing, modes, menus, modulation,
+or performance behavior - remains in the consuming firmware.
+
+## Quick navigation
+
+- [Project status](#project-maturity)
+- [Architecture and repository layout](#architectural-boundary)
+- [Getting started](#development-environment-setup)
+- [Examples](#examples)
+- [Building and testing](#building-and-testing)
+- [Documentation](#documentation)
+- [Major components](#major-components)
+- [Licensing](#licensing)
+- [Author and contact](#author)
+
+Useful internal resources:
+
+- [Project manual](docs/manual/index.md)
+- [Development environment](docs/guides/development-environment.md)
+- [Example guide](docs/guides/examples.md)
+- [Framework boundary](docs/architecture/framework-boundary.md)
+- [Hardware interfaces](docs/architecture/hardware-interfaces.md)
+- [Project maturity](docs/release/project-maturity.md)
+- [Plain-language licensing overview](LICENSING.md)
+- [Contribution policy](CONTRIBUTING.md)
 
 > [!WARNING]
 > **Development status - not intended for production firmware**
@@ -42,7 +108,7 @@ configuration, persistence, display rendering, peripheral drivers, Arduino
 adapters, and deterministic native simulation. Concrete module behavior belongs
 in consuming projects and is deliberately excluded from this repository.
 
-Development artifact identifier: **0.1.0-alpha.11**
+Development artifact identifier: **0.1.0-alpha.14**
 
 ## Architectural boundary
 
@@ -192,10 +258,11 @@ A complete Arduino Nano R3 example application is located at:
 examples/projects/nano-r3-attenuverter/
 ```
 
-It implements a slow one-channel CV attenuverter with a protected bipolar input,
-a panel gain control, an MCP4922 DAC, and a bipolar op-amp output stage. The
-example documentation explicitly defines the required analog transfer
-functions, calibration values, and electrical safety limits.
+It demonstrates a one-channel CV attenuverter with signed attenuation,
+independent positive/negative balance, bipolar LED indication, an MCP4922 DAC,
+and a hypothetical bipolar analog signal path. The accompanying documentation
+explains the software behavior and the assumed hardware contract without
+pretending to be a finished circuit design.
 
 ## Continuous integration
 
@@ -425,10 +492,12 @@ states the relevant ownership, allocation, and execution assumptions.
 
 ## Versioning
 
-Pre-1.0 and release-candidate versions may change API and persistent data
-formats without migration support. A future stable publication release requires successful
-CI, documentation, static analysis, native sanitizer tests, and builds against
-the explicitly supported embedded cores.
+The project remains Unreleased Alpha. Public APIs, persistent formats, timing
+behavior, and platform support may change without migration support.
+
+A later maturity increase requires successful CI, complete documentation,
+static analysis, sanitizer coverage, representative examples, and builds against
+the explicitly supported embedded targets.
 
 ## Maintaining and documenting the code
 
@@ -455,12 +524,54 @@ illuminated faders. See `docs/architecture/extended-panel-controls.md`.
 
 ## Licensing
 
-This repository is source-available software.
+This project is source-available under the
+[PolyForm Noncommercial License 1.0.0](LICENSE). The basic idea is simple:
+personal use, education, experimentation, research, and noncommercial projects
+are welcome. Commercial exploitation requires separate permission.
 
-- `LICENSE` contains PolyForm Noncommercial License 1.0.0.
-- `ADDITIONAL_PERMISSION.md` grants limited five-unit cost-recovery permission.
-- `COMMERCIAL_LICENSE.md` explains when written authorization is required.
-- `NOTICE` contains attribution and canonical project information.
+You may also modify and extend the framework for those permitted purposes. Your
+own adapters, drivers, fixes, experiments, and module-specific additions can be
+used privately, educationally, or in other noncommercial work under the
+PolyForm terms.
+
+A separate [Five-Unit Cost-Recovery Permission](ADDITIONAL_PERMISSION.md)
+covers a narrow practical case: a qualifying individual may build and pass on
+up to five physical units while recovering eligible direct costs, provided
+every condition in that document is met. It is a small-scale exception, not a
+general commercial license.
+
+| ✅ Allowed | 🚫 Not allowed |
+|---|---|
+| Build a personal module for your own rack using the framework. | Sell a regular product line based on the framework without written permission. |
+| Use the code in a school, university, workshop, or self-study project. | Use the framework in paid client work, consulting, or contract development without authorization. |
+| Create noncommercial open hardware or firmware experiments and publish your findings with proper attribution. | Package the framework into a paid firmware download, commercial kit, subscription, or service. |
+| Write alternative firmware for hardware you own or are authorized to modify. | Claim that public source code automatically grants commercial rights. |
+| Modify the framework for your own noncommercial module - for example, add a display driver, change encoder behavior, or create a new storage backend. | Remove copyright, license, attribution, or required notice information. |
+| Reuse your own modifications and extensions across your personal or educational projects under the PolyForm terms. | Relicense the framework or derived framework code under incompatible terms. |
+| Build a few boards for friends and use the Five-Unit Cost-Recovery Permission when all its conditions are satisfied. | Exceed the five-unit limit, add profit, charge for labor, or turn the exception into recurring business activity. |
+| Fork the repository to study it, test ideas, or maintain a noncommercial variant. | Resell the framework itself, whether modified, renamed, bundled, or unchanged. |
+| Contact the author for commercial authorization tailored to a real product or business case. | Treat GitHub availability, a fork, or an issue discussion as permission for commercial use. |
+
+Practical examples:
+
+- You build one attenuverter for your own rack - allowed.
+- You adapt the framework for a university lab exercise - allowed.
+- You add support for another DAC and use it in your private modules - allowed.
+- You build three boards for friends and recover only eligible direct costs
+  under every condition of the Five-Unit Permission - potentially allowed.
+- You sell twenty assembled modules through Etsy or Reverb - not allowed without
+  written commercial authorization.
+- You use the framework to deliver paid firmware for a client's hardware - not
+  allowed without written commercial authorization.
+
+The table and examples are a plain-language orientation, not a substitute for
+the legal documents. Read the actual terms before relying on them:
+
+- [LICENSE](LICENSE) - PolyForm Noncommercial License 1.0.0
+- [ADDITIONAL_PERMISSION.md](ADDITIONAL_PERMISSION.md) - Five-Unit Cost-Recovery Permission
+- [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md) - commercial-use overview
+- [LICENSING.md](LICENSING.md) - human-readable licensing map
+- [NOTICE](NOTICE) - attribution and canonical project information
 
 This is not an OSI-approved open-source license because commercial use is
 restricted.
