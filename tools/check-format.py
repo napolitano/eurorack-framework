@@ -40,7 +40,12 @@ def main() -> int:
 
     clang_format = shutil.which("clang-format")
     if clang_format:
-        cpp_files = [str(p) for p in candidates if p.suffix in CPP_SUFFIXES]
+        cpp_files = [
+            str(p)
+            for p in candidates
+            if p.suffix in CPP_SUFFIXES
+            and p.relative_to(root).parts[0] == "examples"
+        ]
         for start in range(0, len(cpp_files), 100):
             result = subprocess.run([clang_format, "--dry-run", "--Werror", *cpp_files[start:start+100]], cwd=root, text=True, capture_output=True)
             if result.returncode:

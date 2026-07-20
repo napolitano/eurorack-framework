@@ -22,6 +22,7 @@ def main() -> int:
     commands = [
         ["python", "tools/check-source-hygiene.py"],
         ["python", "tools/check-format.py"],
+        ["python", "tools/check-github-actions.py"],
         ["python", "tools/generate-framework-map.py"],
         ["python", "tools/generate-driver-test-matrix.py"],
         ["python", "tools/check-library-layout.py"],
