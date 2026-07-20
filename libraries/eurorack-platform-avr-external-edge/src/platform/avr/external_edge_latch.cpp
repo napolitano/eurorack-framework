@@ -1,9 +1,10 @@
 /**
  * @file src/platform/avr/external_edge_latch.cpp
- * @brief Defines the INT0 and INT1 rising-edge latch storage and installs their ISRs.
+ * @brief Defines ExternalEdgeLatch's counter storage and installs the two ISRs.
  *
  * @details
- * Owns INT0 and INT1 and stores rising-edge counts in saturating, interrupt-safe latches.
+ * Owns INT0 and INT1; all edge-count and overflow bookkeeping itself lives in
+ * StickyOverflowEdgeCounter.
  *
  * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  */
@@ -12,10 +13,8 @@
 
 namespace eurorack::platform::avr {
 
-volatile std::uint8_t ExternalEdgeLatch::count0_ = 0U;
-volatile std::uint8_t ExternalEdgeLatch::count1_ = 0U;
-volatile bool ExternalEdgeLatch::overflow0_ = false;
-volatile bool ExternalEdgeLatch::overflow1_ = false;
+StickyOverflowEdgeCounter ExternalEdgeLatch::counter0_;
+StickyOverflowEdgeCounter ExternalEdgeLatch::counter1_;
 
 } // namespace eurorack::platform::avr
 

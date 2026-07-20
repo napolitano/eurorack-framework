@@ -1,5 +1,5 @@
 {
-  "name": "eurorack-platform-avr-timer2",
+  "name": "eurorack-platform-avr-timer2-model",
   "version": "0.1.0-alpha.28",
   "keywords": [
     "eurorack",
@@ -20,7 +20,7 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
-  "description": "ATmega328P Timer2 CTC tick source with overrun accounting.",
+  "description": "Hardware-independent, natively testable saturating tick/overrun counter used by Timer2Tick. Contains no AVR dependency and no register access.",
   "frameworks": "*",
   "platforms": "*",
   "build": {
@@ -28,7 +28,6 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*",
-    "eurorack-platform-avr-timer2-model": "*"
+    "eurorack-compat": "*"
   }
 }

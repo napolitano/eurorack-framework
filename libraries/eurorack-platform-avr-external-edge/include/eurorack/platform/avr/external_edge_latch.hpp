@@ -5,10 +5,13 @@
  * @details
  * Configures the external interrupt hardware to trigger on rising edges of INT0 (pin PD2) and
  * INT1 (pin PD3) and counts edges in the background, so no edge is lost to software polling
- * latency even between calls into application code. Each pin has its own saturating 8-bit
- * counter; call `consume0()`/`consume1()` periodically to atomically read and reset the count
- * since the previous call. `level0High()`/`level1High()` separately report the pin's
- * instantaneous logic level, independent of edge counting.
+ * latency even between calls into application code. Each pin has its own
+ * `StickyOverflowEdgeCounter`; call `consume0()`/`consume1()` periodically to atomically read
+ * and reset the count since the previous call. `level0High()`/`level1High()` separately report
+ * the pin's instantaneous logic level, independent of edge counting. All algorithmic bookkeeping
+ * lives in `StickyOverflowEdgeCounter`, which has no AVR dependency and is covered directly by
+ * native unit tests; this class is only the thin, hardware-facing adapter that configures the
+ * external-interrupt registers and the two ISRs.
  *
  * This header requires an AVR target and direct access to `EICRA`/`EIFR`/`EIMSK`/`PIND` and the
  * `INT0_vect`/`INT1_vect` interrupt vectors; it is written for the ATmega328P's external-interrupt
@@ -16,6 +19,14 @@
  * are static: the class models the two fixed external-interrupt pins directly rather than an
  * instantiable object, and its state is shared between the interrupt handlers and any calling
  * code.
+ *
+ * Lifecycle: before `initializeRisingEdges()` runs, INT0/INT1 are whatever the platform startup
+ * code left them as (typically disabled) and no edges are counted. After
+ * `initializeRisingEdges()` returns, both pins are configured for rising-edge triggering with
+ * freshly reset counters, but edges are only actually recorded once global interrupts are
+ * enabled (`sei()`) and `ISR(INT0_vect)`/`ISR(INT1_vect)` are reachable, both of which remain the
+ * caller's responsibility. `stop()` disables both interrupts without resetting the counters;
+ * call `initializeRisingEdges()` again for a full reset back to the post-initialization state.
  *
  * @ingroup platform_avr
  * @author Axel Napolitano
@@ -36,6 +47,7 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <eurorack/compat/avr/cstdint.hpp>
+#include <eurorack/platform/avr/sticky_overflow_edge_counter.hpp>
 #include <util/atomic.h>
 
 namespace eurorack::platform::avr {
@@ -46,15 +58,14 @@ namespace eurorack::platform::avr {
 class ExternalEdgeLatch final {
   public:
     /**
-     * @brief Configures both INT0 and INT1 for rising-edge triggering and resets all counters.
+     * @brief Configures both INT0 and INT1 for rising-edge triggering and resets both counters.
      *
      * @details
      * Sets `EICRA` so both pins trigger on a rising edge, clears any interrupt flags already
      * pending in `EIFR` from before initialization, enables both interrupts in `EIMSK`, and
-     * resets both counters and both sticky overflow flags to their initial state. The caller must
-     * ensure global interrupts are enabled (`sei()`) for edges to be counted, and must install
-     * `ISR(INT0_vect)`/`ISR(INT1_vect)` calling `on0()`/`on1()`, as this translation unit already
-     * does.
+     * resets both `StickyOverflowEdgeCounter` instances. The caller must ensure global interrupts
+     * are enabled (`sei()`) for edges to be counted, and must install `ISR(INT0_vect)`/
+     * `ISR(INT1_vect)` calling `on0()`/`on1()`, as this translation unit already does.
      */
     static void initializeRisingEdges() noexcept {
         ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
@@ -62,23 +73,33 @@ class ExternalEdgeLatch final {
                                               _BV(ISC11) | _BV(ISC10));
             EIFR = _BV(INTF0) | _BV(INTF1);
             EIMSK |= _BV(INT0) | _BV(INT1);
-            count0_ = count1_ = 0U;
-            overflow0_ = overflow1_ = false;
+            counter0_.reset();
+            counter1_.reset();
+        }
+    }
+
+    /**
+     * @brief Disables both INT0 and INT1 interrupts.
+     *
+     * @details
+     * Clears `INT0` and `INT1` in `EIMSK`. Does not reset either counter; call
+     * `initializeRisingEdges()` again to resume edge counting from a clean state.
+     */
+    static void stop() noexcept {
+        ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+            EIMSK &= static_cast<std::uint8_t>(~(_BV(INT0) | _BV(INT1)));
         }
     }
 
     /**
      * @brief Atomically reads and resets the INT0 rising-edge count.
      *
-     * @return Number of rising edges observed on INT0 since the previous `consume0()` call (or
-     * since `initializeRisingEdges()`, if this is the first call), saturating at 255; does not
-     * affect `overflow0()`.
+     * @return See `StickyOverflowEdgeCounter::consume`.
      */
     static std::uint8_t consume0() noexcept {
         std::uint8_t value;
         ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-            value = count0_;
-            count0_ = 0U;
+            value = counter0_.consume();
         }
         return value;
     }
@@ -86,15 +107,12 @@ class ExternalEdgeLatch final {
     /**
      * @brief Atomically reads and resets the INT1 rising-edge count.
      *
-     * @return Number of rising edges observed on INT1 since the previous `consume1()` call (or
-     * since `initializeRisingEdges()`, if this is the first call), saturating at 255; does not
-     * affect `overflow1()`.
+     * @return See `StickyOverflowEdgeCounter::consume`.
      */
     static std::uint8_t consume1() noexcept {
         std::uint8_t value;
         ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-            value = count1_;
-            count1_ = 0U;
+            value = counter1_.consume();
         }
         return value;
     }
@@ -122,70 +140,48 @@ class ExternalEdgeLatch final {
     /**
      * @brief Reports whether the INT0 counter has ever saturated since initialization.
      *
-     * @details
-     * This flag is sticky: it is cleared only by `initializeRisingEdges()`, not by `consume0()`,
-     * so it reflects whether an overflow has ever occurred since the last (re)initialization
-     * rather than since the last consumed interval.
-     *
-     * @return True if 255 rising edges accumulated on INT0 without an intervening `consume0()`
-     * call, at any point since initialization.
+     * @return See `StickyOverflowEdgeCounter::overflowed`.
      */
     static bool overflow0() noexcept {
-        return overflow0_;
+        return counter0_.overflowed();
     }
 
     /**
      * @brief Reports whether the INT1 counter has ever saturated since initialization.
      *
-     * @details
-     * This flag is sticky: it is cleared only by `initializeRisingEdges()`, not by `consume1()`.
-     *
-     * @return True if 255 rising edges accumulated on INT1 without an intervening `consume1()`
-     * call, at any point since initialization.
+     * @return See `StickyOverflowEdgeCounter::overflowed`.
      */
     static bool overflow1() noexcept {
-        return overflow1_;
+        return counter1_.overflowed();
     }
 
     /**
      * @brief Services one INT0 rising-edge event.
      *
      * @details
-     * Intended to be called only from `ISR(INT0_vect)`. Increments the counter, or sets the
-     * sticky overflow flag instead of wrapping once the counter reaches 255.
+     * Intended to be called only from `ISR(INT0_vect)`, which already runs with global
+     * interrupts disabled, so this forwards to `StickyOverflowEdgeCounter::onEdge` without its
+     * own atomic section.
      */
     static void on0() noexcept {
-        if (count0_ == 0xFFU) {
-            overflow0_ = true;
-        } else {
-            ++count0_;
-        }
+        counter0_.onEdge();
     }
 
     /**
      * @brief Services one INT1 rising-edge event.
      *
      * @details
-     * Intended to be called only from `ISR(INT1_vect)`. Increments the counter, or sets the
-     * sticky overflow flag instead of wrapping once the counter reaches 255.
+     * Intended to be called only from `ISR(INT1_vect)`, which already runs with global
+     * interrupts disabled, so this forwards to `StickyOverflowEdgeCounter::onEdge` without its
+     * own atomic section.
      */
     static void on1() noexcept {
-        if (count1_ == 0xFFU) {
-            overflow1_ = true;
-        } else {
-            ++count1_;
-        }
+        counter1_.onEdge();
     }
 
   private:
-    static volatile std::uint8_t count0_; ///< Saturating rising-edge count for INT0 since the
-                                          ///< last `consume0()` call.
-    static volatile std::uint8_t count1_; ///< Saturating rising-edge count for INT1 since the
-                                          ///< last `consume1()` call.
-    static volatile bool overflow0_;      ///< Sticky flag set once `count0_` has saturated since
-                                          ///< initialization.
-    static volatile bool overflow1_;      ///< Sticky flag set once `count1_` has saturated since
-                                          ///< initialization.
+    static StickyOverflowEdgeCounter counter0_; ///< Hardware-independent bookkeeping for INT0.
+    static StickyOverflowEdgeCounter counter1_; ///< Hardware-independent bookkeeping for INT1.
 };
 
 } // namespace eurorack::platform::avr

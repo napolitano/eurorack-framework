@@ -28,6 +28,7 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*"
+    "eurorack-compat": "*",
+    "eurorack-platform-avr-external-edge-model": "*"
   }
 }
