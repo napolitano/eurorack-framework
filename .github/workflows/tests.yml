@@ -30,7 +30,6 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: pip
       - name: Validate library layout
         run: python tools/check-library-layout.py
       - name: Run strict native tests
@@ -61,7 +60,6 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: pip
       - name: Run ASan and UBSan
         env:
           ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
@@ -81,6 +79,5 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: pip
       - name: Build and execute component examples
         run: python tools/build-examples.py
