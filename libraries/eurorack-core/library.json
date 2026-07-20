@@ -1,7 +1,7 @@
 {
   "name": "eurorack-core",
-  "version": "0.1.0-alpha.14",
-  "description": "Framework-wide electrical and timing default configuration (VoltageRange, gate/CV defaults) and the user-editable eurorack_config.hpp override point.",
+  "version": "0.1.0-alpha.25",
+  "description": "Shared framework configuration contract and documentation groups. Contains only framework-wide types and the eurorack_config.hpp override point.",
   "keywords": [
     "eurorack",
     "modular-synthesizer",

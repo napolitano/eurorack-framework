@@ -1,0 +1,37 @@
+{
+  "name": "eurorack-driver-tlc5947",
+  "version": "0.1.0-alpha.25",
+  "keywords": [
+    "eurorack",
+    "modular-synthesizer",
+    "embedded",
+    "firmware"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/napolitano/eurorack-framework.git"
+  },
+  "authors": [
+    {
+      "name": "Axel Napolitano",
+      "email": "eurorack@skjt.de",
+      "maintainer": true
+    }
+  ],
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "TLC5947 24-channel PWM LED sink driver.",
+  "frameworks": "*",
+  "platforms": "*",
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src"
+  },
+  "dependencies": {
+    "eurorack-compat": "*",
+    "eurorack-drivers-led-interface": "*",
+    "eurorack-io-digital": "*",
+    "eurorack-io-spi": "*",
+    "eurorack-io-time": "*"
+  }
+}

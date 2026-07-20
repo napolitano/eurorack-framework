@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-analog-multiplexer",
+  "publicHeader": "eurorack/drivers/mux/analog_multiplexer.hpp",
+  "hardware": [
+    "74hc4051-74hc4067"
+  ],
+  "category": "multiplexer",
+  "documentation": "docs/hardware/multiplexer/74hc4051-74hc4067.md",
+  "libraryDocumentation": "docs/libraries/analog-multiplexer.md",
+  "examples": [
+    "examples/components/analog-multiplexer"
+  ],
+  "tests": [
+    "tests/native/test_driver_74hc4051_4067"
+  ],
+  "manufacturer": "Nexperia / compatible vendors",
+  "references": {
+    "product": "https://www.nexperia.com/products/analog-logic-ics/analog-switches-and-multiplexers/analog-switches/series/74HC4051.html",
+    "datasheet": "https://assets.nexperia.com/documents/data-sheet/74HC_HCT4051.pdf"
+  },
+  "status": "alpha"
+}

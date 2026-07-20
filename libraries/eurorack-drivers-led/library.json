@@ -1,7 +1,6 @@
 {
   "name": "eurorack-drivers-led",
-  "version": "0.1.0-alpha.14",
-  "description": "Concrete constant-current LED driver chip support: TLC5916 and TLC5947.",
+  "version": "0.1.0-alpha.25",
   "keywords": [
     "eurorack",
     "modular-synthesizer",
@@ -21,6 +20,7 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "Compatibility meta-library selecting all concrete drivers in the led category. Prefer the individual chip library.",
   "frameworks": "*",
   "platforms": "*",
   "build": {
@@ -28,8 +28,7 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*",
-    "eurorack-io": "*",
-    "eurorack-drivers-led-interface": "*"
+    "eurorack-driver-tlc5916": "*",
+    "eurorack-driver-tlc5947": "*"
   }
 }

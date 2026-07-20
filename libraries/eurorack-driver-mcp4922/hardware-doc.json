@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-mcp4922",
+  "publicHeader": "eurorack/drivers/dac/mcp4922.hpp",
+  "hardware": [
+    "mcp4922"
+  ],
+  "category": "dac",
+  "documentation": "docs/hardware/dac/mcp4922.md",
+  "libraryDocumentation": "docs/libraries/mcp4922.md",
+  "examples": [
+    "examples/components/mcp4922"
+  ],
+  "tests": [
+    "tests/native/test_driver_mcp4922"
+  ],
+  "manufacturer": "Microchip",
+  "references": {
+    "product": "https://www.microchip.com/en-us/product/mcp4922",
+    "datasheet": "https://ww1.microchip.com/downloads/en/DeviceDoc/22250A.pdf"
+  },
+  "status": "alpha"
+}

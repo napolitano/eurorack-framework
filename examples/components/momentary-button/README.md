@@ -77,5 +77,5 @@ responsibilities.
 
 ## Related API
 
-The public declaration is located below `include/eurorack/controls/`. Its
+The public declaration is located below the owning `libraries/eurorack-control-*/include/eurorack/controls/` directory. Its
 Doxygen comments define ownership, units, event lifetime, and error semantics.

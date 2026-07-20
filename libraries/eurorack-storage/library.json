@@ -1,7 +1,6 @@
 {
   "name": "eurorack-storage",
-  "version": "0.1.0-alpha.14",
-  "description": "Byte-addressable persistent storage backends (in-memory, file-backed) and the redundant, CRC-protected RecordStore built on them.",
+  "version": "0.1.0-alpha.25",
   "keywords": [
     "eurorack",
     "modular-synthesizer",
@@ -21,6 +20,7 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "Compatibility meta-library selecting all storage contracts, codecs, backends, CRC, and record storage. Constrained firmware should select only the required eurorack-storage-* libraries.",
   "frameworks": "*",
   "platforms": "*",
   "build": {
@@ -28,7 +28,11 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*",
-    "eurorack-io": "*"
+    "eurorack-storage-interface": "*",
+    "eurorack-storage-byte-codec": "*",
+    "eurorack-storage-crc32": "*",
+    "eurorack-storage-memory-storage": "*",
+    "eurorack-storage-file-storage": "*",
+    "eurorack-storage-record-store": "*"
   }
 }

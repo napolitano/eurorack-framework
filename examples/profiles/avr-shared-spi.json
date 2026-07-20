@@ -1,0 +1,7 @@
+{
+  "libraries": [
+    "eurorack-platform-arduino-spi",
+    "eurorack-driver-mcp4822",
+    "eurorack-driver-tlc5947"
+  ]
+}

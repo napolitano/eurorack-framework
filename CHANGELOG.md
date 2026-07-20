@@ -1,225 +1,121 @@
-## 0.1.0-alpha.14
+## 0.1.0-alpha.25 - 2026-07-20
 
-### Fixed
+### Added
 
-- Removed duplicate implementation-side Doxygen parameter and return contracts from source definitions.
-- Preserved implementation rationale as ordinary comments while keeping public API contracts in headers.
-- Added a repository-wide Doxygen contract audit that rejects duplicate public tags and implementation-level documentation blocks.
-- Updated the maintainability audit to count ordinary implementation comments.
-- Exempted PlatformIO-generated Unity C conversion warnings from `-Werror` in the native test environment while retaining strict standalone framework builds.
-- Scoped strict compiler warnings to project source files with PlatformIO `build_src_flags`.
-- Prevented `-Werror` and `-Wsign-conversion` from being applied to PlatformIO Unity C sources.
+- Expanded all twelve dedicated IC driver suites with boundary, protocol-mode, bus-error, lifecycle, control-signal, and state-preservation tests.
+- Added explicit tests for differential MCP3208 acquisition, MCP23017 input-cache preservation, DAC8568 pseudo-channel validation, TLC5947 visible startup policies, and OLED command/error paths.
+
+### Changed
+
+- Raised the dedicated driver coverage floor from 32.0% to 39.0% line coverage and from 33.0% to 43.0% branch coverage.
+- Updated the generated native coverage report to the new measured baseline.
 
 # Changelog
 
-## 0.1.0-alpha.14 - Documentation expansion
+## [0.1.0-alpha.25] - 2026-07-20
 
 ### Added
 
-- Added GitHub workflow badges for quality, tests, builds, and documentation.
-- Added source-available license and Unreleased Alpha status badges.
-- Added a human-readable licensing overview, NOTICE, and contribution policy.
-- Added an SPDX/REUSE-compatible license copy and automated licensing audit.
-- Added CODEOWNERS protection for license, metadata, and workflow changes.
-- Split tests and embedded builds into dedicated badgeable workflows.
-- Expanded the Nano R3 project into an attenuverter with independent positive/negative balance.
-- Added center-dead-zone processing for attenuation and balance controls.
-- Added bipolar red/green output indication with magnitude-based PWM brightness.
-- Separated application arithmetic into a platform-independent model with native tests.
-- Reframed all analog circuitry as a hypothetical hardware contract rather than a buildable design.
-- Expanded every component example with a detailed learning-oriented README.
-- Added file-level and inline explanations to all component example programs.
-- Added an example documentation standard and isolated temporary example builds.
-- Added attenuverter firmware walkthrough, calibration, design-decision, and troubleshooting guides.
-- Added 16 minimal, compilable native component examples.
-- Added a reusable example build-and-run tool.
-- Added an Arduino Nano R3 one-channel CV attenuverter project using MCP4922.
-- Added detailed attenuverter hardware, safety, transfer-function, and calibration documentation.
-- Added CI jobs for component examples and the Nano R3 project.
-- Reworked GitHub Actions into separate CI, documentation, and manual artifact workflows.
-- Added GCC, Clang, sanitizer, PlatformIO, documentation, formatting, and cppcheck jobs.
-- Added weekly Dependabot updates for GitHub Actions.
-- Added documented branch-protection recommendations.
-- Replaced generated HTML documentation with a Markdown-first manual and optional Doxygen LaTeX/PDF output.
-- Added newcomer-oriented manual chapters and a dedicated documentation build script.
-- Updated release artifacts to package Markdown documentation and an optional combined PDF manual.
-- Reworked API documentation to describe semantics, ownership, units, state transitions, failure behavior, and hardware boundaries.
-- Added implementation-level rationale for storage, display conversion, simulation, controls, and bus drivers.
-- Added a maintainability documentation standard and automated placeholder/density audit.
-- Added illuminated RGB pushbutton model.
-- Added debounced toggle switch and DIP-switch bank models.
-- Added validated On-Off-(On) switch model.
-- Added logical 16-bit RGB LED model.
-- Added linear fader and illuminated fader models.
-- Added native tests and architecture documentation for extended controls.
-- Added a prominent development-status and use-at-own-risk warning to the README.
-- Added complete development-environment setup instructions for Windows, Linux, and macOS.
-- Added reproducible source, documentation, and checksum artifact generation.
-- Added Doxygen module groups and expanded ownership, lifetime, allocation, error, electrical, and concurrency documentation throughout public headers.
-- Added detailed documentation for previously sparse drivers, simulation APIs, widgets, jack models, byte codecs, and internal rendering helpers.
-- Added a stricter public-header documentation audit covering briefs, named parameters, and return values.
+- Added reproducible GCC/gcov line and branch coverage reporting.
+- Added general and driver-specific coverage thresholds in `tools/coverage-policy.json`.
+- Added focused coverage execution by suite name and dedicated-driver suite selection.
+- Added machine-readable JSON and human-readable Markdown coverage reports.
+- Added a native coverage guide.
 
 ### Changed
 
-- Reworked the README in US English with practical project motivation, linked navigation, and internal resource links.
-- Expanded the license overview with concrete personal, educational, modification, and Five-Unit examples.
-- Forced the Nano R3 example to remove PlatformIO's GNU++11 default before enabling GNU++17.
-- Added the missing Doxygen return contract for `exportCanvasPbm`.
-- Verified the complete Arduino Nano R3 PlatformIO build locally.
-- Reworked the README opening into a project-oriented introduction covering motivation, use cases, abstraction goals, and practical scope.
-- Expanded the licensing overview with plain-language intent and a concrete Allowed/Not allowed comparison table.
-- Updated the Attenuverter example description and removed stale prerelease terminology from the versioning section.
-- Added a minimal AVR compatibility layer for the standard-library facilities used by the Nano R3 example.
-- Documented the configurable framework-header macro so strict Doxygen no longer aborts on it.
-- Removed obsolete Doxygen graph settings and restored a supported PNG graph format.
-- Pinned clang-format 22.1.8 in CI so local formatting and GitHub formatting checks use the same formatter.
-- Replaced externally hosted License and Status badges with repository-local SVG badges.
-- Replaced nonstandard Doxygen `@contact` and `@license` commands with portable `@par` sections.
-- Escaped email-address at-signs so Doxygen does not parse them as commands.
-- Made Doxygen warning logs visible directly in failed GitHub Actions output.
-- Removed the Arduino AVR dependency on `<algorithm>` and `std::clamp`.
-- Added an explicit AVR example source subset instead of compiling unrelated framework subsystems.
-- Applied repository-wide clang-format output so the Quality workflow is reproducible.
-- Reworked the PDF documentation build around `latexmk` with retained diagnostics.
-- Removed Doxygen settings that are not consistently supported by Ubuntu package versions.
-- Expanded the documentation runner dependencies to cover the generated LaTeX manual.
-- Added fully documented, commented PlatformIO templates for AVR, Renesas RA, ESP32, STM32, RP2040, and SAMD21 targets.
-- Removed obsolete documents and wording inherited from the abandoned 1.x and RC naming.
-- Standardized project maturity language on `Unreleased - Alpha`.
-- Clarified that package versions are development artifact identifiers rather than published releases.
-- Removed obsolete historical references to an uncommitted application prototype.
-- Generalized framework-boundary documentation to describe consuming firmware without naming discarded implementation experiments.
-- Reclassified project maturity from advanced prerelease to Unreleased Alpha.
-- Reset the development version to `0.1.0-alpha.14`.
-- Clarified that `1.0.0` remains a future milestone requiring substantially more validation.
-- Updated Doxygen configuration and project version to 0.1.0-alpha.14.
-- Reorganized README build, test, documentation, artifact, and platform-responsibility guidance.
+- Coverage now resolves the same granular library dependency closure as the native test runner.
 
-## 0.1.0-alpha.14 - 2026-07-18
-
-### Fixed
-
-- Exempted PlatformIO-generated Unity C conversion warnings from `-Werror` in the native test environment while retaining strict standalone framework builds.
-- Corrected DAC8568 normal data-frame expectations and special-command bit placement.
-- Replaced misleading DAC8568 clear-output operation with explicit clear-code configuration.
-- Corrected stale display, widget, I2C, and DAC tests uncovered by real test execution.
-- Isolated native-only simulation and file-storage sources from Arduino builds.
-- Removed dynamic allocation from SSD1306 and SH1106 framebuffer transfer paths.
+## [0.1.0-alpha.25] - 2026-07-20
 
 ### Added
 
-- Reworked API documentation to describe semantics, ownership, units, state transitions, failure behavior, and hardware boundaries.
-- Added implementation-level rationale for storage, display conversion, simulation, controls, and bus drivers.
-- Added a maintainability documentation standard and automated placeholder/density audit.
-- Added illuminated RGB pushbutton model.
-- Added debounced toggle switch and DIP-switch bank models.
-- Added validated On-Off-(On) switch model.
-- Added logical 16-bit RGB LED model.
-- Added linear fader and illuminated fader models.
-- Added native tests and architecture documentation for extended controls.
-- Standalone native test runner with a local Unity-compatible harness.
-- GCC, Clang, AddressSanitizer, and UndefinedBehaviorSanitizer validation.
-- Public-header Doxygen audit.
-- GitHub Actions build, sanitizer, formatting, documentation, and static-analysis jobs.
-- Release-candidate audit documentation.
+- Added one dedicated native protocol suite for each of the twelve concrete IC drivers.
+- Added an automatically generated driver test matrix under `docs/architecture/driver-test-matrix.md`.
+- Added `--filter` support to the native test runner for focused suite execution.
 
-All notable changes to Eurorack Framework will be documented in this file.
+### Changed
 
-The format is based on Keep a Changelog. The project intends to use semantic
-versioning once the public API stabilizes.
+- Hardware metadata now maps every concrete driver to exactly one dedicated native suite.
+- Hardware documentation validation now verifies test directory existence, public-header inclusion, dedicated naming, and at least two test cases.
+
+All notable changes to Eurorack Framework are documented in this file. The format follows Keep a Changelog. Semantic-version compatibility is not guaranteed while the project remains Unreleased Alpha.
+
+## [0.1.0-alpha.25] - 2026-07-20
+
+### Added
+
+- Functional native examples for all twelve concrete IC driver libraries.
+- Shared in-memory example adapters for SPI, I2C, GPIO, analog input, and delays.
+- Device-specific electrical, signal-integration, protocol, and operation-sequence sections in every IC guide.
+
+### Changed
+
+- Hardware documentation validation now rejects include-only examples, missing example READMEs, and examples without explicit result handling.
+- The example builder now accounts for shared example-support headers when resolving granular dependencies.
+- The documentation standard now requires device characteristics, signal mapping, and a framework operation sequence.
 
 ## [Unreleased]
 
-### Changed
-
-- Defined the repository boundary explicitly: concrete module applications live
-  in consuming projects.
-  gate, trigger, and encoder components.
-- Added placeholder `io` and `simulation` areas to the documented framework
-  structure.
-- Applied repository-wide clang-format rules and warning-as-error native builds.
-- Split nontrivial implementations from public headers where appropriate.
+Development artifact identifier: `0.1.0-alpha.25`.
 
 ### Added
 
-- Reworked API documentation to describe semantics, ownership, units, state transitions, failure behavior, and hardware boundaries.
-- Added implementation-level rationale for storage, display conversion, simulation, controls, and bus drivers.
-- Added a maintainability documentation standard and automated placeholder/density audit.
-- Added illuminated RGB pushbutton model.
-- Added debounced toggle switch and DIP-switch bank models.
-- Added validated On-Off-(On) switch model.
-- Added logical 16-bit RGB LED model.
-- Added linear fader and illuminated fader models.
-- Added native tests and architecture documentation for extended controls.
-- Added atomically committed native `FileStorage`.
-- Added Arduino EEPROM persistent-storage adapter.
-- Added EEPROM region partitioning and update-based writes.
-- Added native file-storage tests and storage-backend documentation.
-- Added affine raw-code and voltage calibration.
-- Added two-point calibration derivation.
-- Added DAC8568 eight-channel 16-bit SPI DAC driver.
-- Added SH1106 I2C monochrome OLED driver.
-- Added native tests and architecture documentation for step 12.
-- Added Arduino GPIO adapters.
-- Added Arduino ADC and `analogWrite` adapters.
-- Added Arduino time and delay adapter.
-- Added Arduino SPI and I2C adapters.
-- Added Arduino platform example and documentation.
-- Added deterministic virtual time and delay.
-- Added virtual digital and analog hardware channels.
-- Added inspectable virtual SPI and I2C buses.
-- Added response queues and error injection.
-- Added deterministic simulation scenarios.
-- Added PBM and ASCII canvas export.
-- Added native simulation tests and architecture documentation.
-- Added I2C SSD1306 display-controller driver.
-- Added 128x32 and 128x64 initialization profiles.
-- Added row-major canvas to SSD1306 page conversion.
-- Added contrast, inversion, and display-power control.
-- Added native SSD1306 tests and architecture documentation.
-- Added parameter, potentiometer, and encoder widgets.
-- Added progress, top-bar, and footer-bar widgets.
-- Added scrollable list menus with selection visibility calculation.
-- Added confirmation and error overlays.
-- Added native widget tests and architecture documentation.
-- Added built-in 5x7 ASCII bitmap font.
-- Added text measurement and fixed-width rendering.
-- Added horizontal and vertical text alignment.
-- Added normal and inverted text rendering with clipping.
-- Added scalable arrows, check, cross, plus, and minus glyphs.
-- Added native text and glyph tests and architecture documentation.
-- Added non-owning packed `MonochromeCanvas`.
-- Added explicit clipping and set, clear, or invert pixel operations.
-- Added horizontal, vertical, arbitrary, dashed, and dotted lines.
-- Added filled and unfilled rectangles and circles.
-- Added native display-primitive tests and architecture documentation.
-- Added generic LED channel and bank interfaces.
-- Added MCP4922 and MCP23017 drivers.
-- Added TLC5916, TLC5947, 74HC595, and 74HC165 drivers.
-- Added platform-neutral `PersistentStorage`.
-- Added native and simulator `MemoryStorage`.
-- Added explicit little-endian `ByteWriter` and `ByteReader`.
-- Added CRC-32 integrity checking.
-- Added versioned dual-slot atomic `RecordStore`.
-- Added native persistence tests and architecture documentation.
-- Added calibrated and smoothed `Potentiometer`.
-- Added bounded `EncoderValue` with clamp and wrap behavior.
-- Added generic analog and digital Eurorack jack models.
-- Added optional connection-state modeling.
-- Added native tests for step 3 models.
-- Added generic digital input, output, and bidirectional pin interfaces.
-- Added raw analog input and output channel interfaces.
-- Added monotonic time and explicit blocking-delay interfaces.
-- Added transport-neutral SPI and I2C bus interfaces.
-- Added common nonexception `IoResult` status values.
-- Added native contract tests using in-memory fake backends.
-- Human-editable root configuration in `include/eurorack_config.hpp`.
-- Compile-time project override through `EURORACK_FRAMEWORK_CONFIG_FILE`.
-- Central typed and validated `FrameworkConfig`.
-- Platform-independent `MomentaryButton`, `DigitalLed`, and `BiColorLed`.
-- Platform-independent `RotaryEncoder`, `AnalogInput`, `CvInput`, `CvOutput`,
-  `GateInput`, and `TriggerOutput`.
-- Base `PersistentStorage` interface.
-- Native and embedded tests for the implemented generic components.
-- Strict Doxygen and contribution documentation requirements.
-- Initial repository scaffold and licensing model.
+- Added a dedicated hardware documentation page for every concrete supported IC or IC family.
+- Added per-driver `hardware-doc.json` metadata linking library, examples, documentation and manufacturer references.
+- Added `tools/check-hardware-docs.py` and integrated it into the release preflight.
+- Added a central supported-hardware index covering DAC, ADC, GPIO, shift-register, LED, display and multiplexer drivers.
+
+- Added an automatically generated Mermaid dependency map and machine-readable AVR resource registry.
+- Added resource-conflict, documentation-coverage, and release-preflight tooling.
+- Added generic allocation-free event queue, press classifier, soft-takeover, and encoder-acceleration libraries.
+- Added independently selectable MCP4822 DAC and MCP3208 ADC drivers.
+- Added dedicated policy and SPI converter protocol test suites.
+- Added framework-level testing and resource-ownership guides.
+
+### Changed
+
+- Expanded framework quality checks without introducing application-specific behavior.
+- Updated all manifests and root metadata to `0.1.0-alpha.25`.
+
+## [0.1.0-alpha.14] - 2026-07-18
+
+### Added
+
+- Added platform-neutral controls, CV, gate, trigger, jack, display, persistence, simulation, and
+  hardware-interface models.
+- Added MCP4922, DAC8568, MCP23017, TLC5916, TLC5947, 74HC165, 74HC595, SSD1306, and SH1106
+  drivers.
+- Added Arduino Core adapters and native virtual hardware backends.
+- Added native GCC, Clang, sanitizer, PlatformIO, documentation, formatting, licensing, and static
+  analysis validation.
+- Added documented Arduino Nano R3 attenuverter and OLED-controller examples.
+- Added PolyForm Noncommercial licensing, the Five-Unit Cost-Recovery Permission, and release
+  artifact tooling.
+
+### Changed
+
+- Established the explicit framework boundary: reusable infrastructure belongs here; concrete module
+  applications remain in consuming repositories.
+- Standardized project maturity on `Unreleased - Alpha` and development identifiers in the
+  `0.1.0-alpha.x` range.
+- Expanded Doxygen contracts, architecture documentation, examples, and project guides.
+
+### Fixed
+
+- Corrected DAC8568 frame handling and display-driver tests.
+- Removed dynamic allocation from SSD1306 and SH1106 framebuffer transfers.
+- Isolated native-only simulation and file-storage sources from Arduino builds.
+- Corrected warning handling for PlatformIO's generated Unity C sources without weakening strict
+  framework C++ builds.
+
+## 0.1.0-alpha.25
+
+### Added
+- Binding documentation standard in `docs/standards/documentation-standard.md`.
+- JSON Schema for concrete IC-driver metadata.
+- Dedicated, build-discovered component example directories for all documented IC drivers.
+- Explicit public-header and test-suite mappings in every `hardware-doc.json`.
+
+### Changed
+- Hardware documentation validation now rejects nonexistent examples, missing `main.cpp` files, examples that omit the documented public header, nonexistent test mappings, unknown metadata fields, and invalid categories or maturity values.

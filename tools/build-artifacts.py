@@ -15,13 +15,17 @@ import zipfile
 
 EXCLUDED_PARTS = {
     ".git",
+    ".cache",
+    ".idea",
     ".pio",
+    ".vscode",
     ".venv",
     ".native-tests",
     ".validation",
     "__pycache__",
     "dist",
     "generated",
+    "build",
 }
 
 
@@ -50,6 +54,8 @@ def source_files(root: Path) -> list[Path]:
         if any(part in EXCLUDED_PARTS for part in relative.parts):
             continue
         if path.suffix in {".pyc", ".tmp"}:
+            continue
+        if relative.name in {"compile_commands.json", ".DS_Store"}:
             continue
         result.append(path)
     return sorted(result, key=lambda item: item.as_posix())
@@ -96,6 +102,8 @@ def main() -> int:
     output.mkdir(parents=True, exist_ok=True)
     release_version = version(root)
     base_name = f"eurorack-framework-{release_version}"
+
+    run([sys.executable, "tools/check-library-layout.py"], root)
 
     if not arguments.skip_tests:
         run(

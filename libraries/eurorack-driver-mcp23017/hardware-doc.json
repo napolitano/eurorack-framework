@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-mcp23017",
+  "publicHeader": "eurorack/drivers/gpio/mcp23017.hpp",
+  "hardware": [
+    "mcp23017"
+  ],
+  "category": "gpio",
+  "documentation": "docs/hardware/gpio/mcp23017.md",
+  "libraryDocumentation": "docs/libraries/mcp23017.md",
+  "examples": [
+    "examples/components/mcp23017"
+  ],
+  "tests": [
+    "tests/native/test_driver_mcp23017"
+  ],
+  "manufacturer": "Microchip",
+  "references": {
+    "product": "https://www.microchip.com/en-us/product/MCP23017",
+    "datasheet": "https://ww1.microchip.com/downloads/en/DeviceDoc/20001952C.pdf"
+  },
+  "status": "alpha"
+}

@@ -1,0 +1,59 @@
+{
+  "eurorack-platform-avr-timer2": {
+    "kind": "timer",
+    "resources": [
+      "AVR_TIMER2",
+      "TIMER2_COMPA_vect"
+    ],
+    "notes": "Owns Timer2 compare A."
+  },
+  "eurorack-platform-avr-adc-scanner": {
+    "kind": "adc",
+    "resources": [
+      "AVR_ADC",
+      "ADC_vect",
+      "AREF"
+    ],
+    "notes": "Owns the AVR ADC peripheral while active."
+  },
+  "eurorack-platform-avr-external-edge": {
+    "kind": "interrupt",
+    "resources": [
+      "INT0_vect",
+      "INT1_vect",
+      "D2",
+      "D3"
+    ],
+    "notes": "Owns both external interrupt vectors."
+  },
+  "eurorack-platform-arduino-spi": {
+    "kind": "bus",
+    "resources": [
+      "AVR_SPI"
+    ],
+    "shareable": [
+      "AVR_SPI"
+    ],
+    "notes": "SPI is shareable only through transactions and separate CS lines."
+  },
+  "eurorack-platform-arduino-i2c": {
+    "kind": "bus",
+    "resources": [
+      "AVR_TWI"
+    ],
+    "shareable": [
+      "AVR_TWI"
+    ],
+    "notes": "I2C bus is address-shared."
+  },
+  "eurorack-platform-arduino-eeprom": {
+    "kind": "storage",
+    "resources": [
+      "AVR_EEPROM"
+    ],
+    "shareable": [
+      "AVR_EEPROM"
+    ],
+    "notes": "Address ranges must not overlap."
+  }
+}

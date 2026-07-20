@@ -1,7 +1,6 @@
 {
   "name": "eurorack-drivers-mux",
-  "version": "0.1.0-alpha.14",
-  "description": "Binary-addressed analog multiplexer driver (74HC4051/74HC4067-family), templated on select-line count. Header-only.",
+  "version": "0.1.0-alpha.25",
   "keywords": [
     "eurorack",
     "modular-synthesizer",
@@ -21,6 +20,7 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "Compatibility meta-library selecting all concrete drivers in the mux category. Prefer the individual chip library.",
   "frameworks": "*",
   "platforms": "*",
   "build": {
@@ -28,7 +28,6 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*",
-    "eurorack-io": "*"
+    "eurorack-driver-analog-multiplexer": "*"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-74hc595",
+  "publicHeader": "eurorack/drivers/shift/shift_register_74hc595.hpp",
+  "hardware": [
+    "74hc595"
+  ],
+  "category": "shift-register",
+  "documentation": "docs/hardware/shift-register/74hc595.md",
+  "libraryDocumentation": "docs/libraries/74hc595.md",
+  "examples": [
+    "examples/components/shift-register-74hc595"
+  ],
+  "tests": [
+    "tests/native/test_driver_74hc595"
+  ],
+  "manufacturer": "Texas Instruments / compatible vendors",
+  "references": {
+    "product": "https://www.ti.com/product/SN74HC595",
+    "datasheet": "https://www.ti.com/lit/ds/symlink/sn74hc595.pdf"
+  },
+  "status": "alpha"
+}

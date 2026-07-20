@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-dac8568",
+  "publicHeader": "eurorack/drivers/dac/dac8568.hpp",
+  "hardware": [
+    "dac8568"
+  ],
+  "category": "dac",
+  "documentation": "docs/hardware/dac/dac8568.md",
+  "libraryDocumentation": "docs/libraries/dac8568.md",
+  "examples": [
+    "examples/components/dac8568"
+  ],
+  "tests": [
+    "tests/native/test_driver_dac8568"
+  ],
+  "manufacturer": "Texas Instruments",
+  "references": {
+    "product": "https://www.ti.com/product/DAC8568",
+    "datasheet": "https://www.ti.com/lit/ds/symlink/dac8568.pdf"
+  },
+  "status": "alpha"
+}

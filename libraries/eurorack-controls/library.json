@@ -1,7 +1,6 @@
 {
   "name": "eurorack-controls",
-  "version": "0.1.0-alpha.14",
-  "description": "Platform-independent panel-control state models (buttons, encoders, faders, LEDs, switches) that consume raw samples and produce debounced, calibrated application state. No hardware access.",
+  "version": "0.1.0-alpha.25",
   "keywords": [
     "eurorack",
     "modular-synthesizer",
@@ -21,6 +20,7 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "Compatibility meta-library that selects every control model. Prefer individual eurorack-control-* libraries so unused buttons, LEDs, encoders, faders, and switches are not compiled.",
   "frameworks": "*",
   "platforms": "*",
   "build": {
@@ -28,8 +28,21 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*",
-    "eurorack-core": "*",
-    "eurorack-drivers-led-interface": "*"
+    "eurorack-control-analog-input": "*",
+    "eurorack-control-bicolor-led": "*",
+    "eurorack-control-cv": "*",
+    "eurorack-control-digital-led": "*",
+    "eurorack-control-dip-switch": "*",
+    "eurorack-control-encoder-value": "*",
+    "eurorack-control-fader": "*",
+    "eurorack-control-gate": "*",
+    "eurorack-control-illuminated-button": "*",
+    "eurorack-control-illuminated-fader": "*",
+    "eurorack-control-momentary-button": "*",
+    "eurorack-control-multicolor-led": "*",
+    "eurorack-control-on-off-momentary-switch": "*",
+    "eurorack-control-potentiometer": "*",
+    "eurorack-control-rotary-encoder": "*",
+    "eurorack-control-toggle-switch": "*"
   }
 }

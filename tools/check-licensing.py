@@ -47,7 +47,7 @@ def main() -> int:
                 f"library.json license must be {SPDX_ID!r}"
             )
 
-    for directory in (root / "include", root / "src"):
+    for directory in (root / "libraries",):
         for path in sorted(directory.rglob("*")):
             if not path.is_file() or path.suffix not in {".h", ".hpp", ".c", ".cpp"}:
                 continue

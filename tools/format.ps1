@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $files = Get-ChildItem `
-    -Path "$projectRoot\include", "$projectRoot\src", "$projectRoot\tests", "$projectRoot\examples" `
+    -Path "$projectRoot\libraries", "$projectRoot\tests", "$projectRoot\examples" `
     -Recurse `
     -File `
     -Include *.hpp, *.cpp

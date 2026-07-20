@@ -1,6 +1,6 @@
 # Editable Eurorack Configuration
 
-The file `include/eurorack_config.hpp` is the human-editable configuration
+The file `libraries/eurorack-core/include/eurorack_config.hpp` is the human-editable configuration
 surface of the framework. It contains ordinary named constants, grouped by
 purpose and documented in volts, milliseconds, hertz, and microseconds.
 
@@ -39,7 +39,7 @@ separate.
 Edit only values in:
 
 ```text
-include/eurorack_config.hpp
+libraries/eurorack-core/include/eurorack_config.hpp
 ```
 
 For example:

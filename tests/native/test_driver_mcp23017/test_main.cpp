@@ -1,0 +1,13 @@
+#include <eurorack/drivers/gpio/mcp23017.hpp>
+#include <eurorack/simulation/virtual_buses.hpp>
+#include <unity.h>
+using namespace eurorack;
+namespace {
+void initialize_writes_all_cached_registers(){simulation::VirtualI2cBus bus;drivers::gpio::Mcp23017 g(bus,io::I2cAddress{0x20U});TEST_ASSERT_EQUAL_INT(0,(int)g.initialize());TEST_ASSERT_EQUAL_UINT32(4U,bus.transfers().size());TEST_ASSERT_EQUAL_HEX8(0x00U,bus.transfers()[0].written[0]);TEST_ASSERT_EQUAL_HEX8(0xFFU,bus.transfers()[0].written[1]);TEST_ASSERT_EQUAL_HEX8(0xFFU,bus.transfers()[0].written[2]);}
+void setters_encode_little_endian_pairs(){simulation::VirtualI2cBus bus;drivers::gpio::Mcp23017 g(bus,io::I2cAddress{0x27U});TEST_ASSERT_EQUAL_INT(0,(int)g.setDirection(0xA55AU));TEST_ASSERT_EQUAL_INT(0,(int)g.setPullUps(0x1234U));TEST_ASSERT_EQUAL_INT(0,(int)g.setInputPolarity(0x8001U));TEST_ASSERT_EQUAL_INT(0,(int)g.writeOutputs(0x55AAU));TEST_ASSERT_EQUAL_HEX8(0xAAU,bus.transfers().back().written[1]);TEST_ASSERT_EQUAL_HEX8(0x55U,bus.transfers().back().written[2]);TEST_ASSERT_EQUAL_HEX16(0x55AAU,g.outputMask());}
+void pin_write_and_validation(){simulation::VirtualI2cBus bus;drivers::gpio::Mcp23017 g(bus,io::I2cAddress{0x20U});TEST_ASSERT_EQUAL_INT(0,(int)g.writePin(15U,true));TEST_ASSERT_TRUE((g.outputMask()&0x8000U)!=0U);TEST_ASSERT_EQUAL_INT(0,(int)g.writePin(15U,false));TEST_ASSERT_EQUAL_HEX16(0U,g.outputMask());TEST_ASSERT_EQUAL_INT((int)io::IoResult::InvalidArgument,(int)g.writePin(16U,true));TEST_ASSERT_FALSE(g.input(16U));}
+void samples_inputs_and_preserves_cache_on_error(){simulation::VirtualI2cBus bus;drivers::gpio::Mcp23017 g(bus,io::I2cAddress{0x20U});bus.queueResponse({0x01U,0x80U});TEST_ASSERT_EQUAL_INT(0,(int)g.sampleInputs());TEST_ASSERT_EQUAL_HEX16(0x8001U,g.inputMask());TEST_ASSERT_TRUE(g.input(0U));TEST_ASSERT_TRUE(g.input(15U));bus.setNextResult(io::IoResult::BusError);TEST_ASSERT_EQUAL_INT((int)io::IoResult::BusError,(int)g.sampleInputs());TEST_ASSERT_EQUAL_HEX16(0x8001U,g.inputMask());}
+void initialize_stops_at_first_error(){simulation::VirtualI2cBus bus;drivers::gpio::Mcp23017 g(bus,io::I2cAddress{0x20U});bus.setNextResult(io::IoResult::BusError);TEST_ASSERT_EQUAL_INT((int)io::IoResult::BusError,(int)g.initialize());TEST_ASSERT_EQUAL_UINT32(1U,bus.transfers().size());}
+}
+extern "C" {void setUp(){} void tearDown(){}}
+int main(){UNITY_BEGIN();RUN_TEST(initialize_writes_all_cached_registers);RUN_TEST(setters_encode_little_endian_pairs);RUN_TEST(pin_write_and_validation);RUN_TEST(samples_inputs_and_preserves_cache_on_error);RUN_TEST(initialize_stops_at_first_error);return UNITY_END();}

@@ -1,7 +1,6 @@
 {
   "name": "eurorack-io",
-  "version": "0.1.0-alpha.14",
-  "description": "Abstract hardware I/O interfaces (analog/digital in and out, SPI, I2C, time source) and the electrical jack and calibration models built on them. No concrete hardware backend.",
+  "version": "0.1.0-alpha.25",
   "keywords": [
     "eurorack",
     "modular-synthesizer",
@@ -21,6 +20,7 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "Compatibility meta-library that selects every platform-neutral I/O contract and model. Prefer individual eurorack-io-* libraries in constrained firmware.",
   "frameworks": "*",
   "platforms": "*",
   "build": {
@@ -28,7 +28,13 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*",
-    "eurorack-core": "*"
+    "eurorack-io-result": "*",
+    "eurorack-io-digital": "*",
+    "eurorack-io-analog": "*",
+    "eurorack-io-spi": "*",
+    "eurorack-io-i2c": "*",
+    "eurorack-io-time": "*",
+    "eurorack-io-analog-calibration": "*",
+    "eurorack-io-jack": "*"
   }
 }

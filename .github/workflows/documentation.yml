@@ -6,8 +6,7 @@ on:
     paths:
       - "README.md"
       - "Doxyfile"
-      - "include/**"
-      - "src/**"
+      - "libraries/**"
       - "docs/**"
       - "LICENSING.md"
       - "CONTRIBUTING.md"
@@ -19,8 +18,7 @@ on:
     paths:
       - "README.md"
       - "Doxyfile"
-      - "include/**"
-      - "src/**"
+      - "libraries/**"
       - "docs/**"
       - "LICENSING.md"
       - "CONTRIBUTING.md"

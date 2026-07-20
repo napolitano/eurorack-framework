@@ -9,187 +9,163 @@
 [![Status](.github/badges/status.svg)](docs/release/project-maturity.md)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg)](https://en.cppreference.com/w/cpp/17)
 
+## Purpose
 
-## What this project is
+Eurorack Framework is a reusable C++17 foundation for module firmware. It provides small,
+explicit building blocks for recurring embedded tasks such as debounced controls, CV and gate
+models, bus interfaces, peripheral drivers, display primitives, persistence, Arduino adapters,
+and deterministic native simulation.
 
-Eurorack Framework is a reusable C++ foundation for module firmware. It grew
-out of a very practical problem: when you build several modules or experiment
-with alternative firmware, you keep solving the same supporting problems long
-before you reach the interesting musical behavior.
-
-Buttons need debouncing. Encoders need reliable state tracking. ADC readings
-need calibration. CV and gate values need clear units and limits. DACs,
-displays, storage, and GPIO expanders need drivers. The same code then needs to
-run on real hardware and, ideally, in fast native tests without a board attached.
-
-This project collects those recurring pieces behind small, explicit
-abstractions. The intention is not to hide electronics behind a magical
-"hardware-independent" curtain. Eurorack hardware is too analog and too fond of
-edge cases for that. The intention is to keep responsibilities clear:
-
-```text
-Module behavior
-      |
-      v
-Reusable framework models and drivers
-      |
-      v
-Platform adapters
-      |
-      v
-Protected, calibrated physical hardware
-```
-
-In practice, the framework can help you:
-
-- build your own Eurorack modules without copying utility code from project to project
-- create alternative firmware for hardware you own or are authorized to modify
-- prototype control behavior before the final PCB exists
-- reuse tested button, encoder, CV, gate, display, storage, and peripheral code
-- move an application between AVR, STM32, ESP32, RP2040, and other targets with less rewriting
-- run deterministic host-side tests instead of flashing hardware after every small change
-
-The project deliberately stops short of defining complete musical applications.
-Your module's actual purpose - its signal processing, modes, menus, modulation,
-or performance behavior - remains in the consuming firmware.
-
-## Quick navigation
-
-- [Project status](#project-maturity)
-- [Architecture and repository layout](#architectural-boundary)
-- [Getting started](#development-environment-setup)
-- [Examples](#examples)
-- [Building and testing](#building-and-testing)
-- [Documentation](#documentation)
-- [Major components](#major-components)
-- [Licensing](#licensing)
-- [Author and contact](#author)
-
-Useful internal resources:
-
-- [Project manual](docs/manual/index.md)
-- [Development environment](docs/guides/development-environment.md)
-- [Example guide](docs/guides/examples.md)
-- [Framework boundary](docs/architecture/framework-boundary.md)
-- [Hardware interfaces](docs/architecture/hardware-interfaces.md)
-- [Project maturity](docs/release/project-maturity.md)
-- [Plain-language licensing overview](LICENSING.md)
-- [Contribution policy](CONTRIBUTING.md)
-
-> [!WARNING]
-> **Development status - not intended for production firmware**
->
-> This project is still under active development. Its public API, data formats,
-> timing behavior, hardware assumptions, and driver implementations may change
-> without backward compatibility while the project remains Unreleased Alpha. The framework
-> has not yet completed validation on every advertised microcontroller core or
-> every supported peripheral.
->
-> Do not use this development snapshot in safety-critical equipment, commercial products, or
-> production firmware that requires a stable and fully qualified dependency.
-> Anyone who nevertheless uses the framework does so entirely at their own risk
-> and remains responsible for electrical protection, calibration, regulatory
-> compliance, testing, validation, maintenance, and all consequences of use.
-
-## Project maturity
-
-**Status: Unreleased - Alpha**
-
-The current version number is a development identifier, not a published stable
-release. The project is still establishing its API, supported platforms,
-hardware validation matrix, documentation, examples, and release process.
-
-The framework should currently be treated as experimental infrastructure.
-Breaking changes are expected. Persistent formats, behavior, interfaces, and
-hardware assumptions may change without migration support.
-
-The framework provides hardware-independent controls, electrical signal models,
-configuration, persistence, display rendering, peripheral drivers, Arduino
-adapters, and deterministic native simulation. Concrete module behavior belongs
-in consuming projects and is deliberately excluded from this repository.
-
-Development artifact identifier: **0.1.0-alpha.14**
-
-## Architectural boundary
-
-This repository contains reusable infrastructure. Product-specific signal
-processing, musical behavior, user interfaces, and module application logic
-belong in consuming firmware projects.
+The framework deliberately does not implement complete musical applications. Quantizers,
+sequencers, modulation algorithms, menu structures, and product-specific behavior remain in the
+consuming firmware.
 
 ```text
 Consuming module firmware
         |
         v
-Reusable Eurorack Framework
+Selected framework components
         |
         v
-Platform adapters and peripheral drivers
+Selected platform adapters and chip drivers
         |
         v
-Physical or simulated hardware
+Protected and calibrated physical hardware
 ```
 
-A consuming firmware project may use `CvInput`, `CvOutput`, `GateInput`,
-buttons, LEDs, storage, display primitives, and peripheral drivers while keeping
-its product-specific behavior outside the framework.
+## Project maturity
+
+**Status: Unreleased - Alpha**
+
+Development artifact identifier: **0.1.0-alpha.25**
+
+Public APIs, persistent formats, timing behavior, library boundaries, and hardware assumptions may
+change without migration support. The framework has not yet completed qualification on every
+advertised platform or peripheral. It is not production-ready and must not be treated as a stable
+or safety-qualified dependency.
+
+## Granular library model
+
+The repository is a collection of independent PlatformIO libraries below `libraries/`. It is not a
+single monolithic library. A firmware project selects only the exact elements it uses.
+
+Examples:
+
+- `eurorack-control-momentary-button` provides only the momentary-button model.
+- `eurorack-control-rotary-encoder` provides only the rotary-encoder model.
+- `eurorack-driver-mcp4922` provides only the MCP4922 driver.
+- `eurorack-driver-dac8568` provides only the DAC8568 driver.
+- `eurorack-driver-tlc5947` provides only the TLC5947 driver.
+- `eurorack-platform-arduino-spi` provides only the Arduino SPI adapter.
+- `eurorack-storage-crc32` provides only CRC-32.
+
+Small shared contracts are separate libraries, for example `eurorack-compat`, `eurorack-core`,
+`eurorack-io-spi`, `eurorack-io-result`, and `eurorack-drivers-led-interface`.
+
+Compatibility meta-libraries such as `eurorack-controls`, `eurorack-display`,
+`eurorack-drivers-dac`, and `eurorack-platform-arduino` remain available. They deliberately select
+an entire category and are intended for migration, desktop development, or unconstrained targets.
+Resource-constrained firmware should use the individual libraries.
+
+Public include spellings remain stable:
+
+```cpp
+#include <eurorack/controls/momentary_button.hpp>
+#include <eurorack/drivers/dac/mcp4922.hpp>
+#include <eurorack/platform/arduino/arduino_spi.hpp>
+```
+
+Each public header has exactly one owning library. The obsolete duplicate root `include/` tree has
+been removed to prevent divergent API copies.
+
+## AVR and local-checkout integration
+
+PlatformIO cannot reliably select several nested libraries from one bare Git URL. The supported
+pattern is therefore a local clone or Git submodule and `lib_extra_dirs`.
+
+```bash
+git submodule add https://github.com/napolitano/eurorack-framework.git \
+    lib/eurorack-framework
+```
+
+Minimal Arduino Nano R3 example using one control model and one DAC:
+
+```ini
+[env:nanoatmega328]
+platform = atmelavr
+board = nanoatmega328
+framework = arduino
+
+build_unflags = -std=gnu++11
+build_flags =
+    -std=gnu++17
+    -Wall
+    -Wextra
+    -Wpedantic
+
+lib_extra_dirs = lib/eurorack-framework/libraries
+lib_ldf_mode = chain+
+lib_deps =
+    eurorack-control-analog-input
+    eurorack-control-cv
+    eurorack-driver-mcp4922
+    eurorack-platform-arduino-gpio
+    eurorack-platform-arduino-spi
+```
+
+Transitive requirements are declared by each component manifest. Do not list a category
+meta-library merely for convenience on the ATmega328P; doing so intentionally makes all category
+members eligible for compilation.
+
+See the [AVR Integration Guide](docs/guides/avr-integration.md), the [generated framework map](docs/architecture/framework-map.md), the [resource ownership guide](docs/architecture/resource-ownership.md), and the [testing guide](docs/guides/testing-and-quality.md). The [TLC5947 guide](docs/guides/tlc5947.md) explains heap-free buffers, safe initialization, and selectable startup diagnostics.
 
 ## Repository structure
 
 ```text
-include/
-  eurorack_config.hpp     Human-editable Eurorack defaults
-  eurorack/
-    controls/             Buttons, LEDs, encoders, potentiometers
-    core/                 Framework configuration and foundational types
-    display/              Canvas, graphics, text, widgets
-    drivers/              External IC and display-controller drivers
-    io/                   Generic electrical and bus abstractions
-    platform/arduino/     Arduino Core adapters
-    simulation/           Deterministic native test doubles and export
-    storage/              Persistence, serialization, CRC, record storage
+libraries/
+  eurorack-compat/                  Shared AVR standard-library shims
+  eurorack-core/                    Framework-wide configuration contract
+  eurorack-io-*/                    Individual hardware-neutral I/O contracts
+  eurorack-control-*/               One panel-control model per library
+  eurorack-display-*/               Individual display primitives and widgets
+  eurorack-driver-*/                One concrete peripheral or chip per library
+  eurorack-storage-*/               Individual persistence concerns and backends
+  eurorack-platform-arduino-*/      One Arduino facility per library
+  eurorack-simulation-*/            Individual native simulation facilities
+  eurorack-controls/                Optional compatibility meta-library
+  eurorack-display/                 Optional compatibility meta-library
+  eurorack-drivers-*/               Optional category meta-libraries
+  eurorack-storage/                 Optional compatibility meta-library
+  eurorack-platform-arduino/        Optional Arduino umbrella/meta-library
 
-src/                      Nontrivial implementations
-examples/                 Small component examples, never complete modules
-tests/native/             Host-based unit tests
-docs/                     Architecture, guides, reference, and release audits
-tools/                    Formatting, tests, documentation, and artifact scripts
+examples/components/                Minimal native examples
+examples/projects/                  Embedded reference projects
+tests/native/                       Host-based unit tests
+docs/                               Manual, architecture, guides, and release notes
+tools/                              Validation, build, documentation, and artifact scripts
 ```
 
-## Requirements
+## Development environment
 
-The development workflow is supported on Windows, Linux, and macOS. The exact
-package names differ by operating system, but the required tools are the same:
+The supported development workflow is cross-platform and requires:
 
 - Git
 - Python 3.10 or newer
 - PlatformIO Core 6.x
-- a C++17 compiler - GCC and Clang are used by CI
+- GCC and/or Clang with C++17 support
 - Doxygen 1.9 or newer
-- Graphviz for diagrams and call graphs
+- Graphviz
 - clang-format
 - cppcheck
 
-Arduino development additionally requires the PlatformIO platform and board
-package for the chosen target.
-
-## Development environment setup
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/napolitano/eurorack-framework.git
-cd eurorack-framework
-```
-
-### 2. Create a Python virtual environment
+Create a Python environment:
 
 Linux and macOS:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install platformio
+python -m pip install --upgrade pip platformio
 ```
 
 Windows PowerShell:
@@ -197,108 +173,27 @@ Windows PowerShell:
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install platformio
+python -m pip install --upgrade pip platformio
 ```
 
-### 3. Install native development tools
+Detailed installation and troubleshooting instructions are in
+`docs/guides/development-environment.md`.
 
-Ubuntu or Debian:
+## Validation and builds
+
+Validate library ownership, versions, and declared dependencies:
 
 ```bash
-sudo apt-get update
-sudo apt-get install \
-    build-essential clang clang-format cppcheck doxygen graphviz
+python tools/check-library-layout.py
 ```
 
-macOS with Homebrew:
-
-```bash
-brew install llvm clang-format cppcheck doxygen graphviz
-```
-
-Windows options include Visual Studio Build Tools, LLVM, Doxygen, Graphviz, and
-cppcheck. Add their executable directories to `PATH` before opening the
-PlatformIO shell.
-
-### 4. Verify the environment
-
-```bash
-python --version
-pio --version
-g++ --version
-clang++ --version
-doxygen --version
-dot -V
-clang-format --version
-cppcheck --version
-```
-
-See `docs/guides/development-environment.md` for troubleshooting, recommended
-editor configuration, and board-specific setup.
-
-## Examples
-
-Small native examples for the individual control and signal models are located
-under:
-
-```text
-examples/components/
-```
-
-Build and execute all component examples:
+Build every native component example against only its resolved dependency closure:
 
 ```bash
 python tools/build-examples.py
 ```
 
-A complete Arduino Nano R3 example application is located at:
-
-```text
-examples/projects/nano-r3-attenuverter/
-```
-
-It demonstrates a one-channel CV attenuverter with signed attenuation,
-independent positive/negative balance, bipolar LED indication, an MCP4922 DAC,
-and a hypothetical bipolar analog signal path. The accompanying documentation
-explains the software behavior and the assumed hardware contract without
-pretending to be a finished circuit design.
-
-## Continuous integration
-
-GitHub Actions validates every pull request and relevant push with GCC, Clang,
-sanitizers, PlatformIO, documentation audits, formatting, and cppcheck.
-
-Documentation changes additionally build the Markdown archive and combined PDF
-manual. A separate manual workflow creates ephemeral Unreleased Alpha artifacts
-without publishing a GitHub Release.
-
-See `docs/guides/continuous-integration.md`.
-
-## Building and testing
-
-### PlatformIO native tests
-
-```bash
-pio test -e native
-```
-
-The framework warning policy applies only to project sources through
-`build_src_flags`. PlatformIO-provided Unity C sources are not incorrectly
-forced through the framework's C++ warning profile.
-
-Clean stale PlatformIO output after changing compiler flags or test framework
-configuration:
-
-```bash
-pio run --target clean
-```
-
-Or remove the complete `.pio` directory.
-
-### Standalone native test runner
-
-The repository also includes a PlatformIO-independent runner:
+Run every native test against only its resolved dependency closure:
 
 ```bash
 python tools/run-native-tests.py --compiler g++
@@ -306,9 +201,24 @@ python tools/run-native-tests.py --compiler clang++
 python tools/run-native-tests.py --compiler g++ --sanitizers
 ```
 
-The sanitizer mode enables AddressSanitizer and UndefinedBehaviorSanitizer.
+Run PlatformIO native tests:
 
-### Formatting
+```bash
+pio test -e native
+```
+
+Build the Nano R3 reference projects:
+
+```bash
+pio run -d examples/projects/nano-r3-attenuverter
+pio run -d examples/projects/nano-r3-oled-controller
+```
+
+The dependency-aware Python runners intentionally do not compile every framework implementation
+for every test or example. This validates the manifests and makes accidental category-wide
+coupling visible.
+
+## Formatting and static analysis
 
 Windows PowerShell:
 
@@ -317,27 +227,32 @@ Windows PowerShell:
 .\tools\check-format.ps1
 ```
 
-Cross-platform direct invocation:
+Cross-platform formatting:
 
 ```bash
-find include src tests examples -type f \
-    \( -name '*.hpp' -o -name '*.cpp' \) -print0 \
+find libraries tests examples -type f \
+    \( -name '*.hpp' -o -name '*.h' -o -name '*.cpp' \) -print0 \
     | xargs -0 clang-format -i
 ```
 
-### Static analysis
+Static analysis:
 
 ```bash
 cppcheck \
     --enable=warning,performance,portability \
     --error-exitcode=1 \
-    -I include \
-    src
+    --std=c++17 \
+    $(find libraries -maxdepth 2 -type d -name include -printf '-I%p ') \
+    libraries
 ```
+
+## Hardware documentation
+
+Every concrete IC driver has a dedicated hardware page with device purpose, framework support, resource ownership, limitations, a C++ usage example and primary manufacturer references. Start at [`docs/hardware/index.md`](docs/hardware/index.md). The release preflight rejects concrete driver libraries without matching metadata and documentation.
 
 ## Documentation
 
-The primary documentation is maintained as Markdown:
+Maintained documentation lives in:
 
 ```text
 docs/manual/
@@ -346,15 +261,15 @@ docs/architecture/
 docs/release/
 ```
 
-Start with:
+Start with `docs/manual/index.md`.
 
-```text
-docs/manual/index.md
+Run the documentation audits:
+
+```bash
+python tools/check-public-docs.py
+python tools/check-maintainability-docs.py
+python tools/check-doxygen-contracts.py
 ```
-
-Doxygen consumes the Markdown manual and the documented C++ API, then generates
-a LaTeX tree for PDF output. HTML generation is intentionally disabled because
-the project documentation is meant to remain useful directly in the repository.
 
 Build Markdown and PDF documentation:
 
@@ -362,222 +277,108 @@ Build Markdown and PDF documentation:
 python tools/build-documentation.py
 ```
 
-Build only the Markdown documentation archive:
+Build the Markdown archive only:
 
 ```bash
 python tools/build-documentation.py --markdown-only
 ```
 
-A complete PDF build requires Doxygen, Graphviz, `make`, and a LaTeX
-distribution such as TeX Live or MiKTeX.
-
-Generated release artifacts:
-
-```text
-dist/
-  eurorack-framework-<version>-markdown-docs.zip
-  eurorack-framework-<version>-manual.pdf
-```
-
-Doxygen does not provide a native Markdown-output generator. Markdown is
-therefore treated as the maintained source and publication format, while
-Doxygen supplies cross-referenced API content and optional PDF generation.
-
-## Generating release artifacts
-
-The cross-platform artifact script performs validation and creates distributable
-files:
+## Release artifacts
 
 ```bash
 python tools/build-artifacts.py
 ```
 
-By default it creates:
+The script validates the source tree and creates deterministic source and documentation artifacts
+plus SHA-256 checksums below `dist/`. Package versions are development identifiers while the project
+remains Unreleased Alpha; creating an artifact does not constitute a stable release.
 
-```text
-dist/
-  eurorack-framework-<version>-source.zip
-  eurorack-framework-<version>-documentation.zip
-  eurorack-framework-<version>-checksums.sha256
-```
+## Framework configuration
 
-The source archive excludes local build caches, generated documentation,
-editor metadata, and temporary files. The documentation artifacts contain the maintained Markdown manual and, when LaTeX is available, a combined PDF manual and API reference.
+Framework-wide electrical and timing defaults are provided by `eurorack-core` through the public
+header `eurorack_config.hpp`. A consuming project may replace it by defining
+`EURORACK_FRAMEWORK_CONFIG_FILE` to an alternative header.
 
-Available switches:
-
-```bash
-python tools/build-artifacts.py --help
-python tools/build-artifacts.py --skip-tests
-python tools/build-artifacts.py --skip-documentation
-python tools/build-artifacts.py --output-directory out
-```
-
-A normal release build should not use either skip option. Detailed artifact
-contents and the release procedure are documented in
-`docs/guides/building-artifacts.md`.
-
-## Human-editable configuration
-
-Framework-wide assumptions are stored in:
-
-```text
-include/eurorack_config.hpp
-```
-
-The file contains readable constants for audio, CV, pitch, gates, triggers,
-interaction timing, display timing, and simulation timing. A consuming project
-may replace it by defining `EURORACK_FRAMEWORK_CONFIG_FILE` to the path of an
-alternative header.
-
-Every configuration value affects firmware behavior and must be reviewed for
-the target hardware. Defaults are not a substitute for electrical design,
-measurement, or calibration.
+Every value must be reviewed against the actual circuit. Defaults are not substitutes for input
+protection, output buffering, calibration, power-integrity design, or measurement.
 
 ## Major components
 
-The public API currently includes:
+The current public API includes:
 
-- momentary buttons, digital LEDs, bicolor LEDs, and rotary encoders
-- potentiometer, analog input, CV, gate, and trigger models
-- SPI, I2C, digital I/O, analog I/O, and time interfaces
+- buttons, switches, encoders, potentiometers, faders, and logical LED models
+- CV, gate, trigger, analog-input, and jack models
+- digital, analog, SPI, I2C, time, and result contracts
 - MCP4922 and DAC8568 DAC drivers
 - MCP23017 GPIO expansion
 - TLC5916 and TLC5947 LED drivers
 - 74HC165 and 74HC595 shift-register drivers
-- SSD1306 and SH1106 monochrome display drivers
-- canvas primitives, text, glyphs, and reusable UI widgets
-- explicit byte encoding, CRC-32, dual-slot records, and storage backends
-- Arduino Core adapters
-- native simulation, virtual buses, scenarios, and canvas export
+- binary-addressed analog multiplexer support
+- SSD1306 and SH1106 display drivers
+- monochrome canvas, geometry, drawing, glyph, text, and widget libraries
+- persistent-storage interface, codecs, CRC, record store, and native backends
+- individual Arduino GPIO, analog, SPI, I2C, time, and EEPROM adapters
+- virtual I/O, virtual buses, virtual time, scenarios, and canvas export
 
-Each public declaration is documented in the generated Doxygen reference.
-Architecture-level explanations are in `docs/architecture`.
+## Real-time and electrical responsibility
 
-## Platform and electrical responsibility
+The framework does not make arbitrary operations interrupt-safe or real-time-safe. Bus transfers,
+file access, EEPROM access, dynamic containers in native-only facilities, and platform SDK calls may
+block. Ownership, allocation, timing, and concurrency constraints are documented on the respective
+APIs.
 
-Public APIs remain independent of Arduino-specific types. Arduino adapters are
-provided as one concrete platform layer, not as an electrical interface to a
-Eurorack system.
-
-Microcontroller pins must never be connected directly to Eurorack jacks merely
-because an adapter exposes a digital or analog method. Input protection,
-attenuation, clamping, impedance, filtering, level shifting, output buffering,
-short-circuit protection, power integrity, and calibration remain responsibilities
-of the hardware and firmware integrator.
-
-## API and real-time expectations
-
-The generic control and I/O layers avoid hidden ownership and generally operate
-synchronously. Referenced buses, pins, clocks, and storage backends must outlive
-the objects that consume them.
-
-The framework does not claim that every operation is safe inside an interrupt
-service routine. Bus transactions, file access, dynamic allocation in native
-simulation, and platform SDK calls may block. Each API's Doxygen documentation
-states the relevant ownership, allocation, and execution assumptions.
+Microcontroller pins must not be connected directly to Eurorack jacks merely because an adapter
+exposes a digital or analog method. Protection, attenuation, clamping, filtering, level shifting,
+output buffering, short-circuit protection, power integrity, and calibration remain the
+integrator's responsibility.
 
 ## Documentation map
 
+- `docs/guides/avr-integration.md
+- [`docs/guides/tlc5947.md`](docs/guides/tlc5947.md) explains heap-free buffers, safe initialization, and selectable startup diagnostics.` - granular AVR integration and library selection
 - `docs/guides/development-environment.md` - toolchain setup
 - `docs/guides/building-artifacts.md` - reproducible artifacts
 - `docs/guides/framework-configuration.md` - compile-time configuration
-- `docs/guides/examples.md` - example structure and documentation requirements
+- `docs/guides/examples.md` - example requirements
 - `docs/architecture/framework-boundary.md` - project scope
 - `docs/architecture/hardware-interfaces.md` - abstraction contracts
-- `docs/architecture/persistence.md` - storage and record guarantees
+- `docs/architecture/persistence.md` - storage guarantees
 - `docs/architecture/display-primitives.md` - canvas representation
 - `docs/architecture/simulation.md` - deterministic native simulation
-- `docs/release` - release-specific audits and known limitations
-
-## Versioning
-
-The project remains Unreleased Alpha. Public APIs, persistent formats, timing
-behavior, and platform support may change without migration support.
-
-A later maturity increase requires successful CI, complete documentation,
-static analysis, sanitizer coverage, representative examples, and builds against
-the explicitly supported embedded targets.
-
-## Maintaining and documenting the code
-
-Documentation is treated as part of the implementation. Public API comments
-must explain semantics, ownership, units, failure behavior, timing, and hardware
-boundaries. Nontrivial implementation decisions require nearby comments that
-explain why the code is structured that way.
-
-The complete standard and review procedure are documented in
-`docs/guides/code-maintenance-and-documentation.md`.
-
-Run both documentation audits before committing:
-
-```bash
-python tools/check-public-docs.py
-python tools/check-maintainability-docs.py
-```
-
-## Extended panel controls
-
-The control layer includes illuminated pushbuttons, two-position toggle
-switches, DIP-switch banks, On-Off-(On) switches, RGB LEDs, linear faders, and
-illuminated faders. See `docs/architecture/extended-panel-controls.md`.
+- `docs/release/project-maturity.md` - qualification status
 
 ## Licensing
 
-This project is source-available under the
-[PolyForm Noncommercial License 1.0.0](LICENSE). The basic idea is simple:
-personal use, education, experimentation, research, and noncommercial projects
-are welcome. Commercial exploitation requires separate permission.
+The framework is source-available under the
+[PolyForm Noncommercial License 1.0.0](LICENSE). Personal use, education, research, experimentation,
+and other noncommercial use are permitted under its terms. Commercial exploitation requires prior
+written permission.
 
-You may also modify and extend the framework for those permitted purposes. Your
-own adapters, drivers, fixes, experiments, and module-specific additions can be
-used privately, educationally, or in other noncommercial work under the
-PolyForm terms.
+The separate [Five-Unit Cost-Recovery Permission](ADDITIONAL_PERMISSION.md) defines a narrow
+small-scale exception under its stated conditions. It is not a general commercial license.
 
-A separate [Five-Unit Cost-Recovery Permission](ADDITIONAL_PERMISSION.md)
-covers a narrow practical case: a qualifying individual may build and pass on
-up to five physical units while recovering eligible direct costs, provided
-every condition in that document is met. It is a small-scale exception, not a
-general commercial license.
+Read the controlling documents:
 
-| ✅ Allowed | 🚫 Not allowed |
-|---|---|
-| Build a personal module for your own rack using the framework. | Sell a regular product line based on the framework without written permission. |
-| Use the code in a school, university, workshop, or self-study project. | Use the framework in paid client work, consulting, or contract development without authorization. |
-| Create noncommercial open hardware or firmware experiments and publish your findings with proper attribution. | Package the framework into a paid firmware download, commercial kit, subscription, or service. |
-| Write alternative firmware for hardware you own or are authorized to modify. | Claim that public source code automatically grants commercial rights. |
-| Modify the framework for your own noncommercial module - for example, add a display driver, change encoder behavior, or create a new storage backend. | Remove copyright, license, attribution, or required notice information. |
-| Reuse your own modifications and extensions across your personal or educational projects under the PolyForm terms. | Relicense the framework or derived framework code under incompatible terms. |
-| Build a few boards for friends and use the Five-Unit Cost-Recovery Permission when all its conditions are satisfied. | Exceed the five-unit limit, add profit, charge for labor, or turn the exception into recurring business activity. |
-| Fork the repository to study it, test ideas, or maintain a noncommercial variant. | Resell the framework itself, whether modified, renamed, bundled, or unchanged. |
-| Contact the author for commercial authorization tailored to a real product or business case. | Treat GitHub availability, a fork, or an issue discussion as permission for commercial use. |
+- [LICENSE](LICENSE)
+- [ADDITIONAL_PERMISSION.md](ADDITIONAL_PERMISSION.md)
+- [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md)
+- [LICENSING.md](LICENSING.md)
+- [NOTICE](NOTICE)
 
-Practical examples:
-
-- You build one attenuverter for your own rack - allowed.
-- You adapt the framework for a university lab exercise - allowed.
-- You add support for another DAC and use it in your private modules - allowed.
-- You build three boards for friends and recover only eligible direct costs
-  under every condition of the Five-Unit Permission - potentially allowed.
-- You sell twenty assembled modules through Etsy or Reverb - not allowed without
-  written commercial authorization.
-- You use the framework to deliver paid firmware for a client's hardware - not
-  allowed without written commercial authorization.
-
-The table and examples are a plain-language orientation, not a substitute for
-the legal documents. Read the actual terms before relying on them:
-
-- [LICENSE](LICENSE) - PolyForm Noncommercial License 1.0.0
-- [ADDITIONAL_PERMISSION.md](ADDITIONAL_PERMISSION.md) - Five-Unit Cost-Recovery Permission
-- [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md) - commercial-use overview
-- [LICENSING.md](LICENSING.md) - human-readable licensing map
-- [NOTICE](NOTICE) - attribution and canonical project information
-
-This is not an OSI-approved open-source license because commercial use is
-restricted.
+This is not an OSI-approved open-source license because commercial use is restricted.
 
 ## Author
 
 **Axel Napolitano**  
 Email: eurorack@skjt.de  
 Canonical repository: https://github.com/napolitano/eurorack-framework
+
+## Quantizer-oriented AVR building blocks
+
+The granular package set now includes dedicated, opt-in libraries for `MCP4922`, `TLC5947`, an analog resistor-ladder button decoder, marker-last fixed persistent slots, the ATmega328P Timer2 1 kHz tick, an A5/A6/A7 interrupt-driven ADC scanner, and INT0/INT1 edge latches. None of these components is pulled into projects that do not declare it. The AVR hardware libraries intentionally target the Arduino Nano R3 / ATmega328P register layout.
+
+## Architecture and quality maps
+
+Generate the dependency map with `python tools/generate-framework-map.py`. Validate a project resource profile with `python tools/check-resource-conflicts.py <profile.json>`. Run the repository preflight with `python tools/release-check.py`.
+
+New generic framework policies include fixed-capacity event queues, press gesture classification, soft takeover, and encoder acceleration. New independently selectable converters include MCP4822 and MCP3208.

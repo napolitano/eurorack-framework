@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-mcp4822",
+  "publicHeader": "eurorack/drivers/dac/mcp4822.hpp",
+  "hardware": [
+    "mcp4822"
+  ],
+  "category": "dac",
+  "documentation": "docs/hardware/dac/mcp4822.md",
+  "libraryDocumentation": "docs/libraries/mcp4822.md",
+  "examples": [
+    "examples/components/mcp4822"
+  ],
+  "tests": [
+    "tests/native/test_driver_mcp4822"
+  ],
+  "manufacturer": "Microchip",
+  "references": {
+    "product": "https://www.microchip.com/en-us/product/mcp4822",
+    "datasheet": "https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf"
+  },
+  "status": "alpha"
+}

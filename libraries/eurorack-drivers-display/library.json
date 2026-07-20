@@ -1,7 +1,6 @@
 {
   "name": "eurorack-drivers-display",
-  "version": "0.1.0-alpha.14",
-  "description": "Concrete monochrome OLED controller driver support: SSD1306 and SH1106.",
+  "version": "0.1.0-alpha.25",
   "keywords": [
     "eurorack",
     "modular-synthesizer",
@@ -21,6 +20,7 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "Compatibility meta-library selecting all concrete drivers in the display category. Prefer the individual chip library.",
   "frameworks": "*",
   "platforms": "*",
   "build": {
@@ -28,8 +28,7 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*",
-    "eurorack-io": "*",
-    "eurorack-display": "*"
+    "eurorack-driver-ssd1306": "*",
+    "eurorack-driver-sh1106": "*"
   }
 }

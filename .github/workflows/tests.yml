@@ -40,6 +40,9 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Validate granular library layout
+        run: python tools/check-library-layout.py
+
       - name: Run strict native tests
         run: |
           python tools/run-native-tests.py \

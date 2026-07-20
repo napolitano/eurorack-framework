@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/napolitano/eurorack-framework/schemas/hardware-doc.schema.json",
+  "title": "Eurorack Framework hardware documentation metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "library",
+    "publicHeader",
+    "hardware",
+    "category",
+    "documentation",
+    "libraryDocumentation",
+    "examples",
+    "tests",
+    "manufacturer",
+    "references",
+    "status"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "library": {
+      "type": "string",
+      "pattern": "^eurorack-driver-[a-z0-9-]+$"
+    },
+    "publicHeader": {
+      "type": "string",
+      "pattern": "^eurorack/.+\\.hpp$"
+    },
+    "hardware": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "category": {
+      "enum": [
+        "adc",
+        "dac",
+        "display",
+        "gpio",
+        "led",
+        "multiplexer",
+        "shift-register"
+      ]
+    },
+    "documentation": {
+      "type": "string",
+      "pattern": "^docs/hardware/.+\\.md$"
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^examples/components/[a-z0-9-]+$"
+      }
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^tests/.+"
+      }
+    },
+    "manufacturer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "product",
+        "datasheet"
+      ],
+      "properties": {
+        "product": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "datasheet": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "errata": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "applicationNotes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^https://"
+          }
+        }
+      }
+    },
+    "status": {
+      "enum": [
+        "experimental",
+        "alpha",
+        "beta",
+        "stable",
+        "deprecated"
+      ]
+    },
+    "libraryDocumentation": {
+      "type": "string",
+      "pattern": "^docs/libraries/.+\\.md$"
+    }
+  }
+}

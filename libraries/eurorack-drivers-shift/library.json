@@ -1,7 +1,6 @@
 {
   "name": "eurorack-drivers-shift",
-  "version": "0.1.0-alpha.14",
-  "description": "Concrete shift-register driver support: 74HC165 (input) and 74HC595 (output).",
+  "version": "0.1.0-alpha.25",
   "keywords": [
     "eurorack",
     "modular-synthesizer",
@@ -21,6 +20,7 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "Compatibility meta-library selecting all concrete drivers in the shift category. Prefer the individual chip library.",
   "frameworks": "*",
   "platforms": "*",
   "build": {
@@ -28,7 +28,7 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*",
-    "eurorack-io": "*"
+    "eurorack-driver-74hc165": "*",
+    "eurorack-driver-74hc595": "*"
   }
 }

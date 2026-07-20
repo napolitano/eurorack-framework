@@ -1,0 +1,9 @@
+/** @file analog_button_ladder.cpp @brief Implements analog ladder decoding.
+ * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0 
+ * @details Implements nearest-code decoding, acceptance windows, and stable transition timing without dynamic allocation.*/
+#include <eurorack/controls/analog_button_ladder.hpp>
+namespace eurorack::controls {
+std::int16_t AnalogButtonLadder::decode(std::uint16_t raw,bool& valid) const noexcept{valid=true;if(raw>=config_.openThreshold)return -1;if(config_.expectedCodes==nullptr||config_.buttonCount==0U){valid=false;return -1;}std::size_t best=0U;std::uint16_t bestDistance=0xFFFFU;for(std::size_t i=0;i<config_.buttonCount;++i){auto e=config_.expectedCodes[i];auto d=raw>e?static_cast<std::uint16_t>(raw-e):static_cast<std::uint16_t>(e-raw);if(d<bestDistance){bestDistance=d;best=i;}}if(bestDistance>config_.acceptanceWindow){valid=false;return -1;}return static_cast<std::int16_t>(best);}
+void AnalogButtonLadder::reset(std::uint16_t raw,std::uint32_t now) noexcept{bool valid=false;auto value=decode(raw,valid);snapshot_={value,-1,-1,valid};candidate_=value;candidateSinceMs_=now;initialized_=true;}
+void AnalogButtonLadder::update(std::uint16_t raw,std::uint32_t now) noexcept{snapshot_.justPressedIndex=-1;snapshot_.justReleasedIndex=-1;bool valid=false;auto decoded=decode(raw,valid);snapshot_.validSample=valid;if(!initialized_){reset(raw,now);return;}if(!valid)return;if(decoded!=candidate_){candidate_=decoded;candidateSinceMs_=now;return;}if(decoded==snapshot_.pressedIndex)return;if(static_cast<std::uint32_t>(now-candidateSinceMs_)<config_.stableTimeMs)return;auto previous=snapshot_.pressedIndex;snapshot_.pressedIndex=decoded;if(previous>=0)snapshot_.justReleasedIndex=previous;if(decoded>=0)snapshot_.justPressedIndex=decoded;}
+} // namespace eurorack::controls

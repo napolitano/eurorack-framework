@@ -1,0 +1,33 @@
+{
+  "name": "eurorack-control-potentiometer",
+  "version": "0.1.0-alpha.25",
+  "keywords": [
+    "eurorack",
+    "modular-synthesizer",
+    "embedded",
+    "firmware"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/napolitano/eurorack-framework.git"
+  },
+  "authors": [
+    {
+      "name": "Axel Napolitano",
+      "email": "eurorack@skjt.de",
+      "maintainer": true
+    }
+  ],
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "Calibrated and smoothed potentiometer model.",
+  "frameworks": "*",
+  "platforms": "*",
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src"
+  },
+  "dependencies": {
+    "eurorack-compat": "*"
+  }
+}

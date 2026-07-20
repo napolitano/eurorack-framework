@@ -34,6 +34,9 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
+      - name: Validate granular library layout
+        run: python tools/check-library-layout.py
+
       - name: Audit public API documentation
         run: python tools/check-public-docs.py
 

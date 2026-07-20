@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-tlc5916",
+  "publicHeader": "eurorack/drivers/led/tlc5916.hpp",
+  "hardware": [
+    "tlc5916"
+  ],
+  "category": "led",
+  "documentation": "docs/hardware/led/tlc5916.md",
+  "libraryDocumentation": "docs/libraries/tlc5916.md",
+  "examples": [
+    "examples/components/tlc5916"
+  ],
+  "tests": [
+    "tests/native/test_driver_tlc5916"
+  ],
+  "manufacturer": "Texas Instruments",
+  "references": {
+    "product": "https://www.ti.com/product/TLC5916",
+    "datasheet": "https://www.ti.com/lit/ds/symlink/tlc5916.pdf"
+  },
+  "status": "alpha"
+}

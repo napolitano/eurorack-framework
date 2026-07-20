@@ -37,6 +37,9 @@ jobs:
       - name: Install PlatformIO
         run: python -m pip install --upgrade platformio
 
+      - name: Validate granular library layout
+        run: python tools/check-library-layout.py
+
       - name: Run PlatformIO native tests
         run: pio test -e native
 
@@ -74,4 +77,28 @@ jobs:
 
       - name: Build Nano R3 example
         working-directory: examples/projects/nano-r3-attenuverter
+        run: pio run
+
+  nano-r3-oled-controller:
+    name: Arduino Nano R3 OLED controller build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install PlatformIO
+        run: python -m pip install --upgrade platformio
+
+      - name: Validate granular library layout
+        run: python tools/check-library-layout.py
+
+      - name: Build Nano R3 OLED controller example
+        working-directory: examples/projects/nano-r3-oled-controller
         run: pio run

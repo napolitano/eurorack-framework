@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-sh1106",
+  "publicHeader": "eurorack/drivers/display/sh1106.hpp",
+  "hardware": [
+    "sh1106"
+  ],
+  "category": "display",
+  "documentation": "docs/hardware/display/sh1106.md",
+  "libraryDocumentation": "docs/libraries/sh1106.md",
+  "examples": [
+    "examples/components/sh1106"
+  ],
+  "tests": [
+    "tests/native/test_driver_sh1106"
+  ],
+  "manufacturer": "Sino Wealth",
+  "references": {
+    "product": "https://www.sinowealth.com/",
+    "datasheet": "https://www.displayfuture.com/Display/datasheet/controller/SH1106.pdf"
+  },
+  "status": "alpha"
+}

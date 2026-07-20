@@ -1,7 +1,7 @@
 {
   "name": "Eurorack Framework",
-  "version": "0.1.0-alpha.14",
-  "description": "Portable C++ framework for reusable Eurorack firmware infrastructure: controls, electrical I/O models, hardware drivers, displays, storage, platform adapters, and simulation support. This repository does not ship one monolithic library at its root; select only the components you need from the `libraries/` directory (see docs/guides/avr-integration.md).",
+  "version": "0.1.0-alpha.25",
+  "description": "Repository metadata for the granular Eurorack Framework library collection. The root is not a monolithic buildable library; select individual libraries from libraries/ or an explicit compatibility meta-library.",
   "keywords": [
     "eurorack",
     "modular-synthesizer",

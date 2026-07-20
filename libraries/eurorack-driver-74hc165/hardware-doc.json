@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-74hc165",
+  "publicHeader": "eurorack/drivers/shift/shift_register_74hc165.hpp",
+  "hardware": [
+    "74hc165"
+  ],
+  "category": "shift-register",
+  "documentation": "docs/hardware/shift-register/74hc165.md",
+  "libraryDocumentation": "docs/libraries/74hc165.md",
+  "examples": [
+    "examples/components/shift-register-74hc165"
+  ],
+  "tests": [
+    "tests/native/test_driver_74hc165"
+  ],
+  "manufacturer": "Texas Instruments / compatible vendors",
+  "references": {
+    "product": "https://www.ti.com/product/SN74HC165",
+    "datasheet": "https://www.ti.com/lit/ds/symlink/sn74hc165.pdf"
+  },
+  "status": "alpha"
+}

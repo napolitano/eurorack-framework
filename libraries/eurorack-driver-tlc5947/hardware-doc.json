@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-tlc5947",
+  "publicHeader": "eurorack/drivers/led/tlc5947.hpp",
+  "hardware": [
+    "tlc5947"
+  ],
+  "category": "led",
+  "documentation": "docs/hardware/led/tlc5947.md",
+  "libraryDocumentation": "docs/libraries/tlc5947.md",
+  "examples": [
+    "examples/components/tlc5947"
+  ],
+  "tests": [
+    "tests/native/test_driver_tlc5947"
+  ],
+  "manufacturer": "Texas Instruments",
+  "references": {
+    "product": "https://www.ti.com/product/TLC5947",
+    "datasheet": "https://www.ti.com/lit/ds/symlink/tlc5947.pdf"
+  },
+  "status": "alpha"
+}

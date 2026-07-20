@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-ssd1306",
+  "publicHeader": "eurorack/drivers/display/ssd1306.hpp",
+  "hardware": [
+    "ssd1306"
+  ],
+  "category": "display",
+  "documentation": "docs/hardware/display/ssd1306.md",
+  "libraryDocumentation": "docs/libraries/ssd1306.md",
+  "examples": [
+    "examples/components/ssd1306"
+  ],
+  "tests": [
+    "tests/native/test_driver_ssd1306"
+  ],
+  "manufacturer": "Solomon Systech",
+  "references": {
+    "product": "https://www.solomon-systech.com/product/ssd1306/",
+    "datasheet": "https://www.solomon-systech.com/wp-content/uploads/2022/12/SSD1306.pdf"
+  },
+  "status": "alpha"
+}

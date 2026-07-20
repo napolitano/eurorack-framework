@@ -1,7 +1,6 @@
 {
   "name": "eurorack-drivers-gpio",
-  "version": "0.1.0-alpha.14",
-  "description": "Concrete I2C GPIO expander driver support: MCP23017.",
+  "version": "0.1.0-alpha.25",
   "keywords": [
     "eurorack",
     "modular-synthesizer",
@@ -21,6 +20,7 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
+  "description": "Compatibility meta-library selecting all concrete drivers in the gpio category. Prefer the individual chip library.",
   "frameworks": "*",
   "platforms": "*",
   "build": {
@@ -28,7 +28,6 @@
     "srcDir": "src"
   },
   "dependencies": {
-    "eurorack-compat": "*",
-    "eurorack-io": "*"
+    "eurorack-driver-mcp23017": "*"
   }
 }

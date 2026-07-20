@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "scope": "libraries",
+  "minimum": {
+    "line": 30.0,
+    "branch": 30.0
+  },
+  "driverMinimum": {
+    "line": 39.0,
+    "branch": 43.0
+  },
+  "exclude": [
+    "*/examples/*",
+    "*/tests/*",
+    "*/tools/*"
+  ],
+  "rationale": "Alpha baseline raised after systematic boundary, bus-error, control-signal and lifecycle tests for all dedicated IC driver suites. Thresholds must only increase unless an explicitly documented architectural change justifies recalibration."
+}

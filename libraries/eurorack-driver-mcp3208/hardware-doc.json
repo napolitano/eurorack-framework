@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "library": "eurorack-driver-mcp3208",
+  "publicHeader": "eurorack/drivers/adc/mcp3208.hpp",
+  "hardware": [
+    "mcp3208"
+  ],
+  "category": "adc",
+  "documentation": "docs/hardware/adc/mcp3208.md",
+  "libraryDocumentation": "docs/libraries/mcp3208.md",
+  "examples": [
+    "examples/components/mcp3208"
+  ],
+  "tests": [
+    "tests/native/test_driver_mcp3208"
+  ],
+  "manufacturer": "Microchip",
+  "references": {
+    "product": "https://www.microchip.com/en-us/product/MCP3208",
+    "datasheet": "https://ww1.microchip.com/downloads/en/DeviceDoc/21298e.pdf"
+  },
+  "status": "alpha"
+}

@@ -53,3 +53,7 @@ the application and hardware.
 
 Minimal compilable examples are in `examples/components`. The first complete
 application example is `examples/projects/nano-r3-attenuverter`.
+
+## Hardware reference
+
+- [Supported ICs and hardware families](../hardware/index.md)

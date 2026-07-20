@@ -2,7 +2,7 @@
 
 ## Public headers
 
-`include/eurorack/` contains the supported API.
+`libraries/*/include/eurorack/` contains the supported API. Each public header has one owning library.
 
 - `controls/` - user-interface and signal-state models
 - `core/` - project-wide configuration and foundational types
