@@ -2,10 +2,7 @@ name: Tests
 
 on:
   push:
-    branches:
-      - main
-      - "develop/**"
-      - "feature/**"
+    branches: [main, "develop/**", "feature/**"]
   pull_request:
   workflow_dispatch:
 
@@ -13,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: tests-${{ github.ref }}
+  group: tests-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -21,69 +18,69 @@ env:
 
 jobs:
   native:
-    name: Native tests - ${{ matrix.compiler }}
-    runs-on: ubuntu-latest
+    name: Native tests (${{ matrix.compiler }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [g++, clang++]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Validate library layout
+        run: python tools/check-library-layout.py
+      - name: Run strict native tests
+        run: python tools/run-native-tests.py --compiler "${{ matrix.compiler }}"
+
+  sanitizers:
+    name: Sanitizers (${{ matrix.suite }})
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        compiler:
-          - g++
-          - clang++
-
+        suite:
+          - test_driver_74hc4051_4067
+          - test_driver_74hc165
+          - test_driver_74hc595
+          - test_driver_dac8568
+          - test_driver_mcp23017
+          - test_driver_mcp3208
+          - test_driver_mcp4822
+          - test_driver_mcp4922
+          - test_driver_sh1106
+          - test_driver_ssd1306
+          - test_driver_tlc5916
+          - test_driver_tlc5947
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Validate granular library layout
-        run: python tools/check-library-layout.py
-
-      - name: Run strict native tests
-        run: |
-          python tools/run-native-tests.py \
-            --compiler "${{ matrix.compiler }}"
-
-  sanitizers:
-    name: Address and undefined-behavior sanitizers
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Run sanitizer test suite
+          cache: pip
+      - name: Run ASan and UBSan
         env:
           ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
           UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
-        run: |
-          python tools/run-native-tests.py \
-            --compiler g++ \
-            --sanitizers
+        run: >-
+          python tools/run-native-tests.py
+          --compiler g++
+          --filter "${{ matrix.suite }}"
+          --sanitizers
 
   component-examples:
     name: Native component examples
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-
+          cache: pip
       - name: Build and execute component examples
         run: python tools/build-examples.py

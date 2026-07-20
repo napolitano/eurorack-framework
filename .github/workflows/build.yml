@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: builds-${{ github.ref }}
+  group: builds-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -22,7 +22,7 @@ env:
 jobs:
   platformio-native:
     name: PlatformIO native integration
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
 
     steps:
@@ -45,7 +45,7 @@ jobs:
 
   nano-r3-attenuverter:
     name: Arduino Nano R3 attenuverter build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
 
     steps:
@@ -81,7 +81,7 @@ jobs:
 
   nano-r3-oled-controller:
     name: Arduino Nano R3 OLED controller build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
 
     steps:

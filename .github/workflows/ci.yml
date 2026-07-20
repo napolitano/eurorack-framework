@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: quality-${{ github.ref }}
+  group: quality-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -22,7 +22,7 @@ env:
 jobs:
   documentation-audits:
     name: Documentation audits
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
@@ -51,7 +51,7 @@ jobs:
 
   licensing:
     name: Licensing audit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
@@ -68,7 +68,7 @@ jobs:
 
   static-analysis:
     name: Formatting and static analysis
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 
     steps:
@@ -82,20 +82,21 @@ jobs:
 
       - name: Install analysis tools
         run: |
-          python -m pip install --upgrade "clang-format==22.1.8"
           sudo apt-get update
-          sudo apt-get install --yes cppcheck
+          sudo apt-get install --yes --no-install-recommends clang-format cppcheck
 
-      - name: Show formatter version
-        run: clang-format --version
-
-      - name: Check clang-format
+      - name: Show analysis tool versions
         run: |
-          find libraries tests examples \
+          clang-format --version
+          cppcheck --version
+
+      - name: Check source formatting
+        run: |
+          python tools/check-format.py
+          find examples \
             -type f \
             \( -name '*.hpp' -o -name '*.h' -o -name '*.cpp' \) \
-            -print0 |
-          xargs -0 clang-format --dry-run --Werror
+            -print0 | xargs -0 clang-format --dry-run --Werror
 
       - name: Run cppcheck
         run: |
@@ -104,5 +105,5 @@ jobs:
             --error-exitcode=1 \
             --inline-suppr \
             --std=c++17 \
-            $(find libraries -maxdepth 2 -type d -name include -printf '-I%p ') \
+            $(find libraries -maxdepth 4 -type d -name include -printf '-I%p ') \
             libraries
