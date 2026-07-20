@@ -1,6 +1,20 @@
 # Changelog
 
-## 0.1.0-alpha.27
+## [0.1.0-alpha.28] - 2026-07-20
+
+### Fixed
+
+- Restored a real PlatformIO build from the repository root by adding a native smoke executable.
+- Prevented the root smoke `main()` from being linked into Unity tests by disabling root-source compilation for test builds.
+
+### Changed
+
+- Reworked the README around an explicit root quick-start workflow for `pio run` and `pio test -e native`.
+- Added a dedicated root PlatformIO workflow and troubleshooting guide.
+- Clarified that the buildable root project is a contributor smoke target, not a monolithic framework dependency or embedded qualification.
+
+
+## 0.1.0-alpha.28
 
 ### Changed
 
@@ -9,7 +23,7 @@
 - Reformatted minified component examples and native driver adapters as readable reference code.
 - Added an examples guide and a GitHub Actions/local CI guide; linked local validation from contributing documentation.
 
-## [0.1.0-alpha.27] - 2026-07-20
+## [0.1.0-alpha.28] - 2026-07-20
 
 ### Added
 

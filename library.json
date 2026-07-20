@@ -1,7 +1,7 @@
 {
   "name": "Eurorack Framework",
-  "version": "0.1.0-alpha.27",
-  "description": "Repository metadata for the granular Eurorack Framework library collection. The root is not a monolithic buildable library; select individual libraries from libraries/ or an explicit compatibility meta-library.",
+  "version": "0.1.0-alpha.28",
+  "description": "Repository metadata for the granular Eurorack Framework library collection. The root provides a native PlatformIO smoke project for contributors; consuming firmware must still select individual libraries from libraries/ or an explicit compatibility meta-library.",
   "keywords": [
     "eurorack",
     "modular-synthesizer",

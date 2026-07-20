@@ -9,6 +9,43 @@
 [![Status](.github/badges/status.svg)](docs/release/project-maturity.md)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg)](https://en.cppreference.com/w/cpp/17)
 
+## Quick start from the repository root
+
+The repository root is an intentional PlatformIO project. After installing PlatformIO Core, the
+following commands must work from this directory:
+
+```bash
+pio run
+pio test -e native
+```
+
+`pio run` builds `src/main.cpp`, a small platform-independent smoke executable. It verifies the
+root PlatformIO configuration, local library discovery, C++17 configuration, and a representative
+subset of the framework. It does **not** claim an Arduino Nano R3 or other embedded target build.
+
+`pio test -e native` discovers and runs the Unity suites below `tests/native/`. The root smoke
+source is deliberately excluded from test builds because every test suite provides its own test
+entry point.
+
+Useful focused commands are:
+
+```bash
+pio run -e native
+pio test -e native -f test_driver_mcp4922
+pio test -e native -f test_framework_config
+pio run -t clean
+```
+
+In VSCodium with the PlatformIO extension, open the repository directory containing this
+`platformio.ini`; do not open `libraries/` as the workspace root. Use **Project Tasks → native →
+Build** or **Project Tasks → native → Test**.
+
+If PlatformIO reports that the `native` platform is missing, install it once:
+
+```bash
+pio platform install native
+```
+
 ## Purpose
 
 Eurorack Framework is a reusable C++17 foundation for module firmware. It provides small,
@@ -37,7 +74,7 @@ Protected and calibrated physical hardware
 
 **Status: Unreleased - Alpha**
 
-Development artifact identifier: **0.1.0-alpha.27**
+Development artifact identifier: **0.1.0-alpha.28**
 
 Public APIs, persistent formats, timing behavior, library boundaries, and hardware assumptions may
 change without migration support. The framework has not yet completed qualification on every
@@ -47,7 +84,8 @@ or safety-qualified dependency.
 ## Granular library model
 
 The repository is a collection of independent PlatformIO libraries below `libraries/`. It is not a
-single monolithic library. A firmware project selects only the exact elements it uses.
+single monolithic dependency, although the repository root is a buildable native smoke project for
+contributor convenience. A firmware project selects only the exact elements it uses.
 
 Examples:
 
@@ -177,9 +215,23 @@ python -m pip install --upgrade pip platformio
 ```
 
 Detailed installation and troubleshooting instructions are in
-`docs/guides/development-environment.md`.
+[`docs/guides/development-environment.md`](docs/guides/development-environment.md). The root build
+and test workflow is documented in
+[`docs/guides/root-platformio-workflow.md`](docs/guides/root-platformio-workflow.md).
 
 ## Validation and builds
+
+### Root PlatformIO workflow
+
+```bash
+pio run
+pio test -e native
+```
+
+The first command performs the native smoke build; the second runs the PlatformIO/Unity test
+suites. These are the standard first checks after cloning the repository.
+
+### Granular project tooling
 
 Validate library ownership, versions, and declared dependencies:
 
@@ -199,12 +251,6 @@ Run every native test against only its resolved dependency closure:
 python tools/run-native-tests.py --compiler g++
 python tools/run-native-tests.py --compiler clang++
 python tools/run-native-tests.py --compiler g++ --sanitizers
-```
-
-Run PlatformIO native tests:
-
-```bash
-pio test -e native
 ```
 
 Build the Nano R3 reference projects:

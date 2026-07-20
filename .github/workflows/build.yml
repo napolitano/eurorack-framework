@@ -40,6 +40,9 @@ jobs:
       - name: Validate granular library layout
         run: python tools/check-library-layout.py
 
+      - name: Build root native smoke target
+        run: pio run -e native
+
       - name: Run PlatformIO native tests
         run: pio test -e native
 
