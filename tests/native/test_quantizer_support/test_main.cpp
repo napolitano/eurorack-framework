@@ -17,8 +17,12 @@ class RecordingDelay final : public eurorack::io::DelayProvider {
         calls_[count_] = microseconds;
         ++count_;
     }
-    [[nodiscard]] std::size_t count() const noexcept { return count_; }
-    [[nodiscard]] std::uint32_t call(std::size_t index) const noexcept { return calls_[index]; }
+    [[nodiscard]] std::size_t count() const noexcept {
+        return count_;
+    }
+    [[nodiscard]] std::uint32_t call(std::size_t index) const noexcept {
+        return calls_[index];
+    }
 
   private:
     std::array<std::uint32_t, 32U> calls_{};
@@ -30,7 +34,8 @@ void test_mcp4922_unbuffered_and_8mhz() {
     eurorack::simulation::VirtualDigitalOutput cs;
     eurorack::drivers::dac::Mcp4922 dac(spi, cs);
     dac.setCode(eurorack::drivers::dac::Mcp4922Channel::A, 0x123U);
-    TEST_ASSERT_EQUAL_INT(0, static_cast<int>(dac.flushChannel(eurorack::drivers::dac::Mcp4922Channel::A)));
+    TEST_ASSERT_EQUAL_INT(
+        0, static_cast<int>(dac.flushChannel(eurorack::drivers::dac::Mcp4922Channel::A)));
     const auto& transfer = spi.transfers()[0];
     TEST_ASSERT_EQUAL_UINT32(8'000'000U, transfer.settings.clockHertz);
     TEST_ASSERT_EQUAL_HEX8(0x31U, transfer.transmitted[0]);
@@ -41,8 +46,7 @@ void test_mcp4922_buffered_config() {
     eurorack::simulation::VirtualSpiBus spi;
     eurorack::simulation::VirtualDigitalOutput cs;
     eurorack::drivers::dac::Mcp4922 dac(
-        spi, cs, nullptr,
-        {4'000'000U, eurorack::drivers::dac::Mcp4922ReferenceBuffer::Buffered});
+        spi, cs, nullptr, {4'000'000U, eurorack::drivers::dac::Mcp4922ReferenceBuffer::Buffered});
     static_cast<void>(dac.flushChannel(eurorack::drivers::dac::Mcp4922Channel::B));
     const auto& transfer = spi.transfers()[0];
     TEST_ASSERT_EQUAL_UINT32(4'000'000U, transfer.settings.clockHertz);
@@ -75,8 +79,16 @@ void test_tlc5947_sequential_startup() {
     eurorack::drivers::led::Tlc5947Config config{};
     config.startupMode = eurorack::drivers::led::Tlc5947StartupMode::Sequential;
     config.startupStepMilliseconds = 2U;
-    eurorack::drivers::led::Tlc5947 led(
-        spi, latch, values.data(), values.size(), frame.data(), frame.size(), 1U, &blank, &delay, config);
+    eurorack::drivers::led::Tlc5947 led(spi,
+                                        latch,
+                                        values.data(),
+                                        values.size(),
+                                        frame.data(),
+                                        frame.size(),
+                                        1U,
+                                        &blank,
+                                        &delay,
+                                        config);
     TEST_ASSERT_TRUE(led.valid());
     TEST_ASSERT_EQUAL_INT(0, static_cast<int>(led.initialize()));
     TEST_ASSERT_EQUAL_UINT32(26U, spi.transfers().size());
@@ -97,8 +109,16 @@ void test_tlc5947_all_flash_startup() {
     eurorack::drivers::led::Tlc5947Config config{};
     config.startupMode = eurorack::drivers::led::Tlc5947StartupMode::AllFlash;
     config.startupFlashMilliseconds = 7U;
-    eurorack::drivers::led::Tlc5947 led(
-        spi, latch, values.data(), values.size(), frame.data(), frame.size(), 1U, &blank, &delay, config);
+    eurorack::drivers::led::Tlc5947 led(spi,
+                                        latch,
+                                        values.data(),
+                                        values.size(),
+                                        frame.data(),
+                                        frame.size(),
+                                        1U,
+                                        &blank,
+                                        &delay,
+                                        config);
     TEST_ASSERT_EQUAL_INT(0, static_cast<int>(led.initialize()));
     TEST_ASSERT_EQUAL_UINT32(3U, spi.transfers().size());
     TEST_ASSERT_EQUAL_UINT32(1U, delay.count());
@@ -112,8 +132,16 @@ void test_tlc5947_visible_mode_requires_delay_provider() {
     std::array<std::uint8_t, 36U> frame{};
     eurorack::drivers::led::Tlc5947Config config{};
     config.startupMode = eurorack::drivers::led::Tlc5947StartupMode::AllFlash;
-    eurorack::drivers::led::Tlc5947 led(
-        spi, latch, values.data(), values.size(), frame.data(), frame.size(), 1U, nullptr, nullptr, config);
+    eurorack::drivers::led::Tlc5947 led(spi,
+                                        latch,
+                                        values.data(),
+                                        values.size(),
+                                        frame.data(),
+                                        frame.size(),
+                                        1U,
+                                        nullptr,
+                                        nullptr,
+                                        config);
     TEST_ASSERT_FALSE(led.valid());
     TEST_ASSERT_EQUAL_INT(static_cast<int>(eurorack::io::IoResult::InvalidArgument),
                           static_cast<int>(led.initialize()));

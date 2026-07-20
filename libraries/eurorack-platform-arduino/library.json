@@ -20,19 +20,15 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
-  "description": "Compatibility meta-library and umbrella header selecting every Arduino Core adapter. Prefer individual eurorack-platform-arduino-* libraries.",
+  "description": "Compatibility meta-library and umbrella header selecting every Arduino Core adapter. This is a compatibility meta-package with no headers or sources of its own; it exists so a project can depend on the whole subsystem by one name instead of listing every constituent library. New projects should prefer depending on only the specific eurorack-* libraries they actually need.",
   "frameworks": "arduino",
   "platforms": "*",
-  "build": {
-    "includeDir": "include",
-    "srcDir": "src"
-  },
   "dependencies": {
     "eurorack-platform-arduino-analog": "*",
+    "eurorack-platform-arduino-eeprom": "*",
     "eurorack-platform-arduino-gpio": "*",
     "eurorack-platform-arduino-i2c": "*",
     "eurorack-platform-arduino-spi": "*",
-    "eurorack-platform-arduino-time": "*",
-    "eurorack-platform-arduino-eeprom": "*"
+    "eurorack-platform-arduino-time": "*"
   }
 }

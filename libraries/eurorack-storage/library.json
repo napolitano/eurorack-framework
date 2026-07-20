@@ -20,19 +20,15 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
-  "description": "Compatibility meta-library selecting all storage contracts, codecs, backends, CRC, and record storage. Constrained firmware should select only the required eurorack-storage-* libraries.",
+  "description": "Compatibility meta-library selecting all storage contracts, codecs, backends, CRC, and record storage. This is a compatibility meta-package with no headers or sources of its own; it exists so a project can depend on the whole subsystem by one name instead of listing every constituent library. New projects should prefer depending on only the specific eurorack-* libraries they actually need.",
   "frameworks": "*",
   "platforms": "*",
-  "build": {
-    "includeDir": "include",
-    "srcDir": "src"
-  },
   "dependencies": {
-    "eurorack-storage-interface": "*",
     "eurorack-storage-byte-codec": "*",
     "eurorack-storage-crc32": "*",
-    "eurorack-storage-memory-storage": "*",
     "eurorack-storage-file-storage": "*",
+    "eurorack-storage-interface": "*",
+    "eurorack-storage-memory-storage": "*",
     "eurorack-storage-record-store": "*"
   }
 }

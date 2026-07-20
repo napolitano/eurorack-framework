@@ -166,7 +166,7 @@ def declarations(path: Path) -> list[Declaration]:
         collapsed = " ".join(part.strip() for part in collected)
 
         prefix = collapsed.split("(", 1)[0]
-        if "." in prefix or "->" in prefix:
+        if "." in prefix or "->" in prefix or prefix.rstrip().endswith("["):
             index += 1
             continue
 

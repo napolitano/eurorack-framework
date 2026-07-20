@@ -20,18 +20,14 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
-  "description": "Compatibility meta-library selecting every native simulation facility. Prefer individual eurorack-simulation-* libraries in focused test binaries.",
+  "description": "Compatibility meta-library selecting every native simulation facility. This is a compatibility meta-package with no headers or sources of its own; it exists so a project can depend on the whole subsystem by one name instead of listing every constituent library. New projects should prefer depending on only the specific eurorack-* libraries they actually need.",
   "frameworks": "*",
   "platforms": "native",
-  "build": {
-    "includeDir": "include",
-    "srcDir": "src"
-  },
   "dependencies": {
-    "eurorack-simulation-virtual-io": "*",
-    "eurorack-simulation-virtual-buses": "*",
-    "eurorack-simulation-virtual-time": "*",
+    "eurorack-simulation-canvas-export": "*",
     "eurorack-simulation-scenario": "*",
-    "eurorack-simulation-canvas-export": "*"
+    "eurorack-simulation-virtual-buses": "*",
+    "eurorack-simulation-virtual-io": "*",
+    "eurorack-simulation-virtual-time": "*"
   }
 }

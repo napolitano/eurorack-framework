@@ -67,9 +67,9 @@ bool patternDraws(const LinePattern pattern, const std::uint32_t position) noexc
 
 void drawHorizontalLine(MonochromeCanvas& canvas,
                         std::int32_t x,
-                        const std::int32_t y,
+                        std::int32_t y,
                         std::int32_t length,
-                        const PixelOperation operation) noexcept {
+                        PixelOperation operation) noexcept {
     if (length == 0) {
         return;
     }

@@ -20,15 +20,11 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
-  "description": "Compatibility meta-library selecting all concrete drivers in the display category. Prefer the individual chip library.",
+  "description": "Compatibility meta-library selecting all concrete drivers in the display category. This is a compatibility meta-package with no headers or sources of its own; it exists so a project can depend on the whole subsystem by one name instead of listing every constituent library. New projects should prefer depending on only the specific eurorack-* libraries they actually need.",
   "frameworks": "*",
   "platforms": "*",
-  "build": {
-    "includeDir": "include",
-    "srcDir": "src"
-  },
   "dependencies": {
-    "eurorack-driver-ssd1306": "*",
-    "eurorack-driver-sh1106": "*"
+    "eurorack-driver-sh1106": "*",
+    "eurorack-driver-ssd1306": "*"
   }
 }

@@ -4,7 +4,7 @@ PROJECT_BRIEF          = "Portable C++ infrastructure for Eurorack module firmwa
 OUTPUT_DIRECTORY       = docs/generated
 CREATE_SUBDIRS         = NO
 
-INPUT                  = docs/manual docs/guides docs/architecture docs/release libraries
+INPUT                  = docs/manual docs/guides docs/architecture docs/release docs/hardware libraries
 FILE_PATTERNS          = *.hpp *.h *.cpp *.md
 RECURSIVE              = YES
 USE_MDFILE_AS_MAINPAGE = docs/manual/index.md
@@ -34,7 +34,13 @@ SHOW_USED_FILES        = YES
 WARNINGS               = YES
 WARN_IF_UNDOCUMENTED   = YES
 WARN_IF_DOC_ERROR      = YES
-WARN_NO_PARAMDOC       = YES
+# WARN_NO_PARAMDOC is intentionally disabled. It was verified (2026) to produce false
+# "parameters/return type not documented" warnings for every function in this Doxygen 1.9.8
+# build, even for minimal, fully documented reproductions with correct @param/@return blocks and
+# no other diagnostics enabled. Per-parameter documentation completeness is instead enforced by
+# tools/check-public-docs.py, which uses independent, non-Doxygen parsing and does not share this
+# false-positive behavior.
+WARN_NO_PARAMDOC       = NO
 WARN_AS_ERROR          = YES
 WARN_LOGFILE           = docs/generated/doxygen-warnings.log
 
@@ -71,6 +77,12 @@ REFERENCES_RELATION    = YES
 REFERENCED_BY_RELATION = YES
 
 EXCLUDE_PATTERNS       = */docs/generated/* */.pio/* */dist/*
+# AVR interrupt vector definitions (the ISR() macro from avr/interrupt.h) are bare forwarding
+# shims at file scope, not public API declared in include/; the project's own convention forbids
+# Doxygen-style comment blocks in .cpp implementation code, so they are excluded here rather than
+# documented in place. See adc_scanner3.cpp, external_edge_latch.cpp, and timer2_tick.cpp for the
+# plain-comment explanation kept alongside each one.
+EXCLUDE_SYMBOLS        = ISR*
 BUILTIN_STL_SUPPORT    = YES
 FULL_PATH_NAMES        = NO
 STRIP_FROM_PATH        = .

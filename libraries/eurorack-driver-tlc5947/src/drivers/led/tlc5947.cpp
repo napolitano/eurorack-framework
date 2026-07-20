@@ -22,14 +22,8 @@ Tlc5947::Tlc5947(eurorack::io::SpiBus& spi,
                  eurorack::io::DigitalOutput* oe,
                  eurorack::io::DelayProvider* delay,
                  Tlc5947Config config) noexcept
-    : spi_(spi),
-      latch_(latch),
-      oe_(oe),
-      delay_(delay),
-      values_(values),
-      frame_(frame),
-      channels_(devices * channelsPerDevice),
-      frameSize_(devices * frameBytesPerDevice),
+    : spi_(spi), latch_(latch), oe_(oe), delay_(delay), values_(values), frame_(frame),
+      channels_(devices * channelsPerDevice), frameSize_(devices * frameBytesPerDevice),
       config_(config) {
     valid_ = devices > 0U && values_ != nullptr && frame_ != nullptr &&
              valueCapacity >= channels_ && frameCapacity >= frameSize_;
@@ -43,7 +37,9 @@ Tlc5947::Tlc5947(eurorack::io::SpiBus& spi,
     }
 }
 
-bool Tlc5947::valid() const noexcept { return valid_; }
+bool Tlc5947::valid() const noexcept {
+    return valid_;
+}
 
 void Tlc5947::delayMilliseconds(std::uint16_t milliseconds) noexcept {
     if (delay_ != nullptr) {
@@ -109,10 +105,11 @@ eurorack::io::IoResult Tlc5947::initialize() noexcept {
     return result;
 }
 
-std::size_t Tlc5947::channelCount() const noexcept { return valid_ ? channels_ : 0U; }
+std::size_t Tlc5947::channelCount() const noexcept {
+    return valid_ ? channels_ : 0U;
+}
 
-eurorack::io::IoResult Tlc5947::setBrightness(std::size_t channel,
-                                               std::uint16_t value) noexcept {
+eurorack::io::IoResult Tlc5947::setBrightness(std::size_t channel, std::uint16_t value) noexcept {
     if (!valid_ || channel >= channels_) {
         return eurorack::io::IoResult::InvalidArgument;
     }
@@ -164,10 +161,9 @@ eurorack::io::IoResult Tlc5947::flush() noexcept {
         return eurorack::io::IoResult::InvalidArgument;
     }
     buildFrame();
-    const eurorack::io::SpiSettings settings{
-        config_.spiClockHertz,
-        eurorack::io::SpiMode::Mode0,
-        eurorack::io::SpiBitOrder::MostSignificantBitFirst};
+    const eurorack::io::SpiSettings settings{config_.spiClockHertz,
+                                             eurorack::io::SpiMode::Mode0,
+                                             eurorack::io::SpiBitOrder::MostSignificantBitFirst};
     auto result = spi_.beginTransaction(settings);
     if (result != eurorack::io::IoResult::Success) {
         return result;

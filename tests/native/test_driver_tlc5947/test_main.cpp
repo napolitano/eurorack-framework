@@ -5,12 +5,108 @@
 #include <unity.h>
 using namespace eurorack;
 namespace {
-class Delay final: public io::DelayProvider{public:void delayMicroseconds(std::uint32_t us) noexcept override{total+=us;++calls;}std::uint32_t total{0};std::uint32_t calls{0};};
-void valid_silent_initialize_and_frame_pack(){simulation::VirtualSpiBus spi;simulation::VirtualDigitalOutput latch,oe;std::array<std::uint16_t,24> values{};std::array<std::uint8_t,36> frame{};drivers::led::Tlc5947 d(spi,latch,values.data(),values.size(),frame.data(),frame.size(),1U,&oe);TEST_ASSERT_TRUE(d.valid());TEST_ASSERT_EQUAL_UINT32(24U,d.channelCount());TEST_ASSERT_EQUAL_INT(0,(int)d.initialize());TEST_ASSERT_FALSE(oe.lastWrittenHigh());TEST_ASSERT_EQUAL_INT(0,(int)d.setBrightness(23U,0xFFF0U));TEST_ASSERT_EQUAL_UINT16(0xFFF0U,d.brightness(23U));TEST_ASSERT_EQUAL_INT(0,(int)d.flush());TEST_ASSERT_EQUAL_HEX8(0xFFU,spi.transfers().back().transmitted[0]);}
-void invalid_storage_and_channel_are_rejected(){simulation::VirtualSpiBus spi;simulation::VirtualDigitalOutput latch;std::array<std::uint16_t,1> values{};std::array<std::uint8_t,1> frame{};drivers::led::Tlc5947 d(spi,latch,values.data(),values.size(),frame.data(),frame.size(),1U);TEST_ASSERT_FALSE(d.valid());TEST_ASSERT_EQUAL_UINT32(0U,d.channelCount());TEST_ASSERT_EQUAL_INT((int)io::IoResult::InvalidArgument,(int)d.initialize());TEST_ASSERT_EQUAL_INT((int)io::IoResult::InvalidArgument,(int)d.clear());TEST_ASSERT_EQUAL_INT((int)io::IoResult::InvalidArgument,(int)d.flush());TEST_ASSERT_EQUAL_INT((int)io::IoResult::InvalidArgument,(int)d.setBrightness(0U,1U));TEST_ASSERT_EQUAL_UINT16(0U,d.brightness(0U));}
-void visible_mode_requires_delay(){simulation::VirtualSpiBus spi;simulation::VirtualDigitalOutput latch;std::array<std::uint16_t,24> values{};std::array<std::uint8_t,36> frame{};drivers::led::Tlc5947Config c;c.startupMode=drivers::led::Tlc5947StartupMode::AllFlash;drivers::led::Tlc5947 d(spi,latch,values.data(),values.size(),frame.data(),frame.size(),1U,nullptr,nullptr,c);TEST_ASSERT_FALSE(d.valid());}
-void all_flash_runs_and_clears(){simulation::VirtualSpiBus spi;simulation::VirtualDigitalOutput latch,oe;Delay delay;std::array<std::uint16_t,24> values{};std::array<std::uint8_t,36> frame{};drivers::led::Tlc5947Config c;c.startupMode=drivers::led::Tlc5947StartupMode::AllFlash;c.startupBrightness=0x8000U;c.startupFlashMilliseconds=7U;drivers::led::Tlc5947 d(spi,latch,values.data(),values.size(),frame.data(),frame.size(),1U,&oe,&delay,c);TEST_ASSERT_EQUAL_INT(0,(int)d.initialize());TEST_ASSERT_EQUAL_UINT32(1U,delay.calls);TEST_ASSERT_EQUAL_UINT32(7000U,delay.total);TEST_ASSERT_EQUAL_UINT16(0U,d.brightness(0U));TEST_ASSERT_EQUAL_UINT32(3U,spi.transfers().size());}
-void sequential_error_blanks_outputs(){simulation::VirtualSpiBus spi;simulation::VirtualDigitalOutput latch,oe;Delay delay;std::array<std::uint16_t,24> values{};std::array<std::uint8_t,36> frame{};drivers::led::Tlc5947Config c;c.startupMode=drivers::led::Tlc5947StartupMode::Sequential;drivers::led::Tlc5947 d(spi,latch,values.data(),values.size(),frame.data(),frame.size(),1U,&oe,&delay,c);spi.setNextResult(io::IoResult::BusError);TEST_ASSERT_EQUAL_INT((int)io::IoResult::BusError,(int)d.initialize());TEST_ASSERT_TRUE(oe.lastWrittenHigh());}
+class Delay final : public io::DelayProvider {
+  public:
+    void delayMicroseconds(std::uint32_t us) noexcept override {
+        total += us;
+        ++calls;
+    }
+    std::uint32_t total{0};
+    std::uint32_t calls{0};
+};
+void valid_silent_initialize_and_frame_pack() {
+    simulation::VirtualSpiBus spi;
+    simulation::VirtualDigitalOutput latch, oe;
+    std::array<std::uint16_t, 24> values{};
+    std::array<std::uint8_t, 36> frame{};
+    drivers::led::Tlc5947 d(
+        spi, latch, values.data(), values.size(), frame.data(), frame.size(), 1U, &oe);
+    TEST_ASSERT_TRUE(d.valid());
+    TEST_ASSERT_EQUAL_UINT32(24U, d.channelCount());
+    TEST_ASSERT_EQUAL_INT(0, (int)d.initialize());
+    TEST_ASSERT_FALSE(oe.lastWrittenHigh());
+    TEST_ASSERT_EQUAL_INT(0, (int)d.setBrightness(23U, 0xFFF0U));
+    TEST_ASSERT_EQUAL_UINT16(0xFFF0U, d.brightness(23U));
+    TEST_ASSERT_EQUAL_INT(0, (int)d.flush());
+    TEST_ASSERT_EQUAL_HEX8(0xFFU, spi.transfers().back().transmitted[0]);
 }
-extern "C" {void setUp(){} void tearDown(){}}
-int main(){UNITY_BEGIN();RUN_TEST(valid_silent_initialize_and_frame_pack);RUN_TEST(invalid_storage_and_channel_are_rejected);RUN_TEST(visible_mode_requires_delay);RUN_TEST(all_flash_runs_and_clears);RUN_TEST(sequential_error_blanks_outputs);return UNITY_END();}
+void invalid_storage_and_channel_are_rejected() {
+    simulation::VirtualSpiBus spi;
+    simulation::VirtualDigitalOutput latch;
+    std::array<std::uint16_t, 1> values{};
+    std::array<std::uint8_t, 1> frame{};
+    drivers::led::Tlc5947 d(
+        spi, latch, values.data(), values.size(), frame.data(), frame.size(), 1U);
+    TEST_ASSERT_FALSE(d.valid());
+    TEST_ASSERT_EQUAL_UINT32(0U, d.channelCount());
+    TEST_ASSERT_EQUAL_INT((int)io::IoResult::InvalidArgument, (int)d.initialize());
+    TEST_ASSERT_EQUAL_INT((int)io::IoResult::InvalidArgument, (int)d.clear());
+    TEST_ASSERT_EQUAL_INT((int)io::IoResult::InvalidArgument, (int)d.flush());
+    TEST_ASSERT_EQUAL_INT((int)io::IoResult::InvalidArgument, (int)d.setBrightness(0U, 1U));
+    TEST_ASSERT_EQUAL_UINT16(0U, d.brightness(0U));
+}
+void visible_mode_requires_delay() {
+    simulation::VirtualSpiBus spi;
+    simulation::VirtualDigitalOutput latch;
+    std::array<std::uint16_t, 24> values{};
+    std::array<std::uint8_t, 36> frame{};
+    drivers::led::Tlc5947Config c;
+    c.startupMode = drivers::led::Tlc5947StartupMode::AllFlash;
+    drivers::led::Tlc5947 d(spi,
+                            latch,
+                            values.data(),
+                            values.size(),
+                            frame.data(),
+                            frame.size(),
+                            1U,
+                            nullptr,
+                            nullptr,
+                            c);
+    TEST_ASSERT_FALSE(d.valid());
+}
+void all_flash_runs_and_clears() {
+    simulation::VirtualSpiBus spi;
+    simulation::VirtualDigitalOutput latch, oe;
+    Delay delay;
+    std::array<std::uint16_t, 24> values{};
+    std::array<std::uint8_t, 36> frame{};
+    drivers::led::Tlc5947Config c;
+    c.startupMode = drivers::led::Tlc5947StartupMode::AllFlash;
+    c.startupBrightness = 0x8000U;
+    c.startupFlashMilliseconds = 7U;
+    drivers::led::Tlc5947 d(
+        spi, latch, values.data(), values.size(), frame.data(), frame.size(), 1U, &oe, &delay, c);
+    TEST_ASSERT_EQUAL_INT(0, (int)d.initialize());
+    TEST_ASSERT_EQUAL_UINT32(1U, delay.calls);
+    TEST_ASSERT_EQUAL_UINT32(7000U, delay.total);
+    TEST_ASSERT_EQUAL_UINT16(0U, d.brightness(0U));
+    TEST_ASSERT_EQUAL_UINT32(3U, spi.transfers().size());
+}
+void sequential_error_blanks_outputs() {
+    simulation::VirtualSpiBus spi;
+    simulation::VirtualDigitalOutput latch, oe;
+    Delay delay;
+    std::array<std::uint16_t, 24> values{};
+    std::array<std::uint8_t, 36> frame{};
+    drivers::led::Tlc5947Config c;
+    c.startupMode = drivers::led::Tlc5947StartupMode::Sequential;
+    drivers::led::Tlc5947 d(
+        spi, latch, values.data(), values.size(), frame.data(), frame.size(), 1U, &oe, &delay, c);
+    spi.setNextResult(io::IoResult::BusError);
+    TEST_ASSERT_EQUAL_INT((int)io::IoResult::BusError, (int)d.initialize());
+    TEST_ASSERT_TRUE(oe.lastWrittenHigh());
+}
+} // namespace
+extern "C" {
+void setUp() {}
+void tearDown() {}
+}
+int main() {
+    UNITY_BEGIN();
+    RUN_TEST(valid_silent_initialize_and_frame_pack);
+    RUN_TEST(invalid_storage_and_channel_are_rejected);
+    RUN_TEST(visible_mode_requires_delay);
+    RUN_TEST(all_flash_runs_and_clears);
+    RUN_TEST(sequential_error_blanks_outputs);
+    return UNITY_END();
+}

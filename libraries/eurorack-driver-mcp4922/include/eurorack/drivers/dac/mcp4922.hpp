@@ -41,38 +41,49 @@ class Mcp4922 final {
      * @param loadDac Optional caller-owned active-low LDAC output.
      * @param config SPI and reference-buffer configuration.
      */
-    Mcp4922(eurorack::io::SpiBus& spi, eurorack::io::DigitalOutput& chipSelect,
+    Mcp4922(eurorack::io::SpiBus& spi,
+            eurorack::io::DigitalOutput& chipSelect,
             eurorack::io::DigitalOutput* loadDac = nullptr,
             Mcp4922Config config = {}) noexcept;
     /** @brief Stores a clamped 12-bit code. @param channel Target channel. @param code Raw code. */
     void setCode(Mcp4922Channel channel, std::uint16_t code) noexcept;
-    /** @brief Returns a buffered code. @param channel Target channel. @return Code from 0 to 4095. */
+    /** @brief Returns a buffered code. @param channel Target channel. @return Code from 0 to 4095.
+     */
     [[nodiscard]] std::uint16_t code(Mcp4922Channel channel) const noexcept;
-    /** @brief Changes the buffered gain bit. @param channel Target channel. @param gain Gain mode. */
+    /** @brief Changes the buffered gain bit. @param channel Target channel. @param gain Gain mode.
+     */
     void setGain(Mcp4922Channel channel, Mcp4922Gain gain) noexcept;
-    /** @brief Changes the buffered shutdown bit. @param channel Target channel. @param enabled True for active output. */
+    /** @brief Changes the buffered shutdown bit. @param channel Target channel. @param enabled True
+     * for active output. */
     void setEnabled(Mcp4922Channel channel, bool enabled) noexcept;
-    /** @brief Changes the reference-buffer bit for subsequent frames. @param mode Reference mode. */
+    /** @brief Changes the reference-buffer bit for subsequent frames. @param mode Reference mode.
+     */
     void setReferenceBuffer(Mcp4922ReferenceBuffer mode) noexcept;
     /** @brief Returns the configured reference mode. @return Current reference mode. */
     [[nodiscard]] Mcp4922ReferenceBuffer referenceBuffer() const noexcept;
-    /** @brief Transfers one channel frame. @param channel Target channel. @return Bus operation status. */
+    /** @brief Transfers one channel frame. @param channel Target channel. @return Bus operation
+     * status. */
     eurorack::io::IoResult flushChannel(Mcp4922Channel channel) noexcept;
-    /** @brief Transfers both channels and optionally pulses LDAC. @return First failure or Success. */
+    /** @brief Transfers both channels and optionally pulses LDAC. @return First failure or Success.
+     */
     eurorack::io::IoResult flushBoth() noexcept;
     /** @brief Pulses the optional LDAC output. */
     void latchOutputs() noexcept;
+
   private:
-    /** @brief Encodes one command frame. @param channel Target channel. @return Encoded 16-bit frame. */
+    /** @brief Encodes one command frame. @param channel Target channel. @return Encoded 16-bit
+     * frame. */
     [[nodiscard]] std::uint16_t buildFrame(Mcp4922Channel channel) const noexcept;
-    /** @brief Transfers one encoded frame. @param frame Encoded frame. @return Bus operation status. */
+    /** @brief Transfers one encoded frame. @param frame Encoded frame. @return Bus operation
+     * status. */
     eurorack::io::IoResult writeFrame(std::uint16_t frame) noexcept;
-    eurorack::io::SpiBus& spi_;
-    eurorack::io::DigitalOutput& cs_;
-    eurorack::io::DigitalOutput* ldac_;
-    Mcp4922Config config_{};
-    std::array<std::uint16_t,2> codes_{};
-    std::array<Mcp4922Gain,2> gains_{Mcp4922Gain::OneX,Mcp4922Gain::OneX};
-    std::array<bool,2> enabled_{true,true};
+    eurorack::io::SpiBus& spi_;            ///< Non-owning SPI bus reference.
+    eurorack::io::DigitalOutput& cs_;      ///< Active-low chip-select output.
+    eurorack::io::DigitalOutput* ldac_;    ///< Optional active-low LDAC output.
+    Mcp4922Config config_{};               ///< SPI clock and reference-buffer configuration.
+    std::array<std::uint16_t, 2> codes_{}; ///< Buffered 12-bit channel codes.
+    std::array<Mcp4922Gain, 2> gains_{Mcp4922Gain::OneX,
+                                      Mcp4922Gain::OneX}; ///< Buffered channel gain settings.
+    std::array<bool, 2> enabled_{true, true};             ///< Buffered channel shutdown states.
 };
 } // namespace eurorack::drivers::dac

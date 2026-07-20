@@ -20,21 +20,17 @@
   ],
   "license": "PolyForm-Noncommercial-1.0.0",
   "homepage": "https://github.com/napolitano/eurorack-framework",
-  "description": "Compatibility meta-library that selects every platform-neutral I/O contract and model. Prefer individual eurorack-io-* libraries in constrained firmware.",
+  "description": "Compatibility meta-library that selects every platform-neutral I/O contract and model. This is a compatibility meta-package with no headers or sources of its own; it exists so a project can depend on the whole subsystem by one name instead of listing every constituent library. New projects should prefer depending on only the specific eurorack-* libraries they actually need.",
   "frameworks": "*",
   "platforms": "*",
-  "build": {
-    "includeDir": "include",
-    "srcDir": "src"
-  },
   "dependencies": {
-    "eurorack-io-result": "*",
-    "eurorack-io-digital": "*",
     "eurorack-io-analog": "*",
-    "eurorack-io-spi": "*",
-    "eurorack-io-i2c": "*",
-    "eurorack-io-time": "*",
     "eurorack-io-analog-calibration": "*",
-    "eurorack-io-jack": "*"
+    "eurorack-io-digital": "*",
+    "eurorack-io-i2c": "*",
+    "eurorack-io-jack": "*",
+    "eurorack-io-result": "*",
+    "eurorack-io-spi": "*",
+    "eurorack-io-time": "*"
   }
 }
