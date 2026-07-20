@@ -105,5 +105,7 @@ jobs:
             --error-exitcode=1 \
             --inline-suppr \
             --std=c++17 \
+            -D__AVR__ \
+            -DF_CPU=16000000UL \
             $(find libraries -maxdepth 4 -type d -name include -printf '-I%p ') \
             libraries
