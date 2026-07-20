@@ -41,3 +41,11 @@ because they were submitted through GitHub.
 
 Technical criticism is welcome. Personal attacks, harassment, spam, and
 license-evasion requests are not.
+
+
+## Local validation
+
+Documentation corrections and minimal reproductions should pass the portable
+checks described in [GitHub Actions and local CI](docs/guides/github-actions.md).
+At minimum, run the format, workflow, documentation, example, and relevant test
+checks before submitting material for review.

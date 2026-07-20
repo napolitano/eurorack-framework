@@ -1,6 +1,6 @@
 {
   "name": "eurorack-compat",
-  "version": "0.1.0-alpha.26",
+  "version": "0.1.0-alpha.27",
   "description": "AVR standard-library compatibility shims used internally by the other Eurorack Framework libraries. Selected automatically via __AVR__; harmless to include on any platform.",
   "keywords": [
     "eurorack",

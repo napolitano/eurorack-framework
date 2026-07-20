@@ -1,6 +1,6 @@
 {
   "name": "eurorack-core",
-  "version": "0.1.0-alpha.26",
+  "version": "0.1.0-alpha.27",
   "description": "Shared framework configuration contract and documentation groups. Contains only framework-wide types and the eurorack_config.hpp override point.",
   "keywords": [
     "eurorack",

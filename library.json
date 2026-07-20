@@ -1,6 +1,6 @@
 {
   "name": "Eurorack Framework",
-  "version": "0.1.0-alpha.26",
+  "version": "0.1.0-alpha.27",
   "description": "Repository metadata for the granular Eurorack Framework library collection. The root is not a monolithic buildable library; select individual libraries from libraries/ or an explicit compatibility meta-library.",
   "keywords": [
     "eurorack",

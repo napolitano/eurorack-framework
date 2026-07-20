@@ -1,6 +1,15 @@
 # Changelog
 
-## [0.1.0-alpha.26] - 2026-07-20
+## 0.1.0-alpha.27
+
+### Changed
+
+- Updated GitHub Actions to use explicit runners, parallel per-driver sanitizer jobs, and corrected static-analysis include discovery.
+- Added a dependency-free workflow policy check and integrated it into release preflight.
+- Reformatted minified component examples and native driver adapters as readable reference code.
+- Added an examples guide and a GitHub Actions/local CI guide; linked local validation from contributing documentation.
+
+## [0.1.0-alpha.27] - 2026-07-20
 
 ### Added
 

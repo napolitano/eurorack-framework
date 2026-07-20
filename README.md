@@ -37,7 +37,7 @@ Protected and calibrated physical hardware
 
 **Status: Unreleased - Alpha**
 
-Development artifact identifier: **0.1.0-alpha.26**
+Development artifact identifier: **0.1.0-alpha.27**
 
 Public APIs, persistent formats, timing behavior, library boundaries, and hardware assumptions may
 change without migration support. The framework has not yet completed qualification on every
@@ -386,3 +386,8 @@ New generic framework policies include fixed-capacity event queues, press gestur
 ## Quality tooling
 
 See [`docs/guides/quality-tooling.md`](docs/guides/quality-tooling.md) for formatting, static-analysis, sanitizer, and release-archive checks.
+
+## Development guides
+
+- [GitHub Actions and local CI](docs/guides/github-actions.md)
+- [Examples](examples/README.md)
