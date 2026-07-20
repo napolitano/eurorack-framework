@@ -1,16 +1,20 @@
-## 0.1.0-alpha.25 - 2026-07-20
+# Changelog
+
+## [0.1.0-alpha.26] - 2026-07-20
 
 ### Added
 
-- Expanded all twelve dedicated IC driver suites with boundary, protocol-mode, bus-error, lifecycle, control-signal, and state-preservation tests.
-- Added explicit tests for differential MCP3208 acquisition, MCP23017 input-cache preservation, DAC8568 pseudo-channel validation, TLC5947 visible startup policies, and OLED command/error paths.
+- Added portable source-hygiene and formatting gates.
+- Added strict host static analysis with public-header self-containment checks and optional `clang-tidy`/`cppcheck` integration.
+- Added deterministic source-archive content validation.
+- Added dedicated driver-suite selection for sanitizer runs.
+- Added the quality-tooling guide.
 
 ### Changed
 
-- Raised the dedicated driver coverage floor from 32.0% to 39.0% line coverage and from 33.0% to 43.0% branch coverage.
-- Updated the generated native coverage report to the new measured baseline.
-
-# Changelog
+- Release preflight now runs source hygiene and portable formatting by default.
+- Release preflight accepts explicit `--static-analysis`, `--sanitizers`, `--coverage`, and `--archive` gates.
+- Artifact creation validates the generated source ZIP before publishing checksums.
 
 ## [0.1.0-alpha.25] - 2026-07-20
 

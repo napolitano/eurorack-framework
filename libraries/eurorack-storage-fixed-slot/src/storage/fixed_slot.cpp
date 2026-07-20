@@ -1,5 +1,5 @@
 /** @file fixed_slot.cpp @brief Implements marker-last fixed slots.
- * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0 
+ * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  * @details Writes payload bytes before the validity marker so interrupted writes remain invalid.*/
 #include <eurorack/storage/fixed_slot.hpp>
 namespace eurorack::storage {

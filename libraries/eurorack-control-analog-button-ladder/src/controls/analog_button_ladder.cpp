@@ -1,5 +1,5 @@
 /** @file analog_button_ladder.cpp @brief Implements analog ladder decoding.
- * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0 
+ * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  * @details Implements nearest-code decoding, acceptance windows, and stable transition timing without dynamic allocation.*/
 #include <eurorack/controls/analog_button_ladder.hpp>
 namespace eurorack::controls {

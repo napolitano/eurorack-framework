@@ -1,6 +1,6 @@
 {
   "name": "eurorack-drivers-led-interface",
-  "version": "0.1.0-alpha.25",
+  "version": "0.1.0-alpha.26",
   "description": "Abstract LedChannel/LedBank interfaces shared by concrete LED driver chips and by eurorack-controls. Depend on this alone if you only need the interface (e.g. for MulticolorLed) without a concrete chip driver.",
   "keywords": [
     "eurorack",

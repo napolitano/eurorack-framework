@@ -1,5 +1,5 @@
 /** @file adc_scanner3.cpp @brief Implements the A5/A6/A7 ADC scanner.
- * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0 
+ * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  * @details Owns the ADC conversion-complete ISR and rotates A5, A6, and A7 with median-of-three snapshots.*/
 #include <eurorack/platform/avr/adc_scanner3.hpp>
 namespace eurorack::platform::avr {

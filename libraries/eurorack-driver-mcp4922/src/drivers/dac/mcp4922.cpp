@@ -1,5 +1,5 @@
 /** @file mcp4922.cpp @brief Implements the MCP4922 driver.
- * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0 
+ * SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
  * @details Encodes channel, buffer, gain, shutdown, and code fields and performs explicit SPI transactions.*/
 #include <eurorack/drivers/dac/mcp4922.hpp>
 namespace eurorack::drivers::dac {

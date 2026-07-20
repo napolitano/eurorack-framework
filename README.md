@@ -37,7 +37,7 @@ Protected and calibrated physical hardware
 
 **Status: Unreleased - Alpha**
 
-Development artifact identifier: **0.1.0-alpha.25**
+Development artifact identifier: **0.1.0-alpha.26**
 
 Public APIs, persistent formats, timing behavior, library boundaries, and hardware assumptions may
 change without migration support. The framework has not yet completed qualification on every
@@ -369,8 +369,8 @@ This is not an OSI-approved open-source license because commercial use is restri
 
 ## Author
 
-**Axel Napolitano**  
-Email: eurorack@skjt.de  
+**Axel Napolitano**
+Email: eurorack@skjt.de
 Canonical repository: https://github.com/napolitano/eurorack-framework
 
 ## Quantizer-oriented AVR building blocks
@@ -382,3 +382,7 @@ The granular package set now includes dedicated, opt-in libraries for `MCP4922`,
 Generate the dependency map with `python tools/generate-framework-map.py`. Validate a project resource profile with `python tools/check-resource-conflicts.py <profile.json>`. Run the repository preflight with `python tools/release-check.py`.
 
 New generic framework policies include fixed-capacity event queues, press gesture classification, soft takeover, and encoder acceleration. New independently selectable converters include MCP4822 and MCP3208.
+
+## Quality tooling
+
+See [`docs/guides/quality-tooling.md`](docs/guides/quality-tooling.md) for formatting, static-analysis, sanitizer, and release-archive checks.

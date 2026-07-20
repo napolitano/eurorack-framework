@@ -1,6 +1,6 @@
 # Commercial Licensing
 
-Copyright (c) 2026 Axel Napolitano  
+Copyright (c) 2026 Axel Napolitano
 Contact: eurorack@skjt.de
 
 The software in this repository is available under the PolyForm Noncommercial License 1.0.0 and the separate Five-Unit Cost-Recovery Permission.
@@ -22,5 +22,5 @@ Commercial licenses may be negotiated for individual projects, products, manufac
 
 For licensing inquiries, contact:
 
-Axel Napolitano  
+Axel Napolitano
 eurorack@skjt.de

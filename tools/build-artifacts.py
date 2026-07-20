@@ -22,6 +22,7 @@ EXCLUDED_PARTS = {
     ".venv",
     ".native-tests",
     ".validation",
+    ".validation",
     "__pycache__",
     "dist",
     "generated",
@@ -147,6 +148,7 @@ def main() -> int:
 
     source_archive = output / f"{base_name}-source.zip"
     write_zip(source_archive, root, source_files(root), base_name)
+    run([sys.executable, "tools/validate-release-archive.py", str(source_archive)], root)
 
     artifacts = [source_archive, *documentation_artifacts]
 

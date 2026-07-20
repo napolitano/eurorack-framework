@@ -24,6 +24,7 @@ def main() -> int:
     parser.add_argument("--compiler", default=os.environ.get("CXX", "g++"))
     parser.add_argument("--sanitizers", action="store_true")
     parser.add_argument("--filter", default="", help="Run suites whose directory name contains this text.")
+    parser.add_argument("--driver-suites", action="store_true", help="Run only dedicated test_driver_* suites.")
     args = parser.parse_args()
 
     root = Path(__file__).resolve().parents[1]
@@ -67,6 +68,8 @@ def main() -> int:
         common_flags += ["-O2"]
 
     tests = sorted((root / "tests/native").glob("test_*/test_main.cpp"))
+    if args.driver_suites:
+        tests = [test for test in tests if test.parent.name.startswith("test_driver_")]
     if args.filter:
         tests = [test for test in tests if args.filter in test.parent.name]
     passed = 0

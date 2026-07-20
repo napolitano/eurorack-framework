@@ -1,15 +1,15 @@
 # Five-Unit Cost-Recovery Permission
 
-Copyright (c) 2026 Axel Napolitano  
+Copyright (c) 2026 Axel Napolitano
 Contact: eurorack@skjt.de
 
 This document grants an additional permission for software distributed under the PolyForm Noncommercial License 1.0.0. It does not replace, restrict, or modify the base license. If this permission does not apply, the base license continues to govern the software.
 
 ## Required notices
 
-Required Notice: Copyright (c) 2026 Axel Napolitano  
-Required Notice: Original project: https://github.com/napolitano/eurorack-framework  
-Required Notice: Licensed under the PolyForm Noncommercial License 1.0.0 with the Five-Unit Cost-Recovery Permission.  
+Required Notice: Copyright (c) 2026 Axel Napolitano
+Required Notice: Original project: https://github.com/napolitano/eurorack-framework
+Required Notice: Licensed under the PolyForm Noncommercial License 1.0.0 with the Five-Unit Cost-Recovery Permission.
 Required Notice: Commercial use requires prior written permission from Axel Napolitano.
 
 ## Permission
